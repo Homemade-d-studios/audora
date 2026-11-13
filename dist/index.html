@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Audora</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: #fff;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        min-height: 96px;
+        padding: 24px clamp(24px, 5vw, 72px);
+      }
+
+      .site-logo {
+        display: block;
+        width: clamp(132px, 12vw, 172px);
+        height: auto;
+      }
+
+      @media (max-width: 600px) {
+        .site-header {
+          min-height: 80px;
+          padding: 20px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <img
+        class="site-logo"
+        src="./assets/audora-logo-black.png"
+        alt="Audora"
+      />
+    </header>
+  </body>
+</html>
