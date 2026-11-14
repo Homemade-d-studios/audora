@@ -300,18 +300,18 @@
       .reader-stage { position: relative; min-height: 0; flex: 1; overflow: hidden; }
       .text-page { display: flex; height: 100%; flex-direction: column; }
       .page-folio { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #d8d8d2; color: #8a8a84; font-family: Georgia, "Times New Roman", serif; font-size: 8px; font-style: italic; letter-spacing: 0.06em; }
-      .story-heading { padding: 15px 0 10px; text-align: center; }
+      .story-heading { padding: 13px 0 10px; text-align: left; }
       .story-label { display: block; margin-bottom: 6px; color: #777770; font-family: Georgia, "Times New Roman", serif; font-size: 9px; font-style: italic; }
       .story-title { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(18px, 1.35vw, 22px); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05; }
       .story-title.is-long { font-size: clamp(14px, 1vw, 17px); line-height: 1.08; }
-      .story-heading::after { display: block; margin-top: 8px; color: #898982; content: "❦"; font-family: Georgia, serif; font-size: 11px; }
+      .story-heading::after { display: block; margin-top: 8px; color: #898982; content: "❦"; font-family: Georgia, serif; font-size: 11px; text-align: left; }
 
-      .dialogue { min-height: 0; flex: 1; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(9px, 0.68vw, 11px); line-height: 1.42; overflow: hidden; }
+      .dialogue { display: flex; min-height: 0; flex: 1; flex-direction: column; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(8.5px, 0.64vw, 10.5px); line-height: 1.38; overflow: hidden; text-align: left; }
       .page-opening { margin: 0 0 10px; text-indent: 1.2em; }
       .page-opening::first-letter { float: left; margin: 0.06em 0.08em 0 0; font-size: 3.1em; line-height: 0.78; }
-      .passage { margin: 0 0 9px; text-indent: 1.2em; }
+      .passage { margin: 0 0 8px; text-indent: 0; }
       .attribution { color: #707069; font-size: 0.88em; font-style: italic; white-space: nowrap; }
-      .excerpt-note { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #deded8; color: #999991; font-size: 7px; font-style: italic; letter-spacing: 0.02em; text-align: center; }
+      .excerpt-note { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #deded8; color: #999991; font-size: 7px; font-style: italic; letter-spacing: 0.02em; text-align: left; }
       .play-icon { width: 0; height: 0; margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid currentColor; }
 
       .audiobook-dock {
@@ -518,7 +518,7 @@
         <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Audio preview coming soon" disabled>
           <span class="play-icon" aria-hidden="true"></span>
         </button>
-        <p class="dock-caption">Audio preview coming soon</p>
+        <p class="dock-caption">Tap and hear the book in audora way</p>
       </section>
 
       <div class="bottom-frost" aria-hidden="true"></div>
@@ -534,7 +534,11 @@
           passages: [
             { text: "The plot thickens.", attribution: "Holmes", quoted: true },
             { text: "And that is?", attribution: "Watson", quoted: true },
-            { text: "My fiddle would be the better for new strings.", attribution: "Holmes", quoted: true }
+            { text: "My fiddle would be the better for new strings.", attribution: "Holmes", quoted: true },
+            { text: "It is eight o'clock now.", attribution: "Watson", quoted: true },
+            { text: "Yes. He will probably be here in a few minutes.", attribution: "Holmes", quoted: true },
+            { text: "Open the door slightly. That will do.", attribution: "Holmes", quoted: true },
+            { text: "Now put the key on the inside.", attribution: "Holmes", quoted: true }
           ], sourceNote: "From A Study in Scarlet · public domain"
         },
         {
@@ -543,7 +547,11 @@
           passages: [
             { text: "Keep her steady. The reef is closer than it looks.", attribution: "Captain", quoted: true },
             { text: "And the wind is turning against us.", attribution: "Quartermaster", quoted: true },
-            { text: "Then we make the turn before it does.", attribution: "Captain", quoted: true }
+            { text: "Then we make the turn before it does.", attribution: "Captain", quoted: true },
+            { text: "A lantern moved once on the distant shore, then vanished behind the rain." },
+            { text: "No harbour light burns that low.", attribution: "Quartermaster", quoted: true },
+            { text: "All hands quiet. Let them believe the tide carries an empty ship.", attribution: "Captain", quoted: true },
+            { text: "Canvas tightened overhead as the crew eased the vessel toward darker water." }
           ], sourceNote: "Scene adapted for preview"
         },
         {
@@ -551,7 +559,11 @@
           opening: "The old door opened inward, and the Count stood beneath the lamp.",
           passages: [
             { text: "Welcome to my house! Enter freely and of your own will!", attribution: "Count Dracula", quoted: true },
-            { text: "Come freely. Go safely; and leave something of the happiness you bring.", attribution: "Count Dracula", quoted: true }
+            { text: "Come freely. Go safely; and leave something of the happiness you bring.", attribution: "Count Dracula", quoted: true },
+            { text: "I am Dracula; and I bid you welcome, Mr. Harker, to my house.", attribution: "Count Dracula", quoted: true },
+            { text: "The night is chill, and you must need to eat and rest.", attribution: "Count Dracula", quoted: true },
+            { text: "A cry rose from the valley, distant at first, then answered from the hills." },
+            { text: "Listen to them—the children of the night. What music they make!", attribution: "Count Dracula", quoted: true }
           ], sourceNote: "From Dracula · public domain"
         },
         {
@@ -560,7 +572,10 @@
           passages: [
             { text: "From what they say and I remember of my natural father: integrity and manliness." },
             { text: "From my mother: piety, generosity, the avoidance of wrongdoing and even the thought of it." },
-            { text: "From my tutor: to tolerate pain and feel few needs; to work with my own hands and mind my own business." }
+            { text: "From my great-grandfather: to have had good teachers at home, and to spend lavishly on such things." },
+            { text: "From my tutor: to tolerate pain and feel few needs; to work with my own hands and mind my own business." },
+            { text: "From Diognetus: to avoid empty enthusiasms and to tolerate plain speaking." },
+            { text: "From Rusticus: to grasp the idea of wanting correction, and to be brought back to reason." }
           ], sourceNote: "Book I · from supplied page"
         },
         {
@@ -569,7 +584,10 @@
           passages: [
             { text: "Now, I want to show the old man that I've learned something from him.", attribution: "Siddhartha", quoted: true },
             { text: "Oh Siddhartha, you have learned more from the Samanas than I knew.", attribution: "Govinda", quoted: true },
-            { text: "I do not seek to walk on water. Let old Samanas be content with such feats!", attribution: "Siddhartha", quoted: true }
+            { text: "It is hard, it is very hard to cast a spell on an old Samana.", attribution: "Govinda", quoted: true },
+            { text: "Truly, if you had stayed there, you would soon have learned to walk on water.", attribution: "Govinda", quoted: true },
+            { text: "I do not seek to walk on water. Let old Samanas be content with such feats!", attribution: "Siddhartha", quoted: true },
+            { text: "The young men returned the bows with thanks, returned the wish, and went on their way." }
           ], sourceNote: "From supplied Siddhartha page"
         },
         {
@@ -577,7 +595,11 @@
           opening: "The meeting turned from schedules to first principles, and every assumption was questioned.",
           passages: [
             { text: "The only rules are the ones dictated by the laws of physics. Everything else is a recommendation.", attribution: "Elon Musk", quoted: true },
-            { text: "The team returned to the design, testing each requirement against what was physically necessary." }
+            { text: "The team returned to the design, testing each requirement against what was physically necessary." },
+            { text: "Every specification was questioned: who requested it, why it existed, and what would fail without it." },
+            { text: "If a part could be deleted, the design became lighter. If a step could be combined, the line became faster." },
+            { text: "The room filled with fresh diagrams as the schedule was rebuilt around the factory floor." },
+            { text: "No one left with the original plan, but everyone left knowing the next experiment." }
           ], sourceNote: "Brief verified quote · scene adapted"
         },
         {
@@ -586,7 +608,11 @@
           passages: [
             { text: "I solemnly swear that I am up to no good.", attribution: "Harry", quoted: true },
             { text: "Mischief managed.", attribution: "Harry", quoted: true },
-            { text: "The map cleared, leaving nothing but a worn sheet of parchment." }
+            { text: "The map cleared, leaving nothing but a worn sheet of parchment." },
+            { text: "A moment earlier it had shown every corridor, staircase, and hidden passage in the castle." },
+            { text: "Tiny names crossed the ink-drawn rooms while Harry followed their paths with one finger." },
+            { text: "Footsteps sounded beyond the door. He folded the parchment and slipped it beneath his robes." },
+            { text: "By the time the handle turned, the secret route had disappeared from sight." }
           ], sourceNote: "Brief excerpt · scene adapted"
         }
       ];
