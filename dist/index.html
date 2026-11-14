@@ -57,7 +57,7 @@
         display: flex;
         width: max-content;
         will-change: transform;
-        animation: drift 44s linear infinite;
+        animation: drift 132s linear infinite;
       }
       .carousel-track.is-paused { animation-play-state: paused; }
       .carousel-set {
@@ -358,7 +358,8 @@
       }
 
       const shelf = stories.map(bookMarkup).join("");
-      track.innerHTML = `<div class="carousel-set">${shelf}</div><div class="carousel-set">${shelf}</div>`;
+      const continuousShelf = shelf.repeat(3);
+      track.innerHTML = `<div class="carousel-set">${continuousShelf}</div><div class="carousel-set">${continuousShelf}</div>`;
 
       function renderStory(index) {
         if (index === activeStory || playing) return;
