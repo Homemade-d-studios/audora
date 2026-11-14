@@ -332,14 +332,14 @@
         bottom: 34px;
         left: 50%;
         display: grid;
-        width: min(600px, calc(100vw - 40px));
-        min-height: 92px;
-        grid-template-columns: 68px minmax(0, 1fr) 52px;
-        gap: 16px;
+        width: min(282px, calc(100vw - 28px));
+        min-height: 76px;
+        grid-template-columns: 52px minmax(0, 1fr) 42px;
+        gap: 10px;
         align-items: center;
-        padding: 12px 14px;
-        border: 1px solid rgba(22, 22, 20, 0.1);
-        border-radius: 24px;
+        padding: 10px;
+        border: 0;
+        border-radius: 18px;
         background: rgba(255, 255, 255, 0.78);
         box-shadow: 0 18px 50px rgba(22, 22, 20, 0.1);
         -webkit-backdrop-filter: blur(22px) saturate(120%);
@@ -348,9 +348,9 @@
       }
       .dock-cover {
         display: block;
-        width: 68px;
-        height: 68px;
-        border-radius: 13px;
+        width: 52px;
+        height: 52px;
+        border-radius: 10px;
         object-fit: cover;
         box-shadow: 0 8px 18px rgba(22, 22, 20, 0.16);
       }
@@ -360,7 +360,7 @@
         overflow: hidden;
         margin-bottom: 4px;
         font-family: "Instrument Serif", Georgia, serif;
-        font-size: 19px;
+        font-size: 15px;
         font-weight: 400;
         line-height: 1.05;
         text-overflow: ellipsis;
@@ -369,10 +369,10 @@
       .dock-author {
         display: block;
         overflow: hidden;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         color: #73736d;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 11px;
+        font-size: 9px;
         font-weight: 400;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -381,10 +381,10 @@
         display: flex;
         height: 18px;
         align-items: center;
-        gap: 4px;
+        gap: 2px;
       }
       .dock-wave span {
-        width: 3px;
+        width: 2px;
         height: 5px;
         border-radius: 999px;
         background: #9b9d95;
@@ -395,8 +395,8 @@
       .audiobook-dock.is-playing .dock-wave span { animation: pulse 700ms ease-in-out infinite alternate; }
       .dock-play-button {
         display: grid;
-        width: 52px;
-        height: 52px;
+        width: 42px;
+        height: 42px;
         padding: 0;
         place-items: center;
         border: 0;
@@ -434,18 +434,18 @@
         .bottom-frost { inset: 32% 0 0; }
         .audiobook-dock {
           bottom: 22px;
-          width: calc(100vw - 24px);
-          min-height: 80px;
-          grid-template-columns: 56px minmax(0, 1fr) 46px;
-          gap: 11px;
-          padding: 11px;
-          border-radius: 20px;
+          width: min(282px, calc(100vw - 24px));
+          min-height: 72px;
+          grid-template-columns: 48px minmax(0, 1fr) 40px;
+          gap: 9px;
+          padding: 9px;
+          border-radius: 17px;
         }
-        .dock-cover { width: 56px; height: 56px; border-radius: 10px; }
-        .dock-title { font-size: 16px; }
-        .dock-author { margin-bottom: 7px; font-size: 10px; }
-        .dock-wave { gap: 3px; }
-        .dock-play-button { width: 46px; height: 46px; }
+        .dock-cover { width: 48px; height: 48px; border-radius: 9px; }
+        .dock-title { font-size: 14px; }
+        .dock-author { margin-bottom: 5px; font-size: 9px; }
+        .dock-wave { gap: 2px; }
+        .dock-play-button { width: 40px; height: 40px; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track,
