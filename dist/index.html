@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f7f4" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="Step inside a story and listen to its characters come alive." />
     <title>Audora — Stories in conversation</title>
     <style>
@@ -11,8 +11,7 @@
         --ink: #171717;
         --muted: #6d6d68;
         --paper: #ffffff;
-        --phone-width: clamp(224px, 17vw, 264px);
-        --phone-height: calc(var(--phone-width) * 2.06);
+        --mockup-width: clamp(620px, 52vw, 760px);
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -114,37 +113,39 @@
       .phone-wrap {
         position: relative;
         z-index: 3;
-        width: var(--phone-width);
-        height: var(--phone-height);
-        filter: drop-shadow(0 28px 32px rgba(28, 30, 25, 0.18));
+        width: var(--mockup-width);
+        aspect-ratio: 1376 / 1143;
       }
-      .phone {
+      .phone-photo {
         position: absolute;
         inset: 0;
-        overflow: hidden;
-        border: clamp(7px, 0.65vw, 10px) solid #252724;
-        border-radius: calc(var(--phone-width) * 0.155);
-        background: #ffffff;
-        box-shadow: inset 0 0 0 1px #6c6e69, 0 0 0 2px #a4a69f;
-      }
-      .phone::after {
-        position: absolute;
-        inset: 0;
-        border: 1px solid rgba(255, 255, 255, 0.65);
-        border-radius: calc(var(--phone-width) * 0.125);
-        content: "";
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
         pointer-events: none;
+        user-select: none;
       }
-      .side-button { position: absolute; z-index: -1; right: -4px; top: 26%; width: 4px; height: 66px; border-radius: 0 3px 3px 0; background: #777a74; }
-      .dynamic-island { position: absolute; z-index: 4; top: 12px; left: 50%; width: 30%; height: 25px; border-radius: 99px; background: #0d0d0d; transform: translateX(-50%); }
-      .phone-screen { display: flex; height: 100%; flex-direction: column; padding: 49px 19px 16px; }
+      .screen-overlay {
+        position: absolute;
+        z-index: 2;
+        top: 5.9%;
+        left: 35.2%;
+        width: 30.1%;
+        height: 79.5%;
+        overflow: hidden;
+        border-radius: 11.5% / 5.3%;
+        background: #fffdf7;
+      }
+      .phone-screen { display: flex; height: 100%; flex-direction: column; padding: 22px 13px 12px; }
       .page-folio { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #d8d8d2; color: #8a8a84; font-family: Georgia, "Times New Roman", serif; font-size: 8px; font-style: italic; letter-spacing: 0.06em; }
-      .story-heading { padding: 22px 0 14px; text-align: center; }
+      .story-heading { padding: 15px 0 10px; text-align: center; }
       .story-label { display: block; margin-bottom: 6px; color: #777770; font-family: Georgia, "Times New Roman", serif; font-size: 9px; font-style: italic; }
-      .story-title { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(20px, 1.65vw, 25px); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05; }
-      .story-heading::after { display: block; margin-top: 11px; color: #898982; content: "❦"; font-family: Georgia, serif; font-size: 12px; }
+      .story-title { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(18px, 1.35vw, 22px); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05; }
+      .story-heading::after { display: block; margin-top: 8px; color: #898982; content: "❦"; font-family: Georgia, serif; font-size: 11px; }
 
-      .dialogue { min-height: 220px; flex: 1; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(10px, 0.82vw, 12px); line-height: 1.48; overflow: hidden; }
+      .dialogue { min-height: 0; flex: 1; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(9px, 0.68vw, 11px); line-height: 1.42; overflow: hidden; }
       .page-opening { margin: 0 0 10px; text-indent: 1.2em; }
       .page-opening::first-letter { float: left; margin: 0.06em 0.08em 0 0; font-size: 3.1em; line-height: 0.78; }
       .passage { margin: 0 0 9px; text-indent: 1.2em; transition: background 180ms ease; }
@@ -169,11 +170,10 @@
       @keyframes pulse { from { transform: scaleY(0.45); } to { transform: scaleY(1.35); } }
 
       @media (max-height: 760px) and (min-width: 700px) {
-        :root { --phone-width: 214px; }
-        .dialogue { min-height: 165px; }
+        :root { --mockup-width: 570px; }
       }
       @media (max-width: 620px) {
-        :root { --phone-width: min(62vw, 242px); }
+        :root { --mockup-width: 720px; }
         .experience { min-height: 680px; }
         .book { width: 112px; }
       }
@@ -189,9 +189,13 @@
       </div>
 
       <div class="phone-wrap" aria-label="iPhone 16 Pro audiobook preview">
-        <span class="side-button" aria-hidden="true"></span>
-        <div class="phone">
-          <span class="dynamic-island" aria-hidden="true"></span>
+        <img
+          class="phone-photo"
+          src="./assets/phone-hand-blank.png"
+          alt=""
+          aria-hidden="true"
+        />
+        <div class="screen-overlay">
           <div class="phone-screen">
             <div class="page-folio" aria-hidden="true">
               <span>Chapter XII</span>
