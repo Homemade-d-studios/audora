@@ -41,8 +41,8 @@
       .yc-badge {
         position: absolute;
         z-index: 6;
-        top: calc(clamp(22px, 3.5vw, 42px) + 57px);
-        left: clamp(22px, 4vw, 58px);
+        top: calc(clamp(22px, 3.5vw, 42px) + 49px);
+        left: calc(clamp(22px, 4vw, 58px) + 6px);
         display: flex;
         align-items: center;
         gap: 6px;
@@ -64,8 +64,11 @@
         z-index: 6;
         top: clamp(22px, 3.5vw, 42px);
         right: clamp(22px, 4vw, 58px);
-        min-width: 92px;
-        padding: 11px 20px;
+        display: grid;
+        width: 104px;
+        height: 48px;
+        padding: 0 24px;
+        place-items: center;
         border: 0;
         border-radius: 999px;
         color: #fff;
@@ -82,7 +85,7 @@
       .hero-title {
         position: absolute;
         z-index: 2;
-        top: clamp(36px, 5.5vh, 58px);
+        top: clamp(40px, 6vh, 62px);
         left: 50%;
         width: min(92vw, 1000px);
         margin: 0;
@@ -333,9 +336,9 @@
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
-        .yc-badge { top: 68px; gap: 5px; font-size: 10px; }
+        .yc-badge { top: 64px; left: 28px; gap: 5px; font-size: 10px; }
         .yc-badge img { width: 15px; height: 15px; }
-        .sign-in-button { min-width: 78px; padding: 10px 16px; font-size: 12px; }
+        .sign-in-button { width: 86px; height: 42px; padding: 0 16px; font-size: 12px; }
         .hero-title {
           top: 42px;
           width: 94vw;
