@@ -80,9 +80,17 @@
         font-weight: 400;
         line-height: 1;
         cursor: pointer;
-        transition: background 160ms ease, transform 160ms ease;
+        box-shadow: 0 4px 12px rgba(23, 23, 23, 0.08);
+        transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
       }
-      .sign-in-button:hover { background: #323232; transform: translateY(-1px); }
+      @media (hover: hover) {
+        .sign-in-button:hover {
+          background: #303030;
+          box-shadow: 0 12px 26px rgba(23, 23, 23, 0.22);
+          transform: translateY(-3px) scale(1.035);
+        }
+      }
+      .sign-in-button:active { transform: translateY(0) scale(0.97); }
       .sign-in-button:focus-visible { outline: 3px solid rgba(23, 23, 23, 0.22); outline-offset: 3px; }
       .hero-title {
         position: absolute;
@@ -491,9 +499,8 @@
         <img src="./assets/audora-logo-black.png" alt="Audora" />
       </div>
       <div class="yc-badge" aria-label="Backed by Y Combinator">
-        <span>Backed by</span>
         <img src="./assets/yc-logo.png" alt="" aria-hidden="true" />
-        <span>Y Combinator</span>
+        <span>Backed by Y Combinator</span>
       </div>
       <button class="sign-in-button" type="button">Sign in</button>
       <h1 class="hero-title">
