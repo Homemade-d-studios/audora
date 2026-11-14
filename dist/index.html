@@ -3,54 +3,393 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff" />
-    <title>Audora</title>
+    <meta name="theme-color" content="#f7f7f4" />
+    <meta name="description" content="Step inside a story and listen to its characters come alive." />
+    <title>Audora — Stories in conversation</title>
     <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
+      :root {
+        --ink: #171717;
+        --muted: #6d6d68;
+        --paper: #f7f7f4;
+        --phone-width: clamp(270px, 21vw, 322px);
+        --phone-height: calc(var(--phone-width) * 2.06);
       }
 
-      html,
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { min-height: 100%; margin: 0; background: var(--paper); }
       body {
-        min-height: 100%;
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        overflow-x: hidden;
+      }
+      button { font: inherit; }
+
+      .experience {
+        position: relative;
+        display: grid;
+        min-height: 100svh;
+        place-items: center;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .experience::before {
+        position: absolute;
+        z-index: -2;
+        inset: 0;
+        background:
+          radial-gradient(circle at 50% 47%, rgba(203, 211, 194, 0.34), transparent 30%),
+          linear-gradient(180deg, #fbfbf9 0%, #f4f4f0 100%);
+        content: "";
+      }
+
+      .intro {
+        position: absolute;
+        z-index: 4;
+        top: clamp(30px, 5vh, 62px);
+        left: 50%;
+        width: min(90vw, 680px);
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(17px, 1.45vw, 22px);
+        font-style: italic;
+      }
+      h1 {
         margin: 0;
-        background: #fff;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(34px, 4.2vw, 66px);
+        font-weight: 400;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
       }
 
-      body {
-        min-height: 100vh;
+      .carousel-window {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-43%);
       }
-
-      .site-header {
+      .carousel-window::before, .carousel-window::after {
+        position: absolute;
+        z-index: 3;
+        top: -20%;
+        bottom: -20%;
+        width: min(10vw, 150px);
+        content: "";
+        pointer-events: none;
+      }
+      .carousel-window::before { left: 0; background: linear-gradient(90deg, var(--paper), transparent); }
+      .carousel-window::after { right: 0; background: linear-gradient(-90deg, var(--paper), transparent); }
+      .carousel-track {
         display: flex;
-        align-items: center;
-        min-height: 96px;
-        padding: 24px clamp(24px, 5vw, 72px);
+        width: max-content;
+        will-change: transform;
+        animation: drift 44s linear infinite;
+      }
+      .carousel-track.is-paused { animation-play-state: paused; }
+      .carousel-set {
+        display: flex;
+        gap: clamp(24px, 2.5vw, 42px);
+        padding-right: clamp(24px, 2.5vw, 42px);
       }
 
-      .site-logo {
-        display: block;
-        width: clamp(132px, 12vw, 172px);
-        height: auto;
+      .book {
+        position: relative;
+        flex: 0 0 auto;
+        width: clamp(152px, 13vw, 202px);
+        aspect-ratio: 0.68;
+        overflow: hidden;
+        border: 1px solid rgba(20, 20, 20, 0.14);
+        border-radius: 5px 12px 12px 5px;
+        box-shadow: 0 22px 38px rgba(28, 28, 24, 0.13), inset 8px 0 12px rgba(255, 255, 255, 0.18), inset -3px 0 0 rgba(0, 0, 0, 0.12);
+        transform: perspective(700px) rotateY(5deg);
       }
+      .book::before {
+        position: absolute;
+        z-index: 2;
+        inset: 0 auto 0 0;
+        width: 9px;
+        border-right: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(0, 0, 0, 0.12);
+        content: "";
+      }
+      .book-cover {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px 18px 18px 24px;
+      }
+      .book-kicker { font-size: 9px; font-weight: 700; letter-spacing: 0.16em; opacity: 0.75; text-transform: uppercase; }
+      .book-title {
+        max-width: 95%;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(23px, 2vw, 31px);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 0.95;
+      }
+      .book-author { font-size: 10px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+      .cover-0 { color: #241d16; background: linear-gradient(155deg, #e9d9b9, #b99863); }
+      .cover-1 { color: #f4ead8; background: linear-gradient(150deg, #435365, #152331); }
+      .cover-2 { color: #2b1b22; background: linear-gradient(155deg, #dbb2b7, #965c6b); }
+      .cover-3 { color: #14312c; background: linear-gradient(155deg, #c7e1d5, #6e9c87); }
+      .cover-4 { color: #f5dfbb; background: linear-gradient(155deg, #774b3f, #2d2422); }
+      .cover-5 { color: #283019; background: linear-gradient(155deg, #dbe2a1, #87964f); }
+      .cover-6 { color: #fff0cf; background: linear-gradient(155deg, #ce713b, #71361e); }
 
-      @media (max-width: 600px) {
-        .site-header {
-          min-height: 80px;
-          padding: 20px 24px;
-        }
+      .phone-wrap {
+        position: relative;
+        z-index: 3;
+        width: var(--phone-width);
+        height: var(--phone-height);
+        margin-top: clamp(78px, 11vh, 126px);
+        filter: drop-shadow(0 38px 42px rgba(28, 30, 25, 0.22));
+      }
+      .phone {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border: clamp(7px, 0.65vw, 10px) solid #252724;
+        border-radius: calc(var(--phone-width) * 0.155);
+        background: #f8f8f5;
+        box-shadow: inset 0 0 0 1px #6c6e69, 0 0 0 2px #a4a69f;
+      }
+      .phone::after {
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: calc(var(--phone-width) * 0.125);
+        content: "";
+        pointer-events: none;
+      }
+      .side-button { position: absolute; z-index: -1; right: -4px; top: 26%; width: 4px; height: 66px; border-radius: 0 3px 3px 0; background: #777a74; }
+      .dynamic-island { position: absolute; z-index: 4; top: 12px; left: 50%; width: 30%; height: 25px; border-radius: 99px; background: #0d0d0d; transform: translateX(-50%); }
+      .phone-screen { display: flex; height: 100%; flex-direction: column; padding: 50px 16px 18px; }
+      .phone-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; color: #666861; font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+      .mini-button { display: grid; width: 28px; height: 28px; padding: 0; place-items: center; border: 0; border-radius: 50%; color: #41423f; background: #e9e9e5; }
+      .story-heading { margin-bottom: 18px; }
+      .story-label { display: block; margin-bottom: 5px; color: #85867f; font-size: 9px; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
+      .story-title { min-height: 2.1em; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(24px, 2.1vw, 30px); font-weight: 400; letter-spacing: -0.035em; line-height: 1.02; }
+
+      .dialogue { display: flex; min-height: 225px; flex: 1; flex-direction: column; gap: 12px; justify-content: center; }
+      .bubble {
+        max-width: 86%;
+        padding: 10px 12px;
+        border-radius: 15px 15px 15px 4px;
+        color: #262722;
+        background: #e4e4de;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(12px, 1.05vw, 14px);
+        line-height: 1.28;
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+      .bubble:nth-child(even) { align-self: flex-end; border-radius: 15px 15px 4px; color: #f8f8f5; background: #30332e; }
+      .bubble.is-speaking { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12); }
+      .speaker { display: block; margin-bottom: 3px; font-family: Inter, ui-sans-serif, sans-serif; font-size: 8px; font-weight: 800; letter-spacing: 0.1em; opacity: 0.62; text-transform: uppercase; }
+
+      .player { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 12px; border: 1px solid #deded8; border-radius: 20px; background: rgba(255, 255, 255, 0.72); box-shadow: 0 8px 24px rgba(25, 25, 20, 0.06); }
+      .play-button { display: grid; width: 46px; height: 46px; padding: 0; place-items: center; border: 0; border-radius: 50%; color: #fff; background: #1f211e; cursor: pointer; transition: transform 160ms ease, background 160ms ease; }
+      .play-button:hover { background: #070807; transform: scale(1.04); }
+      .play-button:focus-visible { outline: 3px solid rgba(57, 82, 62, 0.35); outline-offset: 3px; }
+      .play-icon { width: 0; height: 0; margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid currentColor; }
+      .play-button.is-playing .play-icon { width: 11px; height: 13px; margin-left: 0; border: 0; border-right: 4px solid currentColor; border-left: 4px solid currentColor; }
+      .player-copy { min-width: 0; }
+      .player-status { display: block; margin-bottom: 7px; color: #5d5f59; font-size: 9px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
+      .waveform { display: flex; height: 16px; align-items: center; gap: 3px; }
+      .waveform span { width: 3px; height: 4px; border-radius: 3px; background: #9b9d95; }
+      .is-playing + .player-copy .waveform span { animation: pulse 700ms ease-in-out infinite alternate; }
+      .waveform span:nth-child(2n) { height: 11px; animation-delay: -160ms !important; }
+      .waveform span:nth-child(3n) { height: 7px; animation-delay: -320ms !important; }
+
+      .hint { position: absolute; z-index: 4; bottom: clamp(18px, 3.5vh, 42px); left: 50%; margin: 0; color: #6f716a; font-size: 11px; letter-spacing: 0.035em; text-align: center; transform: translateX(-50%); white-space: nowrap; }
+
+      @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+      @keyframes pulse { from { transform: scaleY(0.45); } to { transform: scaleY(1.35); } }
+
+      @media (max-height: 760px) and (min-width: 700px) {
+        :root { --phone-width: 250px; }
+        .intro { top: 22px; }
+        .eyebrow { margin-bottom: 5px; }
+        .phone-wrap { margin-top: 70px; }
+        .dialogue { min-height: 180px; gap: 8px; }
+        .bubble { padding: 8px 10px; }
+        .hint { display: none; }
+      }
+      @media (max-width: 620px) {
+        :root { --phone-width: min(72vw, 292px); }
+        .experience { min-height: 820px; }
+        .intro { top: 26px; }
+        .eyebrow { font-size: 15px; }
+        h1 { font-size: clamp(34px, 11vw, 48px); }
+        .carousel-window { transform: translateY(-36%); }
+        .book { width: 142px; }
+        .phone-wrap { margin-top: 78px; }
+        .hint { bottom: 16px; width: 90%; white-space: normal; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .carousel-track, .is-playing + .player-copy .waveform span { animation-play-state: paused; }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
-      <img
-        class="site-logo"
-        src="./assets/audora-logo-black.png"
-        alt="Audora"
-      />
-    </header>
+    <main class="experience">
+      <div class="intro">
+        <p class="eyebrow">Every book has a voice</p>
+        <h1>Listen to stories come alive</h1>
+      </div>
+
+      <div class="carousel-window" aria-hidden="true">
+        <div class="carousel-track" id="carouselTrack"></div>
+      </div>
+
+      <div class="phone-wrap" aria-label="iPhone 16 Pro audiobook preview">
+        <span class="side-button" aria-hidden="true"></span>
+        <div class="phone">
+          <span class="dynamic-island" aria-hidden="true"></span>
+          <div class="phone-screen">
+            <nav class="phone-nav" aria-label="Story player controls">
+              <button class="mini-button" type="button" aria-label="Back">‹</button>
+              <span>Story scene</span>
+              <button class="mini-button" type="button" aria-label="More options">•••</button>
+            </nav>
+            <div class="story-heading">
+              <span class="story-label" id="storyAuthor"></span>
+              <h2 class="story-title" id="storyTitle"></h2>
+            </div>
+            <div class="dialogue" id="dialogue" aria-live="polite"></div>
+            <div class="player">
+              <button class="play-button" id="playButton" type="button" aria-label="Play character dialogue">
+                <span class="play-icon" aria-hidden="true"></span>
+              </button>
+              <div class="player-copy">
+                <span class="player-status" id="playerStatus">Play this scene</span>
+                <div class="waveform" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Press play to pause the shelf and hear the scene</p>
+    </main>
+
+    <script>
+      const stories = [
+        { title: "Pride and Prejudice", author: "Jane Austen", kicker: "A novel of manners", lines: [["Elizabeth", "You mistake my silence for agreement."], ["Darcy", "Then tell me what your silence means."], ["Elizabeth", "That I am still deciding whether you deserve an answer."]] },
+        { title: "The Odyssey", author: "Homer", kicker: "An epic journey", lines: [["Athena", "The sea tests more than a sailor's strength."], ["Odysseus", "Then let it test my patience too."], ["Athena", "Patience may be the wind that carries you home."]] },
+        { title: "Little Women", author: "Louisa May Alcott", kicker: "Four sisters", lines: [["Jo", "I want a life too large for a tidy little page."], ["Beth", "Then write past the edge of it."], ["Jo", "Perhaps that is exactly what I will do."]] },
+        { title: "Alice's Adventures", author: "Lewis Carroll", kicker: "Down the rabbit hole", lines: [["Alice", "Nothing here seems to stay the right size."], ["Cheshire Cat", "Perhaps size is only a matter of where you stand."], ["Alice", "Then I should like to stand somewhere sensible."]] },
+        { title: "Frankenstein", author: "Mary Shelley", kicker: "A modern Prometheus", lines: [["Creature", "You gave me a voice, yet feared what I might say."], ["Victor", "I feared what my ambition had made."], ["Creature", "And I feared being left alone with it."]] },
+        { title: "The Secret Garden", author: "Frances Hodgson Burnett", kicker: "A hidden world", lines: [["Mary", "Do you think the garden remembers us?"], ["Colin", "It remembered how to grow."], ["Mary", "Then perhaps we can remember too."]] },
+        { title: "Sherlock Holmes", author: "Arthur Conan Doyle", kicker: "A curious case", lines: [["Watson", "You noticed all of that from a muddy sleeve?"], ["Holmes", "I noticed what the sleeve refused to hide."], ["Watson", "And naturally, it told you everything."]] }
+      ];
+
+      const track = document.querySelector("#carouselTrack");
+      const title = document.querySelector("#storyTitle");
+      const author = document.querySelector("#storyAuthor");
+      const dialogue = document.querySelector("#dialogue");
+      const playButton = document.querySelector("#playButton");
+      const playerStatus = document.querySelector("#playerStatus");
+      let activeStory = -1;
+      let playing = false;
+      let speechRun = 0;
+
+      function bookMarkup(story, index) {
+        return `<article class="book" data-story="${index}"><div class="book-cover cover-${index}"><span class="book-kicker">${story.kicker}</span><h3 class="book-title">${story.title}</h3><span class="book-author">${story.author}</span></div></article>`;
+      }
+
+      const shelf = stories.map(bookMarkup).join("");
+      track.innerHTML = `<div class="carousel-set">${shelf}</div><div class="carousel-set">${shelf}</div>`;
+
+      function renderStory(index) {
+        if (index === activeStory || playing) return;
+        activeStory = index;
+        const story = stories[index];
+        title.textContent = story.title;
+        author.textContent = story.author;
+        dialogue.innerHTML = story.lines.map(([speaker, line]) => `<div class="bubble"><span class="speaker">${speaker}</span>${line}</div>`).join("");
+      }
+
+      function findCenteredBook() {
+        if (playing) return;
+        const center = window.innerWidth / 2;
+        let nearest = null;
+        let distance = Infinity;
+        document.querySelectorAll(".book").forEach((book) => {
+          const rect = book.getBoundingClientRect();
+          const bookDistance = Math.abs(rect.left + rect.width / 2 - center);
+          if (bookDistance < distance) { distance = bookDistance; nearest = Number(book.dataset.story); }
+        });
+        if (nearest !== null) renderStory(nearest);
+      }
+
+      function stopPlayback() {
+        speechRun += 1;
+        window.speechSynthesis?.cancel();
+        playing = false;
+        track.classList.remove("is-paused");
+        playButton.classList.remove("is-playing");
+        playButton.setAttribute("aria-label", "Play character dialogue");
+        playerStatus.textContent = "Play this scene";
+        dialogue.querySelectorAll(".bubble").forEach((bubble) => bubble.classList.remove("is-speaking"));
+      }
+
+      function speakScene() {
+        if (playing) { stopPlayback(); return; }
+        playing = true;
+        const thisRun = ++speechRun;
+        track.classList.add("is-paused");
+        playButton.classList.add("is-playing");
+        playButton.setAttribute("aria-label", "Stop character dialogue");
+        playerStatus.textContent = "Playing scene";
+
+        const lines = stories[activeStory].lines;
+        const bubbles = [...dialogue.querySelectorAll(".bubble")];
+        let lineIndex = 0;
+
+        function nextLine() {
+          if (!playing || thisRun !== speechRun) return;
+          bubbles.forEach((bubble) => bubble.classList.remove("is-speaking"));
+          if (lineIndex >= lines.length) { stopPlayback(); return; }
+          bubbles[lineIndex]?.classList.add("is-speaking");
+          const [speaker, line] = lines[lineIndex];
+          const utterance = new SpeechSynthesisUtterance(line);
+          const voices = window.speechSynthesis.getVoices();
+          utterance.voice = voices[lineIndex % Math.max(voices.length, 1)] || null;
+          utterance.rate = 0.92;
+          utterance.pitch = lineIndex % 2 === 0 ? 1.05 : 0.88;
+          playerStatus.textContent = speaker + " is speaking";
+          utterance.onend = () => { lineIndex += 1; nextLine(); };
+          utterance.onerror = stopPlayback;
+          window.speechSynthesis.speak(utterance);
+        }
+
+        if (!("speechSynthesis" in window)) {
+          playerStatus.textContent = "Audio unavailable";
+          window.setTimeout(stopPlayback, 1800);
+          return;
+        }
+        nextLine();
+      }
+
+      playButton.addEventListener("click", speakScene);
+      window.addEventListener("resize", findCenteredBook);
+      window.setInterval(findCenteredBook, 240);
+      document.addEventListener("visibilitychange", () => { if (document.hidden && playing) stopPlayback(); });
+      renderStory(0);
+      window.setTimeout(findCenteredBook, 100);
+    </script>
   </body>
 </html>
