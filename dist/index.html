@@ -422,24 +422,51 @@
         :root { --mockup-width: 570px; }
       }
       @media (max-width: 620px) {
-        :root { --mockup-width: 720px; --composition-shift: 8px; }
-        .experience { min-height: 680px; }
-        .book { width: 112px; }
-        .site-brand { width: 104px; }
-        .site-brand img { transform: translateY(-6px); }
-        .yc-badge { top: 58px; left: 28px; gap: 5px; font-size: 11px; }
-        .yc-badge img { width: 17px; height: 17px; }
-        .sign-in-button { width: 92px; height: 44px; padding: 0 16px; font-size: 14px; }
-        .hero-title {
-          top: 36px;
-          width: 94vw;
-          font-size: clamp(38px, 10.5vw, 48px);
-          line-height: 0.9;
+        :root { --mockup-width: clamp(560px, 155vw, 660px); --composition-shift: 0px; }
+        .experience {
+          display: block;
+          width: 100%;
+          min-width: 0;
+          min-height: max(100svh, calc(270px + var(--mockup-width) * .831));
         }
-        .bottom-frost { inset: calc(32% + var(--composition-shift)) 0 0; }
+        .book { width: 100px; }
+        .site-brand { top: 24px; left: 22px; width: 104px; }
+        .site-brand img { transform: translateY(-6px); }
+        .yc-badge { top: 62px; left: 22px; gap: 4px; font-size: 9px; }
+        .yc-badge img { width: 13px; height: 13px; }
+        .sign-in-button { top: 24px; right: 22px; width: 86px; height: 42px; padding: 0 16px; font-size: 13px; }
+        .hero-title {
+          top: 108px;
+          width: calc(100% - 32px);
+          font-size: clamp(30px, 8vw, 48px);
+          line-height: 1;
+        }
+        .hero-title .now-playing { margin-top: .02em; }
+        .phone-wrap {
+          position: absolute;
+          top: 190px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        .carousel-window { top: calc(190px + var(--mockup-width) * .42); }
+        .carousel-set { gap: 22px; padding-right: 22px; }
+        .bottom-frost {
+          inset: calc(190px + var(--mockup-width) * .42) 0 auto;
+          height: calc(var(--mockup-width) * .45);
+        }
+        .phone-screen { padding: 35px 11px 17px; }
+        .story-heading { padding: 10px 0 8px; }
+        .story-title { font-size: 17px; }
+        .story-title.is-long { font-size: 13px; }
+        .dialogue { font-size: 9px; line-height: 1.35; overflow-y: auto; scrollbar-width: none; }
+        .dialogue::-webkit-scrollbar { display: none; }
+        .dialogue > p { flex-shrink: 0; }
+        .passage { margin-bottom: 6px; }
+        .dynamic-island { width: 35%; height: 15px; }
         .audiobook-dock {
-          bottom: 100px;
-          width: min(240px, calc(100vw - 24px));
+          top: calc(202px + var(--mockup-width) * .707);
+          bottom: auto;
+          width: min(225px, calc(100vw - 40px));
           min-height: 64px;
           grid-template-columns: 42px minmax(0, 1fr) 34px;
           gap: 7px;
