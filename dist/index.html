@@ -53,17 +53,6 @@
         width: 100%;
         transform: translateY(-50%);
       }
-      .carousel-window::before, .carousel-window::after {
-        position: absolute;
-        z-index: 3;
-        top: -20%;
-        bottom: -20%;
-        width: min(10vw, 150px);
-        content: "";
-        pointer-events: none;
-      }
-      .carousel-window::before { left: 0; background: linear-gradient(90deg, var(--paper), transparent); }
-      .carousel-window::after { right: 0; background: linear-gradient(-90deg, var(--paper), transparent); }
       .carousel-track {
         display: flex;
         width: max-content;
@@ -90,7 +79,7 @@
       }
       .book::before {
         position: absolute;
-        z-index: 2;
+        z-index: 4;
         inset: 0 auto 0 0;
         width: 9px;
         border-right: 1px solid rgba(255, 255, 255, 0.35);
@@ -104,6 +93,15 @@
         flex-direction: column;
         justify-content: space-between;
         padding: 16px 14px 14px 20px;
+      }
+      .book-cover-image {
+        position: absolute;
+        z-index: 3;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .book-kicker { font-size: 9px; font-weight: 700; letter-spacing: 0.16em; opacity: 0.75; text-transform: uppercase; }
       .book-title {
@@ -329,14 +327,16 @@
     </main>
 
     <script>
+      // Cover slot: replace `null` with a file path such as
+      // "./assets/covers/pride-and-prejudice.jpg" when artwork is supplied.
       const stories = [
-        { title: "Pride and Prejudice", author: "Jane Austen", kicker: "A novel of manners", lines: [["Elizabeth", "You mistake my silence for agreement."], ["Darcy", "Then tell me what your silence means."], ["Elizabeth", "That I am still deciding whether you deserve an answer."]] },
-        { title: "The Odyssey", author: "Homer", kicker: "An epic journey", lines: [["Athena", "The sea tests more than a sailor's strength."], ["Odysseus", "Then let it test my patience too."], ["Athena", "Patience may be the wind that carries you home."]] },
-        { title: "Little Women", author: "Louisa May Alcott", kicker: "Four sisters", lines: [["Jo", "I want a life too large for a tidy little page."], ["Beth", "Then write past the edge of it."], ["Jo", "Perhaps that is exactly what I will do."]] },
-        { title: "Alice's Adventures", author: "Lewis Carroll", kicker: "Down the rabbit hole", lines: [["Alice", "Nothing here seems to stay the right size."], ["Cheshire Cat", "Perhaps size is only a matter of where you stand."], ["Alice", "Then I should like to stand somewhere sensible."]] },
-        { title: "Frankenstein", author: "Mary Shelley", kicker: "A modern Prometheus", lines: [["Creature", "You gave me a voice, yet feared what I might say."], ["Victor", "I feared what my ambition had made."], ["Creature", "And I feared being left alone with it."]] },
-        { title: "The Secret Garden", author: "Frances Hodgson Burnett", kicker: "A hidden world", lines: [["Mary", "Do you think the garden remembers us?"], ["Colin", "It remembered how to grow."], ["Mary", "Then perhaps we can remember too."]] },
-        { title: "Sherlock Holmes", author: "Arthur Conan Doyle", kicker: "A curious case", lines: [["Watson", "You noticed all of that from a muddy sleeve?"], ["Holmes", "I noticed what the sleeve refused to hide."], ["Watson", "And naturally, it told you everything."]] }
+        { title: "Pride and Prejudice", author: "Jane Austen", cover: null, kicker: "A novel of manners", lines: [["Elizabeth", "You mistake my silence for agreement."], ["Darcy", "Then tell me what your silence means."], ["Elizabeth", "That I am still deciding whether you deserve an answer."]] },
+        { title: "The Odyssey", author: "Homer", cover: null, kicker: "An epic journey", lines: [["Athena", "The sea tests more than a sailor's strength."], ["Odysseus", "Then let it test my patience too."], ["Athena", "Patience may be the wind that carries you home."]] },
+        { title: "Little Women", author: "Louisa May Alcott", cover: null, kicker: "Four sisters", lines: [["Jo", "I want a life too large for a tidy little page."], ["Beth", "Then write past the edge of it."], ["Jo", "Perhaps that is exactly what I will do."]] },
+        { title: "Alice's Adventures", author: "Lewis Carroll", cover: null, kicker: "Down the rabbit hole", lines: [["Alice", "Nothing here seems to stay the right size."], ["Cheshire Cat", "Perhaps size is only a matter of where you stand."], ["Alice", "Then I should like to stand somewhere sensible."]] },
+        { title: "Frankenstein", author: "Mary Shelley", cover: null, kicker: "A modern Prometheus", lines: [["Creature", "You gave me a voice, yet feared what I might say."], ["Victor", "I feared what my ambition had made."], ["Creature", "And I feared being left alone with it."]] },
+        { title: "The Secret Garden", author: "Frances Hodgson Burnett", cover: null, kicker: "A hidden world", lines: [["Mary", "Do you think the garden remembers us?"], ["Colin", "It remembered how to grow."], ["Mary", "Then perhaps we can remember too."]] },
+        { title: "Sherlock Holmes", author: "Arthur Conan Doyle", cover: null, kicker: "A curious case", lines: [["Watson", "You noticed all of that from a muddy sleeve?"], ["Holmes", "I noticed what the sleeve refused to hide."], ["Watson", "And naturally, it told you everything."]] }
       ];
 
       const track = document.querySelector("#carouselTrack");
@@ -350,7 +350,10 @@
       let speechRun = 0;
 
       function bookMarkup(story, index) {
-        return `<article class="book" data-story="${index}"><div class="book-cover cover-${index}"><span class="book-kicker">${story.kicker}</span><h3 class="book-title">${story.title}</h3><span class="book-author">${story.author}</span></div></article>`;
+        const coverImage = story.cover
+          ? `<img class="book-cover-image" src="${story.cover}" alt="${story.title} book cover" decoding="async" onerror="this.remove()" />`
+          : "";
+        return `<article class="book" data-story="${index}" data-cover-slot="${index + 1}"><div class="book-cover cover-${index}">${coverImage}<span class="book-kicker">${story.kicker}</span><h3 class="book-title">${story.title}</h3><span class="book-author">${story.author}</span></div></article>`;
       }
 
       const shelf = stories.map(bookMarkup).join("");
