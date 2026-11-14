@@ -424,6 +424,168 @@
         white-space: nowrap;
       }
 
+      .studio-section {
+        position: relative;
+        z-index: 7;
+        display: grid;
+        min-height: 92svh;
+        padding: clamp(80px, 10vw, 150px) clamp(28px, 7vw, 112px);
+        place-items: center;
+        border-top: 1px solid #efeee8;
+        background: #fbfaf6;
+        overflow: hidden;
+      }
+      .studio-section::before {
+        position: absolute;
+        top: -180px;
+        right: -130px;
+        width: 430px;
+        height: 430px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(193, 203, 175, 0.28), rgba(251, 250, 246, 0) 68%);
+        content: "";
+        pointer-events: none;
+      }
+      .studio-grid {
+        position: relative;
+        display: grid;
+        width: min(1220px, 100%);
+        grid-template-columns: minmax(0, 0.88fr) minmax(460px, 1.12fr);
+        gap: clamp(58px, 8vw, 130px);
+        align-items: center;
+      }
+      .studio-copy { max-width: 570px; }
+      .studio-kicker {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 0 0 24px;
+        color: #7d7d73;
+        font: 10px Arial, Helvetica, sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .studio-kicker::before { width: 28px; height: 1px; background: #aaa99e; content: ""; }
+      .studio-copy h2 {
+        margin: 0;
+        color: #191918;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(48px, 5.4vw, 82px);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
+      }
+      .studio-copy h2 span { display: block; }
+      .studio-copy h2 .studio-invitation {
+        margin-top: 0.45em;
+        color: #777b6b;
+        font-size: 0.62em;
+        font-style: italic;
+        letter-spacing: -0.025em;
+        line-height: 1.08;
+      }
+      .upload-studio {
+        position: relative;
+        padding: clamp(24px, 3vw, 38px);
+        border: 1px solid #deddd4;
+        border-radius: 30px;
+        background: rgba(255, 255, 252, 0.9);
+        box-shadow: 0 28px 70px rgba(35, 35, 27, 0.09), 0 2px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+      .upload-studio::after {
+        position: absolute;
+        z-index: -1;
+        right: 22px;
+        bottom: -14px;
+        left: 22px;
+        height: 35px;
+        border: 1px solid #e6e4db;
+        border-radius: 0 0 28px 28px;
+        background: #f3f1e9;
+        content: "";
+      }
+      .upload-studio-header { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 20px; }
+      .upload-studio-header h3 { margin: 0; font: 30px "Instrument Serif", Georgia, serif; font-weight: 400; }
+      .upload-studio-header span { color: #96958a; font: 9px Arial, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+      .book-dropzone {
+        display: grid;
+        min-height: 210px;
+        padding: 30px;
+        place-items: center;
+        border: 1.5px dashed #aaa99f;
+        border-radius: 20px;
+        background: #faf9f4;
+        text-align: center;
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+      }
+      .book-dropzone:hover { border-color: #62675a; background: #f6f6ef; transform: translateY(-2px); }
+      .upload-spark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        margin: 0 auto 14px;
+        place-items: center;
+        border-radius: 50%;
+        color: #5b6254;
+        background: #e9ede2;
+        font-size: 20px;
+      }
+      .choose-book {
+        padding: 0;
+        border: 0;
+        color: #22221f;
+        background: transparent;
+        font: 24px "Instrument Serif", Georgia, serif;
+        cursor: pointer;
+      }
+      .book-dropzone p { margin: 7px 0 0; color: #88877e; font-size: 11px; letter-spacing: 0.02em; }
+      .source-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: #a09f96; font: 9px Arial, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+      .source-divider::before, .source-divider::after { height: 1px; flex: 1; background: #e5e4dd; content: ""; }
+      .story-link-field {
+        display: flex;
+        height: 58px;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+        border: 1px solid #d9d8d0;
+        border-radius: 15px;
+        background: #fff;
+        color: #78786f;
+      }
+      .story-link-field span { color: #5f6558; font-size: 17px; }
+      .story-link-field input { min-width: 0; flex: 1; border: 0; outline: 0; color: #30302c; background: transparent; font: 13px Arial, sans-serif; }
+      .story-link-field input::placeholder { color: #9a9990; opacity: 1; }
+      .hear-story-button {
+        display: flex;
+        width: 100%;
+        height: 62px;
+        margin-top: 14px;
+        align-items: center;
+        justify-content: center;
+        gap: 13px;
+        border: 0;
+        border-radius: 15px;
+        color: #fff;
+        background: #1d211c;
+        font-size: 14px;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+      .hear-story-button span { transition: transform 180ms ease; }
+      .hear-story-button:hover { background: #30372d; box-shadow: 0 13px 28px rgba(29, 33, 28, 0.18); transform: translateY(-2px); }
+      .hear-story-button:hover span { transform: translateX(4px); }
+      .upload-studio-footer { display: flex; justify-content: space-between; gap: 20px; margin-top: 18px; color: #8a8980; font-size: 10px; }
+      .paste-text-button { padding: 0; border: 0; border-bottom: 1px solid #aaa99f; color: inherit; background: transparent; cursor: pointer; }
+      .upload-studio button:focus-visible, .story-link-field:focus-within { outline: 2px solid rgba(77, 88, 70, 0.4); outline-offset: 3px; }
+
+      @media (max-width: 900px) {
+        .studio-section { padding-block: 90px; }
+        .studio-grid { grid-template-columns: 1fr; gap: 58px; }
+        .studio-copy { max-width: 720px; }
+        .studio-copy h2 { font-size: clamp(48px, 8vw, 72px); }
+        .upload-studio { width: min(660px, 100%); }
+      }
+
       @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
       @media (max-height: 760px) and (min-width: 700px) {
@@ -487,6 +649,19 @@
         .dock-wave { gap: 2px; }
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
+        .studio-section { min-height: 0; padding: 76px 20px 92px; }
+        .studio-grid { gap: 42px; }
+        .studio-copy h2 { font-size: clamp(43px, 13vw, 58px); }
+        .studio-copy h2 .studio-invitation { font-size: 0.64em; }
+        .upload-studio { padding: 20px; border-radius: 24px; }
+        .upload-studio-header h3 { font-size: 26px; }
+        .upload-studio-header span { font-size: 8px; }
+        .book-dropzone { min-height: 175px; padding: 22px 14px; }
+        .choose-book { font-size: 22px; }
+        .book-dropzone p { max-width: 260px; line-height: 1.6; }
+        .story-link-field { height: 54px; padding-inline: 14px; }
+        .hear-story-button { height: 56px; }
+        .upload-studio-footer { display: grid; justify-content: center; gap: 10px; text-align: center; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
@@ -559,6 +734,49 @@
 
       <div class="bottom-frost" aria-hidden="true"></div>
     </main>
+
+    <section class="studio-section" aria-labelledby="studio-heading">
+      <div class="studio-grid">
+        <div class="studio-copy">
+          <p class="studio-kicker">Your private audiobook studio</p>
+          <h2 id="studio-heading">
+            <span>Audora is an audiobook studio for the stories nobody’s recording.</span>
+            <span class="studio-invitation">Paste a link. Hear it the way you’ve been imagining it.</span>
+          </h2>
+        </div>
+
+        <div class="upload-studio" aria-label="Book upload preview">
+          <div class="upload-studio-header">
+            <h3>Bring your story</h3>
+            <span>Start with a free preview</span>
+          </div>
+
+          <div class="book-dropzone">
+            <div>
+              <span class="upload-spark" aria-hidden="true">✦</span>
+              <button class="choose-book" type="button">Choose a book</button>
+              <p>or drag &amp; drop · EPUB · PDF · DOCX · TXT · up to 100 MB</p>
+            </div>
+          </div>
+
+          <div class="source-divider">or</div>
+
+          <label class="story-link-field">
+            <span aria-hidden="true">↗</span>
+            <input type="url" aria-label="Story link" placeholder="Paste a story link — Wattpad, AO3, Reddit, Substack" />
+          </label>
+
+          <button class="hear-story-button" type="button">
+            Hear your story <span aria-hidden="true">→</span>
+          </button>
+
+          <div class="upload-studio-footer">
+            <button class="paste-text-button" type="button">Want to paste text?</button>
+            <span>Files, links, and pasted text begin with a preview.</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <script>
       // The phone view is typeset from structured excerpts so every title
