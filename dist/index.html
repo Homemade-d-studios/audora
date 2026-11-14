@@ -41,37 +41,57 @@
       .yc-badge {
         position: absolute;
         z-index: 6;
-        top: clamp(22px, 3.5vw, 42px);
-        right: clamp(22px, 4vw, 58px);
+        top: calc(clamp(22px, 3.5vw, 42px) + 57px);
+        left: clamp(22px, 4vw, 58px);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         color: #171717;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 15px;
+        font-size: 11px;
         font-weight: 400;
         line-height: 1;
         white-space: nowrap;
       }
       .yc-badge img {
         display: block;
-        width: 24px;
-        height: 24px;
+        width: 17px;
+        height: 17px;
         border-radius: 2px;
       }
+      .sign-in-button {
+        position: absolute;
+        z-index: 6;
+        top: clamp(22px, 3.5vw, 42px);
+        right: clamp(22px, 4vw, 58px);
+        min-width: 92px;
+        padding: 11px 20px;
+        border: 0;
+        border-radius: 999px;
+        color: #fff;
+        background: #171717;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 160ms ease, transform 160ms ease;
+      }
+      .sign-in-button:hover { background: #323232; transform: translateY(-1px); }
+      .sign-in-button:focus-visible { outline: 3px solid rgba(23, 23, 23, 0.22); outline-offset: 3px; }
       .hero-title {
         position: absolute;
         z-index: 2;
-        top: clamp(88px, 10.5vh, 112px);
+        top: clamp(36px, 5.5vh, 58px);
         left: 50%;
         width: min(92vw, 1000px);
         margin: 0;
         color: #171717;
         font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(52px, 5.5vw, 88px);
+        font-size: clamp(40px, 4vw, 64px);
         font-weight: 400;
         letter-spacing: -0.035em;
-        line-height: 0.88;
+        line-height: 0.9;
         text-align: center;
         transform: translateX(-50%);
         pointer-events: none;
@@ -313,12 +333,13 @@
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
-        .yc-badge { gap: 6px; font-size: 12px; }
-        .yc-badge img { width: 20px; height: 20px; }
+        .yc-badge { top: 68px; gap: 5px; font-size: 10px; }
+        .yc-badge img { width: 15px; height: 15px; }
+        .sign-in-button { min-width: 78px; padding: 10px 16px; font-size: 12px; }
         .hero-title {
-          top: 92px;
+          top: 42px;
           width: 94vw;
-          font-size: clamp(40px, 12vw, 52px);
+          font-size: clamp(32px, 9vw, 42px);
           line-height: 0.92;
         }
         .bottom-frost { inset: 32% 0 0; }
@@ -338,6 +359,7 @@
         <img src="./assets/yc-logo.png" alt="" aria-hidden="true" />
         <span>Y Combinator</span>
       </div>
+      <button class="sign-in-button" type="button">Sign in</button>
       <h1 class="hero-title">
         <span>The voices in your head.</span>
         <span class="now-playing">Now playing.</span>
