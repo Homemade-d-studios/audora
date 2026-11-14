@@ -36,6 +36,27 @@
         width: 100%;
         height: auto;
       }
+      .yc-badge {
+        position: absolute;
+        z-index: 6;
+        top: clamp(22px, 3.5vw, 42px);
+        right: clamp(22px, 4vw, 58px);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #171717;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .yc-badge img {
+        display: block;
+        width: 24px;
+        height: 24px;
+        border-radius: 2px;
+      }
 
       .experience {
         position: relative;
@@ -271,6 +292,8 @@
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
+        .yc-badge { gap: 6px; font-size: 12px; }
+        .yc-badge img { width: 20px; height: 20px; }
         .bottom-frost { inset: 32% 0 0; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -282,6 +305,11 @@
     <main class="experience">
       <div class="site-brand">
         <img src="./assets/audora-logo-black.png" alt="Audora" />
+      </div>
+      <div class="yc-badge" aria-label="Backed by Y Combinator">
+        <span>Backed by</span>
+        <img src="./assets/yc-logo.png" alt="" aria-hidden="true" />
+        <span>Y Combinator</span>
       </div>
 
       <div class="carousel-window" aria-hidden="true">
