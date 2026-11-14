@@ -329,17 +329,17 @@
       .audiobook-dock {
         position: absolute;
         z-index: 5;
-        bottom: 34px;
+        bottom: clamp(92px, 13vh, 120px);
         left: 50%;
         display: grid;
-        width: min(282px, calc(100vw - 28px));
-        min-height: 76px;
-        grid-template-columns: 52px minmax(0, 1fr) 42px;
-        gap: 10px;
+        width: min(250px, calc(100vw - 28px));
+        min-height: 68px;
+        grid-template-columns: 44px minmax(0, 1fr) 36px;
+        gap: 8px;
         align-items: center;
-        padding: 10px;
+        padding: 8px;
         border: 0;
-        border-radius: 18px;
+        border-radius: 16px;
         background: rgba(255, 255, 255, 0.78);
         box-shadow: 0 18px 50px rgba(22, 22, 20, 0.1);
         -webkit-backdrop-filter: blur(22px) saturate(120%);
@@ -348,9 +348,9 @@
       }
       .dock-cover {
         display: block;
-        width: 52px;
-        height: 52px;
-        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
         object-fit: cover;
         box-shadow: 0 8px 18px rgba(22, 22, 20, 0.16);
       }
@@ -360,7 +360,7 @@
         overflow: hidden;
         margin-bottom: 4px;
         font-family: "Instrument Serif", Georgia, serif;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 400;
         line-height: 1.05;
         text-overflow: ellipsis;
@@ -369,7 +369,7 @@
       .dock-author {
         display: block;
         overflow: hidden;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
         color: #73736d;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 9px;
@@ -379,7 +379,7 @@
       }
       .dock-wave {
         display: flex;
-        height: 18px;
+        height: 15px;
         align-items: center;
         gap: 2px;
       }
@@ -395,8 +395,8 @@
       .audiobook-dock.is-playing .dock-wave span { animation: pulse 700ms ease-in-out infinite alternate; }
       .dock-play-button {
         display: grid;
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
         padding: 0;
         place-items: center;
         border: 0;
@@ -433,19 +433,19 @@
         }
         .bottom-frost { inset: 32% 0 0; }
         .audiobook-dock {
-          bottom: 22px;
-          width: min(282px, calc(100vw - 24px));
-          min-height: 72px;
-          grid-template-columns: 48px minmax(0, 1fr) 40px;
-          gap: 9px;
-          padding: 9px;
-          border-radius: 17px;
+          bottom: 70px;
+          width: min(240px, calc(100vw - 24px));
+          min-height: 64px;
+          grid-template-columns: 42px minmax(0, 1fr) 34px;
+          gap: 7px;
+          padding: 7px;
+          border-radius: 15px;
         }
-        .dock-cover { width: 48px; height: 48px; border-radius: 9px; }
-        .dock-title { font-size: 14px; }
-        .dock-author { margin-bottom: 5px; font-size: 9px; }
+        .dock-cover { width: 42px; height: 42px; border-radius: 8px; }
+        .dock-title { font-size: 13px; }
+        .dock-author { margin-bottom: 4px; font-size: 8px; }
         .dock-wave { gap: 2px; }
-        .dock-play-button { width: 40px; height: 40px; }
+        .dock-play-button { width: 34px; height: 34px; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track,
