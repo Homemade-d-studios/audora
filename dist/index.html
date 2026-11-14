@@ -7,6 +7,8 @@
     <meta name="description" content="Step inside a story and listen to its characters come alive." />
     <title>Audora — Stories in conversation</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+
       :root {
         --ink: #171717;
         --muted: #6d6d68;
@@ -57,6 +59,25 @@
         height: 24px;
         border-radius: 2px;
       }
+      .hero-title {
+        position: absolute;
+        z-index: 2;
+        top: clamp(88px, 10.5vh, 112px);
+        left: 50%;
+        width: min(92vw, 1000px);
+        margin: 0;
+        color: #171717;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(52px, 5.5vw, 88px);
+        font-weight: 400;
+        letter-spacing: -0.035em;
+        line-height: 0.88;
+        text-align: center;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .hero-title span { display: block; }
+      .hero-title .now-playing { margin-top: 0.04em; }
 
       .experience {
         position: relative;
@@ -294,6 +315,12 @@
         .site-brand { width: 104px; }
         .yc-badge { gap: 6px; font-size: 12px; }
         .yc-badge img { width: 20px; height: 20px; }
+        .hero-title {
+          top: 92px;
+          width: 94vw;
+          font-size: clamp(40px, 12vw, 52px);
+          line-height: 0.92;
+        }
         .bottom-frost { inset: 32% 0 0; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -311,6 +338,10 @@
         <img src="./assets/yc-logo.png" alt="" aria-hidden="true" />
         <span>Y Combinator</span>
       </div>
+      <h1 class="hero-title">
+        <span>The voices in your head.</span>
+        <span class="now-playing">Now playing.</span>
+      </h1>
 
       <div class="carousel-window" aria-hidden="true">
         <div class="carousel-track" id="carouselTrack"></div>
