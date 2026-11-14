@@ -14,6 +14,7 @@
         --muted: #6d6d68;
         --paper: #ffffff;
         --mockup-width: clamp(620px, 52vw, 760px);
+        --composition-shift: clamp(48px, 7vh, 72px);
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -86,16 +87,16 @@
       .hero-title {
         position: absolute;
         z-index: 2;
-        top: clamp(40px, 6vh, 62px);
+        top: clamp(72px, 8.5vh, 94px);
         left: 50%;
         width: min(92vw, 1000px);
         margin: 0;
         color: #171717;
         font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(40px, 4vw, 64px);
+        font-size: clamp(48px, 4.8vw, 76px);
         font-weight: 400;
         letter-spacing: -0.035em;
-        line-height: 0.9;
+        line-height: 0.88;
         text-align: center;
         transform: translateX(-50%);
         pointer-events: none;
@@ -114,7 +115,7 @@
       .carousel-window {
         position: absolute;
         z-index: 1;
-        top: 50%;
+        top: calc(50% + var(--composition-shift));
         left: 0;
         width: 100%;
         transform: translateY(-50%);
@@ -192,12 +193,13 @@
         z-index: 3;
         width: var(--mockup-width);
         aspect-ratio: 1376 / 1143;
+        transform: translateY(var(--composition-shift));
       }
 
       .bottom-frost {
         position: absolute;
         z-index: 4;
-        inset: 31% 0 0;
+        inset: calc(31% + var(--composition-shift)) 0 0;
         background: linear-gradient(
           180deg,
           rgba(255, 255, 255, 0) 0%,
@@ -317,7 +319,7 @@
       .audiobook-dock {
         position: absolute;
         z-index: 5;
-        bottom: clamp(112px, 16vh, 148px);
+        bottom: max(72px, calc(clamp(112px, 16vh, 148px) - var(--composition-shift)));
         left: 50%;
         display: grid;
         width: min(250px, calc(100vw - 28px));
@@ -420,7 +422,7 @@
         :root { --mockup-width: 570px; }
       }
       @media (max-width: 620px) {
-        :root { --mockup-width: 720px; }
+        :root { --mockup-width: 720px; --composition-shift: 44px; }
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
@@ -429,14 +431,14 @@
         .yc-badge img { width: 17px; height: 17px; }
         .sign-in-button { width: 92px; height: 44px; padding: 0 16px; font-size: 14px; }
         .hero-title {
-          top: 42px;
+          top: 72px;
           width: 94vw;
-          font-size: clamp(32px, 9vw, 42px);
-          line-height: 0.92;
+          font-size: clamp(38px, 10.5vw, 48px);
+          line-height: 0.9;
         }
-        .bottom-frost { inset: 32% 0 0; }
+        .bottom-frost { inset: calc(32% + var(--composition-shift)) 0 0; }
         .audiobook-dock {
-          bottom: 90px;
+          bottom: 64px;
           width: min(240px, calc(100vw - 24px));
           min-height: 64px;
           grid-template-columns: 42px minmax(0, 1fr) 34px;
