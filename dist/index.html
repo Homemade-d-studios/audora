@@ -37,11 +37,12 @@
         display: block;
         width: 100%;
         height: auto;
+        transform: translateY(-8px);
       }
       .yc-badge {
         position: absolute;
         z-index: 6;
-        top: calc(clamp(22px, 3.5vw, 42px) + 49px);
+        top: calc(clamp(22px, 3.5vw, 42px) + 41px);
         left: calc(clamp(22px, 4vw, 58px) + 6px);
         display: flex;
         align-items: center;
@@ -336,7 +337,8 @@
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
-        .yc-badge { top: 64px; left: 28px; gap: 5px; font-size: 11px; }
+        .site-brand img { transform: translateY(-6px); }
+        .yc-badge { top: 58px; left: 28px; gap: 5px; font-size: 11px; }
         .yc-badge img { width: 17px; height: 17px; }
         .sign-in-button { width: 92px; height: 44px; padding: 0 16px; font-size: 14px; }
         .hero-title {
