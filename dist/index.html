@@ -302,6 +302,22 @@
       .text-page { display: flex; height: 100%; flex-direction: column; }
       .page-scan { display: block; width: 100%; height: 100%; object-fit: contain; object-position: top center; background: #fff; }
       .page-scan[hidden], .text-page[hidden] { display: none; }
+      .phone-screen.has-page-image { padding: 0; overflow: hidden; }
+      .phone-screen.has-page-image .reader-stage { position: absolute; inset: 0; }
+      .phone-screen.has-page-image .page-scan { object-fit: cover; object-position: center top; }
+      .phone-screen.has-page-image .player {
+        position: absolute;
+        z-index: 2;
+        right: 13px;
+        bottom: 18px;
+        left: 13px;
+        padding: 13px 8px 4px;
+        border-top-color: rgba(36, 36, 32, 0.22);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(10px);
+      }
       .page-folio { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #d8d8d2; color: #8a8a84; font-family: Georgia, "Times New Roman", serif; font-size: 8px; font-style: italic; letter-spacing: 0.06em; }
       .story-heading { padding: 15px 0 10px; text-align: center; }
       .story-label { display: block; margin-bottom: 6px; color: #777770; font-family: Georgia, "Times New Roman", serif; font-size: 9px; font-style: italic; }
@@ -565,7 +581,7 @@
         { title: "Pirates", author: "Patrick Auerbach", cover: "./assets/covers/pirates.png", pageImage: null, kicker: "Pirates of the Caribbean", lines: [["Captain", "The sea is quiet tonight."], ["Quartermaster", "Quiet water can hide the deepest trouble."], ["Captain", "Then we keep our eyes on the horizon."]] },
         { title: "Dracula", author: "Bram Stoker", cover: "./assets/covers/dracula.png", pageImage: null, kicker: "A gothic classic", lines: [["Mina", "The castle seems to watch us from the hill."], ["Van Helsing", "Then we must watch it in return."], ["Mina", "Before the night discovers where we are."]] },
         { title: "Meditations", author: "Marcus Aurelius", cover: "./assets/covers/meditations.png", pageImage: "./assets/pages/meditations-page.png", kicker: "Reflections on life", lines: [["Marcus", "The obstacle is here; my judgment of it is still mine."], ["Teacher", "Then choose the judgment that lets you move forward."], ["Marcus", "And let action answer what fear cannot."]] },
-        { title: "Siddhartha", author: "Hermann Hesse", cover: "./assets/covers/siddhartha.png", pageImage: null, kicker: "A journey within", lines: [["Govinda", "What did the river teach you?"], ["Siddhartha", "To listen without asking it to hurry."], ["Govinda", "Then perhaps every path is speaking."]] },
+        { title: "Siddhartha", author: "Hermann Hesse", cover: "./assets/covers/siddhartha.png", pageImage: "./assets/pages/siddhartha-page.png", kicker: "A journey within", lines: [["Govinda", "What did the river teach you?"], ["Siddhartha", "To listen without asking it to hurry."], ["Govinda", "Then perhaps every path is speaking."]] },
         { title: "Elon Musk", author: "Walter Isaacson", cover: "./assets/covers/elon-musk.png", pageImage: null, kicker: "A biography", lines: [["Narrator", "The next problem was described as nearly impossible."], ["Biographer", "That description often became the reason to pursue it."], ["Narrator", "The story begins where certainty ends."]] },
         { title: "Harry Potter and the Prisoner of Azkaban", author: "J. K. Rowling", cover: "./assets/covers/harry-potter-prisoner-of-azkaban.png", pageImage: null, kicker: "The third year", lines: [["Harry", "Something about this year feels different."], ["Hermione", "At Hogwarts, different usually means dangerous."], ["Harry", "Then we should probably start paying attention."]] }
       ];
@@ -574,6 +590,7 @@
       const title = document.querySelector("#storyTitle");
       const author = document.querySelector("#storyAuthor");
       const dialogue = document.querySelector("#dialogue");
+      const phoneScreen = document.querySelector(".phone-screen");
       const textPage = document.querySelector("#textPage");
       const pageScan = document.querySelector("#pageScan");
       const playButton = document.querySelector("#playButton");
@@ -607,6 +624,7 @@
         author.textContent = story.author;
         dialogue.innerHTML = `<p class="page-opening">The room grew quiet, and for a moment the story seemed to hold its breath.</p>` + story.lines.map(([speaker, line]) => `<p class="passage">“${line}” <span class="attribution">— ${speaker}</span></p>`).join("");
         const hasPageImage = Boolean(story.pageImage);
+        phoneScreen.classList.toggle("has-page-image", hasPageImage);
         textPage.hidden = hasPageImage;
         pageScan.hidden = !hasPageImage;
         if (hasPageImage) {

@@ -6,10 +6,11 @@ Add one portrait page image for each book using these filenames:
 - `pirates-page.png`
 - `dracula-page.png`
 - `meditations-page.png` (added)
-- `siddhartha-page.png`
+- `siddhartha-page.png` (added)
 - `elon-musk-page.png`
 - `harry-potter-prisoner-of-azkaban-page.png`
 
-Images are fitted inside the readable area of the phone without stretching. After
-adding an image, set that story's `pageImage` value in `dist/index.html` to its
-path in this folder. Until then, the phone keeps using the generated text page.
+Images fill the phone display edge-to-edge without stretching; small outer areas
+may be cropped to match the display shape. After adding an image, set that
+story's `pageImage` value in `dist/index.html` to its path in this folder. Until
+then, the phone keeps using the generated text page.
