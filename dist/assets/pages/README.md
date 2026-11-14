@@ -1,6 +1,6 @@
-# Phone page image slots
+# Reference page images
 
-Add one portrait page image for each book using these filenames:
+These supplied scans are retained as content references:
 
 - `sherlock-holmes-page.png`
 - `pirates-page.png`
@@ -10,7 +10,6 @@ Add one portrait page image for each book using these filenames:
 - `elon-musk-page.png`
 - `harry-potter-prisoner-of-azkaban-page.png`
 
-Images fill the phone display edge-to-edge without stretching; small outer areas
-may be cropped to match the display shape. After adding an image, set that
-story's `pageImage` value in `dist/index.html` to its path in this folder. Until
-then, the phone keeps using the generated text page.
+The site no longer renders these scans directly. The iPhone now typesets each
+book's excerpt from structured content in `dist/index.html`, keeping every page
+legible without cropping the source image.

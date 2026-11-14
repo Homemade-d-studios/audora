@@ -125,7 +125,6 @@
         will-change: transform;
         animation: drift 132s linear infinite;
       }
-      .carousel-track.is-paused { animation-play-state: paused; }
       .carousel-set {
         display: flex;
         gap: clamp(24px, 2.5vw, 42px);
@@ -300,24 +299,6 @@
       .phone-screen { position: relative; z-index: 2; display: flex; height: 100%; flex-direction: column; padding: 38px 13px 18px; }
       .reader-stage { position: relative; min-height: 0; flex: 1; overflow: hidden; }
       .text-page { display: flex; height: 100%; flex-direction: column; }
-      .page-scan { display: block; width: 100%; height: 100%; object-fit: contain; object-position: top center; background: #fff; }
-      .page-scan[hidden], .text-page[hidden] { display: none; }
-      .phone-screen.has-page-image { padding: 0; overflow: hidden; }
-      .phone-screen.has-page-image .reader-stage { position: absolute; inset: 0; }
-      .phone-screen.has-page-image .page-scan { object-fit: cover; object-position: center top; }
-      .phone-screen.has-page-image .player {
-        position: absolute;
-        z-index: 2;
-        right: 13px;
-        bottom: 18px;
-        left: 13px;
-        padding: 13px 8px 4px;
-        border-top-color: rgba(36, 36, 32, 0.22);
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.82);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(10px);
-      }
       .page-folio { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #d8d8d2; color: #8a8a84; font-family: Georgia, "Times New Roman", serif; font-size: 8px; font-style: italic; letter-spacing: 0.06em; }
       .story-heading { padding: 15px 0 10px; text-align: center; }
       .story-label { display: block; margin-bottom: 6px; color: #777770; font-family: Georgia, "Times New Roman", serif; font-size: 9px; font-style: italic; }
@@ -328,23 +309,10 @@
       .dialogue { min-height: 0; flex: 1; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(9px, 0.68vw, 11px); line-height: 1.42; overflow: hidden; }
       .page-opening { margin: 0 0 10px; text-indent: 1.2em; }
       .page-opening::first-letter { float: left; margin: 0.06em 0.08em 0 0; font-size: 3.1em; line-height: 0.78; }
-      .passage { margin: 0 0 9px; text-indent: 1.2em; transition: background 180ms ease; }
-      .passage.is-speaking { border-radius: 3px; background: #f3efdc; }
+      .passage { margin: 0 0 9px; text-indent: 1.2em; }
       .attribution { color: #707069; font-size: 0.88em; font-style: italic; white-space: nowrap; }
-
-      .player { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: center; padding-top: 11px; border-top: 1px solid #d8d8d2; }
-      .play-button { display: grid; width: 36px; height: 36px; padding: 0; place-items: center; border: 0; border-radius: 50%; color: #fff; background: #1f211e; cursor: pointer; transition: transform 160ms ease, background 160ms ease; }
-      .play-button:hover { background: #070807; transform: scale(1.04); }
-      .play-button:focus-visible { outline: 3px solid rgba(57, 82, 62, 0.35); outline-offset: 3px; }
+      .excerpt-note { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #deded8; color: #999991; font-size: 7px; font-style: italic; letter-spacing: 0.02em; text-align: center; }
       .play-icon { width: 0; height: 0; margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid currentColor; }
-      .play-button.is-playing .play-icon { width: 11px; height: 13px; margin-left: 0; border: 0; border-right: 4px solid currentColor; border-left: 4px solid currentColor; }
-      .player-copy { min-width: 0; }
-      .player-status { display: block; margin-bottom: 7px; color: #5d5f59; font-size: 9px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
-      .waveform { display: flex; height: 16px; align-items: center; gap: 3px; }
-      .waveform span { width: 3px; height: 4px; border-radius: 3px; background: #9b9d95; }
-      .is-playing + .player-copy .waveform span { animation: pulse 700ms ease-in-out infinite alternate; }
-      .waveform span:nth-child(2n) { height: 11px; animation-delay: -160ms !important; }
-      .waveform span:nth-child(3n) { height: 7px; animation-delay: -320ms !important; }
 
       .audiobook-dock {
         position: absolute;
@@ -412,7 +380,6 @@
       }
       .dock-wave span:nth-child(2n) { height: 12px; animation-delay: -140ms !important; }
       .dock-wave span:nth-child(3n) { height: 8px; animation-delay: -280ms !important; }
-      .audiobook-dock.is-playing .dock-wave span { animation: pulse 700ms ease-in-out infinite alternate; }
       .dock-play-button {
         display: grid;
         width: 36px;
@@ -428,7 +395,8 @@
       }
       .dock-play-button:hover { background: #323232; transform: scale(1.04); }
       .dock-play-button:focus-visible { outline: 3px solid rgba(23, 23, 23, 0.2); outline-offset: 3px; }
-      .dock-play-button.is-playing .play-icon { width: 11px; height: 13px; margin-left: 0; border: 0; border-right: 4px solid currentColor; border-left: 4px solid currentColor; }
+      .dock-play-button:disabled { cursor: default; opacity: 0.58; }
+      .dock-play-button:disabled:hover { background: #171717; transform: none; }
       .dock-caption {
         position: absolute;
         top: calc(100% + 6px);
@@ -447,7 +415,6 @@
       }
 
       @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-      @keyframes pulse { from { transform: scaleY(0.45); } to { transform: scaleY(1.35); } }
 
       @media (max-height: 760px) and (min-width: 700px) {
         :root { --mockup-width: 570px; }
@@ -485,9 +452,7 @@
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .carousel-track,
-        .is-playing + .player-copy .waveform span,
-        .audiobook-dock.is-playing .dock-wave span { animation-play-state: paused; }
+        .carousel-track { animation-play-state: paused; }
       }
     </style>
   </head>
@@ -524,28 +489,14 @@
             <div class="reader-stage">
               <div class="text-page" id="textPage">
                 <div class="page-folio" aria-hidden="true">
-                  <span>Chapter XII</span>
-                  <span>147</span>
+                  <span id="folioChapter"></span>
+                  <span id="folioNumber"></span>
                 </div>
                 <div class="story-heading">
                   <span class="story-label" id="storyAuthor"></span>
                   <h2 class="story-title" id="storyTitle"></h2>
                 </div>
                 <div class="dialogue" id="dialogue" aria-live="polite"></div>
-              </div>
-              <img class="page-scan" id="pageScan" alt="" hidden />
-            </div>
-            <div class="player">
-              <button class="play-button" id="playButton" type="button" aria-label="Play character dialogue">
-                <span class="play-icon" aria-hidden="true"></span>
-              </button>
-              <div class="player-copy">
-                <span class="player-status" id="playerStatus">Play this scene</span>
-                <div class="waveform" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span><span></span>
-                </div>
               </div>
             </div>
           </div>
@@ -564,45 +515,92 @@
             <span></span><span></span><span></span>
           </div>
         </div>
-        <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Play current audiobook scene">
+        <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Audio preview coming soon" disabled>
           <span class="play-icon" aria-hidden="true"></span>
         </button>
-        <p class="dock-caption">Tap and hear the book in audora way</p>
+        <p class="dock-caption">Audio preview coming soon</p>
       </section>
 
       <div class="bottom-frost" aria-hidden="true"></div>
     </main>
 
     <script>
-      // Each book has a cover and an optional phone-page image. Add future
-      // page scans to ./assets/pages/ and set `pageImage` for that story.
+      // The phone view is typeset from structured excerpts so every title
+      // remains legible inside the same display proportions.
       const stories = [
-        { title: "Sherlock Holmes", author: "Arthur Conan Doyle", cover: "./assets/covers/sherlock-holmes.png", pageImage: null, kicker: "The original illustrated stories", lines: [["Watson", "You noticed all of that from a muddy sleeve?"], ["Holmes", "I noticed what the sleeve refused to hide."], ["Watson", "And naturally, it told you everything."]] },
-        { title: "Pirates", author: "Patrick Auerbach", cover: "./assets/covers/pirates.png", pageImage: null, kicker: "Pirates of the Caribbean", lines: [["Captain", "The sea is quiet tonight."], ["Quartermaster", "Quiet water can hide the deepest trouble."], ["Captain", "Then we keep our eyes on the horizon."]] },
-        { title: "Dracula", author: "Bram Stoker", cover: "./assets/covers/dracula.png", pageImage: null, kicker: "A gothic classic", lines: [["Mina", "The castle seems to watch us from the hill."], ["Van Helsing", "Then we must watch it in return."], ["Mina", "Before the night discovers where we are."]] },
-        { title: "Meditations", author: "Marcus Aurelius", cover: "./assets/covers/meditations.png", pageImage: "./assets/pages/meditations-page.png", kicker: "Reflections on life", lines: [["Marcus", "The obstacle is here; my judgment of it is still mine."], ["Teacher", "Then choose the judgment that lets you move forward."], ["Marcus", "And let action answer what fear cannot."]] },
-        { title: "Siddhartha", author: "Hermann Hesse", cover: "./assets/covers/siddhartha.png", pageImage: "./assets/pages/siddhartha-page.png", kicker: "A journey within", lines: [["Govinda", "What did the river teach you?"], ["Siddhartha", "To listen without asking it to hurry."], ["Govinda", "Then perhaps every path is speaking."]] },
-        { title: "Elon Musk", author: "Walter Isaacson", cover: "./assets/covers/elon-musk.png", pageImage: null, kicker: "A biography", lines: [["Narrator", "The next problem was described as nearly impossible."], ["Biographer", "That description often became the reason to pursue it."], ["Narrator", "The story begins where certainty ends."]] },
-        { title: "Harry Potter and the Prisoner of Azkaban", author: "J. K. Rowling", cover: "./assets/covers/harry-potter-prisoner-of-azkaban.png", pageImage: null, kicker: "The third year", lines: [["Harry", "Something about this year feels different."], ["Hermione", "At Hogwarts, different usually means dangerous."], ["Harry", "Then we should probably start paying attention."]] }
+        {
+          title: "Sherlock Holmes", author: "Arthur Conan Doyle", cover: "./assets/covers/sherlock-holmes.png", kicker: "The original illustrated stories", chapter: "Chapter VII", folio: "62",
+          opening: "Holmes studied the telegram, then looked up with sudden interest.",
+          passages: [
+            { text: "The plot thickens.", attribution: "Holmes", quoted: true },
+            { text: "And that is?", attribution: "Watson", quoted: true },
+            { text: "My fiddle would be the better for new strings.", attribution: "Holmes", quoted: true }
+          ], sourceNote: "From A Study in Scarlet · public domain"
+        },
+        {
+          title: "Pirates", author: "Patrick Auerbach", cover: "./assets/covers/pirates.png", kicker: "Pirates of the Caribbean", chapter: "At Sea", folio: "91",
+          opening: "The sea had fallen quiet, but nobody aboard mistook silence for safety.",
+          passages: [
+            { text: "Keep her steady. The reef is closer than it looks.", attribution: "Captain", quoted: true },
+            { text: "And the wind is turning against us.", attribution: "Quartermaster", quoted: true },
+            { text: "Then we make the turn before it does.", attribution: "Captain", quoted: true }
+          ], sourceNote: "Scene adapted for preview"
+        },
+        {
+          title: "Dracula", author: "Bram Stoker", cover: "./assets/covers/dracula.png", kicker: "A gothic classic", chapter: "Chapter II", folio: "28",
+          opening: "The old door opened inward, and the Count stood beneath the lamp.",
+          passages: [
+            { text: "Welcome to my house! Enter freely and of your own will!", attribution: "Count Dracula", quoted: true },
+            { text: "Come freely. Go safely; and leave something of the happiness you bring.", attribution: "Count Dracula", quoted: true }
+          ], sourceNote: "From Dracula · public domain"
+        },
+        {
+          title: "Meditations", author: "Marcus Aurelius", cover: "./assets/covers/meditations.png", kicker: "Reflections on life", chapter: "Book I", folio: "1",
+          opening: "From my grandfather Verus: decency and a mild temper.",
+          passages: [
+            { text: "From what they say and I remember of my natural father: integrity and manliness." },
+            { text: "From my mother: piety, generosity, the avoidance of wrongdoing and even the thought of it." },
+            { text: "From my tutor: to tolerate pain and feel few needs; to work with my own hands and mind my own business." }
+          ], sourceNote: "Book I · from supplied page"
+        },
+        {
+          title: "Siddhartha", author: "Hermann Hesse", cover: "./assets/covers/siddhartha.png", kicker: "A journey within", chapter: "With the Samanas", folio: "34",
+          opening: "Govinda was startled and became embarrassed. Siddhartha leaned close to his friend's ear.",
+          passages: [
+            { text: "Now, I want to show the old man that I've learned something from him.", attribution: "Siddhartha", quoted: true },
+            { text: "Oh Siddhartha, you have learned more from the Samanas than I knew.", attribution: "Govinda", quoted: true },
+            { text: "I do not seek to walk on water. Let old Samanas be content with such feats!", attribution: "Siddhartha", quoted: true }
+          ], sourceNote: "From supplied Siddhartha page"
+        },
+        {
+          title: "Elon Musk", author: "Walter Isaacson", cover: "./assets/covers/elon-musk.png", kicker: "A biography", chapter: "The Algorithm", folio: "284",
+          opening: "The meeting turned from schedules to first principles, and every assumption was questioned.",
+          passages: [
+            { text: "The only rules are the ones dictated by the laws of physics. Everything else is a recommendation.", attribution: "Elon Musk", quoted: true },
+            { text: "The team returned to the design, testing each requirement against what was physically necessary." }
+          ], sourceNote: "Brief verified quote · scene adapted"
+        },
+        {
+          title: "Harry Potter and the Prisoner of Azkaban", author: "J. K. Rowling", cover: "./assets/covers/harry-potter-prisoner-of-azkaban.png", kicker: "The third year", chapter: "The Marauder's Map", folio: "193",
+          opening: "Ink spread across the old parchment, revealing corridors and tiny moving names.",
+          passages: [
+            { text: "I solemnly swear that I am up to no good.", attribution: "Harry", quoted: true },
+            { text: "Mischief managed.", attribution: "Harry", quoted: true },
+            { text: "The map cleared, leaving nothing but a worn sheet of parchment." }
+          ], sourceNote: "Brief excerpt · scene adapted"
+        }
       ];
 
       const track = document.querySelector("#carouselTrack");
       const title = document.querySelector("#storyTitle");
       const author = document.querySelector("#storyAuthor");
       const dialogue = document.querySelector("#dialogue");
-      const phoneScreen = document.querySelector(".phone-screen");
-      const textPage = document.querySelector("#textPage");
-      const pageScan = document.querySelector("#pageScan");
-      const playButton = document.querySelector("#playButton");
-      const playerStatus = document.querySelector("#playerStatus");
-      const audiobookDock = document.querySelector("#audiobookDock");
+      const folioChapter = document.querySelector("#folioChapter");
+      const folioNumber = document.querySelector("#folioNumber");
       const dockCover = document.querySelector("#dockCover");
       const dockTitle = document.querySelector("#dockTitle");
       const dockAuthor = document.querySelector("#dockAuthor");
-      const dockPlayButton = document.querySelector("#dockPlayButton");
       let activeStory = -1;
-      let playing = false;
-      let speechRun = 0;
 
       function bookMarkup(story, index) {
         const coverImage = story.cover
@@ -616,24 +614,20 @@
       track.innerHTML = `<div class="carousel-set">${continuousShelf}</div><div class="carousel-set">${continuousShelf}</div>`;
 
       function renderStory(index) {
-        if (index === activeStory || playing) return;
+        if (index === activeStory) return;
         activeStory = index;
         const story = stories[index];
         title.textContent = story.title;
         title.classList.toggle("is-long", story.title.length > 26);
         author.textContent = story.author;
-        dialogue.innerHTML = `<p class="page-opening">The room grew quiet, and for a moment the story seemed to hold its breath.</p>` + story.lines.map(([speaker, line]) => `<p class="passage">“${line}” <span class="attribution">— ${speaker}</span></p>`).join("");
-        const hasPageImage = Boolean(story.pageImage);
-        phoneScreen.classList.toggle("has-page-image", hasPageImage);
-        textPage.hidden = hasPageImage;
-        pageScan.hidden = !hasPageImage;
-        if (hasPageImage) {
-          pageScan.src = story.pageImage;
-          pageScan.alt = `${story.title} book page`;
-        } else {
-          pageScan.removeAttribute("src");
-          pageScan.alt = "";
-        }
+        folioChapter.textContent = story.chapter;
+        folioNumber.textContent = story.folio;
+        const passages = story.passages.map(({ text, attribution, quoted }) => {
+          const copy = quoted ? `“${text}”` : text;
+          const byline = attribution ? ` <span class="attribution">— ${attribution}</span>` : "";
+          return `<p class="passage">${copy}${byline}</p>`;
+        }).join("");
+        dialogue.innerHTML = `<p class="page-opening">${story.opening}</p>${passages}<p class="excerpt-note">${story.sourceNote}</p>`;
         dockCover.src = story.cover;
         dockCover.alt = `${story.title} audiobook cover`;
         dockTitle.textContent = story.title;
@@ -641,7 +635,6 @@
       }
 
       function findCenteredBook() {
-        if (playing) return;
         const center = window.innerWidth / 2;
         let nearest = null;
         let distance = Infinity;
@@ -652,69 +645,8 @@
         });
         if (nearest !== null) renderStory(nearest);
       }
-
-      function stopPlayback() {
-        speechRun += 1;
-        window.speechSynthesis?.cancel();
-        playing = false;
-        track.classList.remove("is-paused");
-        playButton.classList.remove("is-playing");
-        audiobookDock.classList.remove("is-playing");
-        dockPlayButton.classList.remove("is-playing");
-        playButton.setAttribute("aria-label", "Play character dialogue");
-        dockPlayButton.setAttribute("aria-label", "Play current audiobook scene");
-        playerStatus.textContent = "Play this scene";
-        dialogue.querySelectorAll(".passage").forEach((passage) => passage.classList.remove("is-speaking"));
-      }
-
-      function speakScene() {
-        if (playing) { stopPlayback(); return; }
-        playing = true;
-        const thisRun = ++speechRun;
-        track.classList.add("is-paused");
-        playButton.classList.add("is-playing");
-        audiobookDock.classList.add("is-playing");
-        dockPlayButton.classList.add("is-playing");
-        playButton.setAttribute("aria-label", "Stop character dialogue");
-        dockPlayButton.setAttribute("aria-label", "Stop current audiobook scene");
-        playerStatus.textContent = "Playing scene";
-
-        const lines = stories[activeStory].lines;
-        const passages = [...dialogue.querySelectorAll(".passage")];
-        let lineIndex = 0;
-
-        function nextLine() {
-          if (!playing || thisRun !== speechRun) return;
-          passages.forEach((passage) => passage.classList.remove("is-speaking"));
-          if (lineIndex >= lines.length) { stopPlayback(); return; }
-          passages[lineIndex]?.classList.add("is-speaking");
-          const [speaker, line] = lines[lineIndex];
-          const utterance = new SpeechSynthesisUtterance(line);
-          const voices = window.speechSynthesis.getVoices();
-          utterance.voice = voices[lineIndex % Math.max(voices.length, 1)] || null;
-          utterance.rate = 0.92;
-          utterance.pitch = lineIndex % 2 === 0 ? 1.05 : 0.88;
-          playerStatus.textContent = speaker + " is speaking";
-          dockPlayButton.setAttribute("aria-label", `${speaker} is speaking. Stop current audiobook scene`);
-          utterance.onend = () => { lineIndex += 1; nextLine(); };
-          utterance.onerror = stopPlayback;
-          window.speechSynthesis.speak(utterance);
-        }
-
-        if (!("speechSynthesis" in window)) {
-          playerStatus.textContent = "Audio unavailable";
-          dockPlayButton.setAttribute("aria-label", "Audio unavailable");
-          window.setTimeout(stopPlayback, 1800);
-          return;
-        }
-        nextLine();
-      }
-
-      playButton.addEventListener("click", speakScene);
-      dockPlayButton.addEventListener("click", speakScene);
       window.addEventListener("resize", findCenteredBook);
       window.setInterval(findCenteredBook, 240);
-      document.addEventListener("visibilitychange", () => { if (document.hidden && playing) stopPlayback(); });
       renderStory(0);
       window.setTimeout(findCenteredBook, 100);
     </script>
