@@ -23,6 +23,20 @@
       }
       button { font: inherit; }
 
+      .site-brand {
+        position: absolute;
+        z-index: 6;
+        top: clamp(22px, 3.5vw, 42px);
+        left: clamp(22px, 4vw, 58px);
+        display: block;
+        width: clamp(112px, 9vw, 146px);
+      }
+      .site-brand img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
       .experience {
         position: relative;
         display: grid;
@@ -115,6 +129,24 @@
         z-index: 3;
         width: var(--mockup-width);
         aspect-ratio: 1376 / 1143;
+      }
+
+      .bottom-frost {
+        position: absolute;
+        z-index: 4;
+        inset: 44% 0 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.48);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.28) 0%,
+          rgba(255, 255, 255, 0.68) 22%,
+          rgba(255, 255, 255, 0.88) 100%
+        );
+        -webkit-backdrop-filter: blur(34px) saturate(72%);
+        backdrop-filter: blur(34px) saturate(72%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 17%, #000 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 17%, #000 100%);
+        pointer-events: none;
       }
       .phone-photo {
         position: absolute;
@@ -214,6 +246,8 @@
         :root { --mockup-width: 720px; }
         .experience { min-height: 680px; }
         .book { width: 112px; }
+        .site-brand { width: 104px; }
+        .bottom-frost { inset: 46% 0 0; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track, .is-playing + .player-copy .waveform span { animation-play-state: paused; }
@@ -222,6 +256,10 @@
   </head>
   <body>
     <main class="experience">
+      <div class="site-brand">
+        <img src="./assets/audora-logo-black.png" alt="Audora" />
+      </div>
+
       <div class="carousel-window" aria-hidden="true">
         <div class="carousel-track" id="carouselTrack"></div>
       </div>
@@ -261,6 +299,8 @@
           </div>
         </div>
       </div>
+
+      <div class="bottom-frost" aria-hidden="true"></div>
     </main>
 
     <script>
