@@ -14,7 +14,7 @@
         --muted: #6d6d68;
         --paper: #ffffff;
         --mockup-width: clamp(620px, 52vw, 760px);
-        --composition-shift: clamp(38px, 5.5vh, 60px);
+        --composition-shift: clamp(28px, 4vh, 48px);
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -87,7 +87,7 @@
       .hero-title {
         position: absolute;
         z-index: 2;
-        top: clamp(62px, 7.5vh, 84px);
+        top: clamp(52px, 6.5vh, 74px);
         left: 50%;
         width: min(92vw, 1000px);
         margin: 0;
@@ -422,7 +422,7 @@
         :root { --mockup-width: 570px; }
       }
       @media (max-width: 620px) {
-        :root { --mockup-width: 720px; --composition-shift: 34px; }
+        :root { --mockup-width: 720px; --composition-shift: 24px; }
         .experience { min-height: 680px; }
         .book { width: 112px; }
         .site-brand { width: 104px; }
@@ -431,14 +431,14 @@
         .yc-badge img { width: 17px; height: 17px; }
         .sign-in-button { width: 92px; height: 44px; padding: 0 16px; font-size: 14px; }
         .hero-title {
-          top: 62px;
+          top: 52px;
           width: 94vw;
           font-size: clamp(38px, 10.5vw, 48px);
           line-height: 0.9;
         }
         .bottom-frost { inset: calc(32% + var(--composition-shift)) 0 0; }
         .audiobook-dock {
-          bottom: 74px;
+          bottom: 84px;
           width: min(240px, calc(100vw - 24px));
           min-height: 64px;
           grid-template-columns: 42px minmax(0, 1fr) 34px;
