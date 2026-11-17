@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Step inside a story and listen to its characters come alive." />
+    <title>Audora — Stories in conversation</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+
+      :root {
+        --ink: #171717;
+        --muted: #6d6d68;
+        --paper: #ffffff;
+        --mockup-width: clamp(620px, 52vw, 760px);
+        --composition-shift: clamp(10px, 2vh, 30px);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { min-height: 100%; margin: 0; background: var(--paper); }
+      html, body { scrollbar-width: none; }
+      html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; }
+      body {
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        overflow-x: hidden;
+      }
+      button { font: inherit; }
+
+      .site-brand {
+        position: absolute;
+        z-index: 6;
+        top: clamp(22px, 3.5vw, 42px);
+        left: clamp(22px, 4vw, 58px);
+        display: block;
+        width: clamp(112px, 9vw, 146px);
+      }
+      .site-brand img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transform: translateY(-8px);
+      }
+      .yc-badge {
+        position: absolute;
+        z-index: 6;
+        top: calc(clamp(22px, 3.5vw, 42px) + 41px);
+        left: calc(clamp(22px, 4vw, 58px) + 6px);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #171717;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .yc-badge img {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+      }
+      .sign-in-button {
+        position: absolute;
+        z-index: 6;
+        top: clamp(22px, 3.5vw, 42px);
+        right: clamp(22px, 4vw, 58px);
+        display: grid;
+        width: 112px;
+        height: 50px;
+        padding: 0 24px;
+        place-items: center;
+        border: 0;
+        border-radius: 999px;
+        color: #fff;
+        background: #171717;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(23, 23, 23, 0.08);
+        transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+      }
+      @media (hover: hover) {
+        .sign-in-button:hover {
+          background: #303030;
+          box-shadow: 0 12px 26px rgba(23, 23, 23, 0.22);
+          transform: translateY(-3px) scale(1.035);
+        }
+      }
+      .sign-in-button:active { transform: translateY(0) scale(0.97); }
+      .sign-in-button:focus-visible { outline: 3px solid rgba(23, 23, 23, 0.22); outline-offset: 3px; }
+      .hero-title {
+        position: absolute;
+        z-index: 2;
+        top: clamp(56px, 6.7vh, 78px);
+        left: 50%;
+        width: min(92vw, 1000px);
+        margin: 0;
+        color: #171717;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(48px, 4.8vw, 76px);
+        font-weight: 400;
+        letter-spacing: -0.035em;
+        line-height: 0.88;
+        text-align: center;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .hero-title span { display: block; }
+      .hero-title .now-playing { margin-top: 0.04em; }
+
+      .experience {
+        position: relative;
+        display: grid;
+        min-height: 100svh;
+        place-items: center;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .carousel-window {
+        position: absolute;
+        z-index: 1;
+        top: calc(50% + var(--composition-shift));
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+      }
+      .carousel-track {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+        animation: drift 132s linear infinite;
+      }
+      .carousel-set {
+        display: flex;
+        gap: clamp(24px, 2.5vw, 42px);
+        padding-right: clamp(24px, 2.5vw, 42px);
+      }
+
+      .book {
+        position: relative;
+        flex: 0 0 auto;
+        width: clamp(120px, 10.5vw, 164px);
+        aspect-ratio: 0.68;
+        overflow: hidden;
+        border: 1px solid rgba(20, 20, 20, 0.14);
+        border-radius: 5px 12px 12px 5px;
+        box-shadow: 0 16px 28px rgba(28, 28, 24, 0.11), inset 8px 0 12px rgba(255, 255, 255, 0.18), inset -3px 0 0 rgba(0, 0, 0, 0.12);
+        transform: perspective(700px) rotateY(5deg);
+      }
+      .book::before {
+        position: absolute;
+        z-index: 4;
+        inset: 0 auto 0 0;
+        width: 9px;
+        border-right: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(0, 0, 0, 0.12);
+        content: "";
+      }
+      .book-cover {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 16px 14px 14px 20px;
+      }
+      .book-cover-image {
+        position: absolute;
+        z-index: 3;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .book-kicker { font-size: 9px; font-weight: 700; letter-spacing: 0.16em; opacity: 0.75; text-transform: uppercase; }
+      .book-title {
+        max-width: 95%;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(18px, 1.55vw, 25px);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        line-height: 0.95;
+      }
+      .book-author { font-size: 10px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+      .cover-0 { color: #241d16; background: linear-gradient(155deg, #e9d9b9, #b99863); }
+      .cover-1 { color: #f4ead8; background: linear-gradient(150deg, #435365, #152331); }
+      .cover-2 { color: #2b1b22; background: linear-gradient(155deg, #dbb2b7, #965c6b); }
+      .cover-3 { color: #14312c; background: linear-gradient(155deg, #c7e1d5, #6e9c87); }
+      .cover-4 { color: #f5dfbb; background: linear-gradient(155deg, #774b3f, #2d2422); }
+      .cover-5 { color: #283019; background: linear-gradient(155deg, #dbe2a1, #87964f); }
+      .cover-6 { color: #fff0cf; background: linear-gradient(155deg, #ce713b, #71361e); }
+
+      .phone-wrap {
+        position: relative;
+        z-index: 3;
+        width: var(--mockup-width);
+        aspect-ratio: 1376 / 1143;
+        transform: translateY(var(--composition-shift));
+      }
+
+      .bottom-frost {
+        position: absolute;
+        z-index: 4;
+        inset: calc(31% + var(--composition-shift)) 0 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.025) 12%,
+          rgba(255, 255, 255, 0.11) 25%,
+          rgba(255, 255, 255, 0.3) 40%,
+          rgba(255, 255, 255, 0.58) 56%,
+          rgba(255, 255, 255, 0.86) 69%,
+          #fff 78%,
+          #fff 100%
+        );
+        -webkit-backdrop-filter: blur(58px) saturate(74%);
+        backdrop-filter: blur(58px) saturate(74%);
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.04) 10%,
+          rgba(0, 0, 0, 0.14) 22%,
+          rgba(0, 0, 0, 0.34) 36%,
+          rgba(0, 0, 0, 0.62) 52%,
+          rgba(0, 0, 0, 0.88) 66%,
+          #000 76%,
+          #000 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.04) 10%,
+          rgba(0, 0, 0, 0.14) 22%,
+          rgba(0, 0, 0, 0.34) 36%,
+          rgba(0, 0, 0, 0.62) 52%,
+          rgba(0, 0, 0, 0.88) 66%,
+          #000 76%,
+          #000 100%
+        );
+        transform: translateZ(0);
+        pointer-events: none;
+      }
+      .phone-photo {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
+      }
+      .screen-overlay {
+        position: absolute;
+        z-index: 2;
+        top: 6.15%;
+        left: 35.35%;
+        width: 29.8%;
+        height: 79%;
+        overflow: hidden;
+        border-radius: 14% / 6.4%;
+        background: #fffdf7;
+        box-shadow: inset 0 0 0 1px rgba(19, 19, 18, 0.08);
+      }
+      .screen-overlay::after {
+        position: absolute;
+        z-index: 4;
+        bottom: 5px;
+        left: 50%;
+        width: 32%;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(13, 13, 12, 0.85);
+        content: "";
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .dynamic-island {
+        position: absolute;
+        z-index: 3;
+        top: 10px;
+        left: 50%;
+        width: 35%;
+        height: 17px;
+        border-radius: 999px;
+        background: #050505;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+      .dynamic-island::after {
+        position: absolute;
+        top: 5px;
+        right: 7px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10151c;
+        box-shadow: inset 0 0 0 1px rgba(69, 88, 111, 0.35);
+        content: "";
+      }
+      .phone-screen { position: relative; z-index: 2; display: flex; height: 100%; flex-direction: column; padding: 38px 13px 18px; }
+      .reader-stage { position: relative; min-height: 0; flex: 1; overflow: hidden; }
+      .text-page { display: flex; height: 100%; flex-direction: column; }
+      .page-folio { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #d8d8d2; color: #8a8a84; font-family: Georgia, "Times New Roman", serif; font-size: 8px; font-style: italic; letter-spacing: 0.06em; }
+      .story-heading { padding: 13px 0 10px; text-align: left; }
+      .story-label { display: block; margin-bottom: 6px; color: #777770; font-family: Georgia, "Times New Roman", serif; font-size: 9px; font-style: italic; }
+      .story-title { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(18px, 1.35vw, 22px); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05; }
+      .story-title.is-long { font-size: clamp(14px, 1vw, 17px); line-height: 1.08; }
+      .story-heading::after { display: block; margin-top: 8px; color: #898982; content: "❦"; font-family: Georgia, serif; font-size: 11px; text-align: left; }
+
+      .dialogue { display: flex; min-height: 0; flex: 1; flex-direction: column; color: #282823; font-family: Georgia, "Times New Roman", serif; font-size: clamp(8.5px, 0.64vw, 10.5px); line-height: 1.38; overflow: hidden; text-align: left; }
+      .page-opening { margin: 0 0 10px; text-indent: 1.2em; }
+      .page-opening::first-letter { float: left; margin: 0.06em 0.08em 0 0; font-size: 3.1em; line-height: 0.78; }
+      .passage { margin: 0 0 8px; text-indent: 0; }
+      .attribution { color: #707069; font-size: 0.88em; font-style: italic; white-space: nowrap; }
+      .excerpt-note { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #deded8; color: #999991; font-size: 7px; font-style: italic; letter-spacing: 0.02em; text-align: left; }
+      .play-icon { width: 0; height: 0; margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid currentColor; }
+      .pause-icon { display: none; width: 11px; height: 13px; border-right: 4px solid currentColor; border-left: 4px solid currentColor; }
+      .dock-play-button.is-playing .play-icon { display: none; }
+      .dock-play-button.is-playing .pause-icon { display: block; }
+      .audiobook-dock.is-playing .dock-wave span { animation: wave 650ms ease-in-out infinite alternate; }
+      .audiobook-dock.is-playing .dock-wave span:nth-child(3n) { animation-duration: 820ms; }
+      .passage.is-speaking, .page-opening.is-speaking { color: #000; background: rgba(215, 185, 117, 0.18); border-radius: 3px; }
+      @keyframes wave { to { transform: scaleY(1.8); } }
+
+      .audiobook-dock {
+        position: absolute;
+        z-index: 5;
+        bottom: max(72px, calc(clamp(112px, 16vh, 148px) - var(--composition-shift)));
+        left: 50%;
+        display: grid;
+        width: min(250px, calc(100vw - 28px));
+        min-height: 68px;
+        grid-template-columns: 44px minmax(0, 1fr) 36px;
+        gap: 8px;
+        align-items: center;
+        padding: 8px;
+        border: 0;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        transform: translateX(-50%);
+      }
+      .dock-cover {
+        display: block;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        box-shadow: 0 8px 18px rgba(22, 22, 20, 0.16);
+      }
+      .dock-copy { min-width: 0; }
+      .dock-title {
+        display: block;
+        overflow: hidden;
+        margin-bottom: 4px;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.05;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .dock-author {
+        display: block;
+        overflow: hidden;
+        margin-bottom: 4px;
+        color: #73736d;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9px;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .dock-wave {
+        display: flex;
+        height: 15px;
+        align-items: center;
+        gap: 2px;
+      }
+      .dock-wave span {
+        width: 2px;
+        height: 5px;
+        border-radius: 999px;
+        background: #9b9d95;
+        transform-origin: center;
+      }
+      .dock-wave span:nth-child(2n) { height: 12px; animation-delay: -140ms !important; }
+      .dock-wave span:nth-child(3n) { height: 8px; animation-delay: -280ms !important; }
+      .dock-play-button {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        color: #fff;
+        background: #171717;
+        cursor: pointer;
+        transition: background 160ms ease, transform 160ms ease;
+      }
+      .dock-play-button:hover { background: #323232; transform: scale(1.04); }
+      .dock-play-button:focus-visible { outline: 3px solid rgba(23, 23, 23, 0.2); outline-offset: 3px; }
+      .dock-play-button:disabled { cursor: default; opacity: 0.58; }
+      .dock-play-button:disabled:hover { background: #171717; transform: none; }
+      .dock-caption {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 50%;
+        width: max-content;
+        margin: 0;
+        color: #73736d;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        line-height: 1.2;
+        text-align: center;
+        transform: translateX(-50%);
+        white-space: nowrap;
+      }
+
+      .paper-section {
+        position: relative;
+        z-index: 5;
+        min-height: 100svh;
+        margin-top: -110px;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse at 50% 4%, rgba(255,255,255,.94), transparent 32%),
+          radial-gradient(ellipse at 0% 70%, rgba(166,139,100,.08), transparent 45%),
+          radial-gradient(ellipse at 100% 90%, rgba(143,114,76,.1), transparent 42%),
+          linear-gradient(#fff 0%, #f7f4ec 22%, #f2eee4 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 110px);
+        mask-image: linear-gradient(to bottom, transparent, #000 110px);
+      }
+      .paper-section::before {
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(0deg, transparent 0 3px, rgba(93,76,53,.025) 4px, transparent 5px 9px),
+          repeating-linear-gradient(92deg, transparent 0 37px, rgba(105,83,55,.018) 38px, transparent 40px 79px);
+        opacity: .8;
+        pointer-events: none;
+        content: "";
+      }
+      .paper-lines {
+        position: relative;
+        padding: 95px clamp(18px, 4vw, 58px) 55px;
+        color: rgba(56, 49, 40, .43);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(8px, .72vw, 10px);
+        font-weight: 400;
+        letter-spacing: .035em;
+        line-height: 2.15;
+        user-select: none;
+      }
+      .paper-lines > p, .paper-heading-line {
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+        text-overflow: clip;
+        white-space: nowrap;
+      }
+      .paper-lines > p:nth-child(4n) { opacity: .72; }
+      .paper-heading-line { display: flex; align-items: center; font-size: inherit; font-weight: 400; line-height: 2.15; }
+      .paper-heading {
+        display: inline-block;
+        flex: none;
+        margin-right: .25em;
+        color: #000;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 5vw, 72px);
+        letter-spacing: -.035em;
+        line-height: 1.05;
+        vertical-align: baseline;
+      }
+      .paper-heading-side { display: block; min-width: 0; flex: 1; overflow: hidden; }
+      .paper-heading-side span { display: block; overflow: hidden; width: 100%; white-space: nowrap; }
+      .paper-heading-side span:nth-child(2) { padding-left: 1.2em; }
+      .paper-heading-side span:nth-child(3) { padding-left: 2.4em; }
+      .paper-intro {
+        margin-top: 10px;
+        color: #292824;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: clamp(17px, 1.4vw, 20px);
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 1.25;
+        user-select: text;
+      }
+      .paper-copy-row { display: flex; width: 100%; align-items: baseline; overflow: hidden; margin: 0; white-space: nowrap; }
+      .paper-copy-row + .paper-copy-row { margin-top: 2px; color: #5d5b55; }
+      .paper-copy-text { flex: none; }
+      .paper-continuation {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        margin-left: 14px;
+        color: rgba(56, 49, 40, .43);
+        font: 400 clamp(8px, .72vw, 10px)/2.15 Georgia, "Times New Roman", serif;
+        letter-spacing: .035em;
+        white-space: nowrap;
+      }
+      .site-footer {
+        position: relative;
+        z-index: 6;
+        display: grid;
+        min-height: 280px;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        padding: 160px clamp(24px, 4vw, 58px) 40px;
+        background: #fff;
+      }
+      .site-footer::before {
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        left: 0;
+        height: 290px;
+        background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, .1) 24%, rgba(255, 255, 255, .38) 52%, rgba(255, 255, 255, .78) 78%, #fff 100%);
+        -webkit-backdrop-filter: blur(22px);
+        backdrop-filter: blur(22px);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 76%);
+        mask-image: linear-gradient(to bottom, transparent, #000 76%);
+        pointer-events: none;
+        content: "";
+      }
+      .footer-socials { position: relative; z-index: 1; display: flex; align-items: center; gap: 22px; }
+      .footer-socials span { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; color: #222; }
+      .footer-socials svg { display: block; width: 18px; height: 18px; }
+      .footer-copyright { position: relative; z-index: 1; margin: 0; color: #4d4d4a; font-size: 12px; letter-spacing: .015em; white-space: nowrap; }
+
+      @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+      @media (max-height: 760px) and (min-width: 700px) {
+        :root { --mockup-width: 570px; }
+      }
+      @media (max-width: 620px) {
+        :root { --mockup-width: clamp(560px, 155vw, 660px); --composition-shift: 0px; }
+        .experience {
+          display: block;
+          width: 100%;
+          min-width: 0;
+          min-height: max(100svh, calc(270px + var(--mockup-width) * .831));
+        }
+        .book { width: 100px; }
+        .site-brand { top: 24px; left: 22px; width: 104px; }
+        .site-brand img { transform: translateY(-6px); }
+        .yc-badge { top: 62px; left: 22px; gap: 4px; font-size: 9px; }
+        .yc-badge img { width: 13px; height: 13px; }
+        .sign-in-button { top: 24px; right: 22px; width: 86px; height: 42px; padding: 0 16px; font-size: 13px; }
+        .hero-title {
+          top: 134px;
+          width: calc(100% - 32px);
+          font-size: clamp(30px, 8vw, 48px);
+          line-height: 1;
+        }
+        .hero-title .now-playing { margin-top: .02em; }
+        .phone-wrap {
+          position: absolute;
+          top: 186px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        .carousel-window { top: calc(186px + var(--mockup-width) * .42); }
+        .carousel-set { gap: 22px; padding-right: 22px; }
+        .bottom-frost {
+          inset: calc(186px + var(--mockup-width) * .42) 0 auto;
+          height: calc(var(--mockup-width) * .45);
+        }
+        .phone-screen { padding: 35px 11px 17px; }
+        .story-heading { padding: 10px 0 8px; }
+        .story-title { font-size: 17px; }
+        .story-title.is-long { font-size: 13px; }
+        .dialogue { font-size: 9px; line-height: 1.35; overflow-y: auto; scrollbar-width: none; }
+        .dialogue::-webkit-scrollbar { display: none; }
+        .dialogue > p { flex-shrink: 0; }
+        .passage { margin-bottom: 6px; }
+        .dynamic-island { width: 35%; height: 15px; }
+        .audiobook-dock {
+          top: calc(198px + var(--mockup-width) * .707);
+          bottom: auto;
+          width: min(225px, calc(100vw - 40px));
+          min-height: 64px;
+          grid-template-columns: 42px minmax(0, 1fr) 34px;
+          gap: 7px;
+          padding: 7px;
+          border-radius: 15px;
+        }
+        .dock-cover { width: 42px; height: 42px; border-radius: 8px; }
+        .dock-title { font-size: 13px; }
+        .dock-author { margin-bottom: 4px; font-size: 8px; }
+        .dock-wave { gap: 2px; }
+        .dock-play-button { width: 34px; height: 34px; }
+        .dock-caption { top: calc(100% + 5px); font-size: 9px; }
+        .paper-section { margin-top: -90px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 90px); mask-image: linear-gradient(to bottom, transparent, #000 90px); }
+        .paper-lines { padding: 80px 16px 40px; font-size: 8px; line-height: 2.05; }
+        .paper-intro { font-size: 16px; line-height: 1.35; }
+        .paper-copy-row { display: block; white-space: normal; }
+        .paper-continuation { display: none; }
+        .site-footer { min-height: 250px; grid-template-columns: 1fr; justify-items: center; gap: 18px; padding: 120px 22px 34px; }
+        .footer-socials { justify-self: start; gap: 20px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .carousel-track { animation-play-state: paused; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="experience">
+      <div class="site-brand">
+        <img src="./assets/audora-logo-black.png" alt="Audora" />
+      </div>
+      <div class="yc-badge" aria-label="Backed by Y Combinator">
+        <img src="./assets/yc-logo.png" alt="" aria-hidden="true" />
+        <span>Backed by Y Combinator</span>
+      </div>
+      <button class="sign-in-button" type="button">Sign in</button>
+      <h1 class="hero-title">
+        <span>The voices in your head.</span>
+        <span class="now-playing">Now playing.</span>
+      </h1>
+
+      <div class="carousel-window" aria-hidden="true">
+        <div class="carousel-track" id="carouselTrack"></div>
+      </div>
+
+      <div class="phone-wrap" aria-label="iPhone 16 Pro audiobook preview">
+        <img
+          class="phone-photo"
+          src="./assets/phone-hand-blank.png"
+          alt=""
+          aria-hidden="true"
+        />
+        <div class="screen-overlay">
+          <span class="dynamic-island" aria-hidden="true"></span>
+          <div class="phone-screen">
+            <div class="reader-stage">
+              <div class="text-page" id="textPage">
+                <div class="page-folio" aria-hidden="true">
+                  <span id="folioChapter"></span>
+                  <span id="folioNumber"></span>
+                </div>
+                <div class="story-heading">
+                  <span class="story-label" id="storyAuthor"></span>
+                  <h2 class="story-title" id="storyTitle"></h2>
+                </div>
+                <div class="dialogue" id="dialogue" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="audiobook-dock" id="audiobookDock" aria-label="Current audiobook">
+        <img class="dock-cover" id="dockCover" src="" alt="" />
+        <div class="dock-copy">
+          <strong class="dock-title" id="dockTitle"></strong>
+          <span class="dock-author" id="dockAuthor"></span>
+          <div class="dock-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Play audiobook excerpt">
+          <span class="play-icon" aria-hidden="true"></span>
+          <span class="pause-icon" aria-hidden="true"></span>
+        </button>
+        <p class="dock-caption" id="dockCaption" role="status">Tap and hear the book in audora way</p>
+      </section>
+
+      <div class="bottom-frost" aria-hidden="true"></div>
+    </main>
+
+    <section class="paper-section" aria-labelledby="paperHeading">
+      <div class="paper-lines" id="paperLines"></div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-socials" aria-label="Social platforms">
+        <span role="img" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l16 16M20 4 4 20" /></svg></span>
+        <span role="img" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v11M4 4.5v.01M9 20V9h4v1.5c.7-1 1.8-1.7 3.2-1.7 2.5 0 3.8 1.5 3.8 4.2V20M13 13.4V20" /></svg></span>
+        <span role="img" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none" /></svg></span>
+      </div>
+      <p class="footer-copyright">© 2026 Audora</p>
+    </footer>
+
+    <script>
+      const paperLines = document.querySelector("#paperLines");
+      const manuscriptWords = [
+        "veloria", "santem", "oriven", "marlowe", "quessa", "thren", "aloria", "vesperin",
+        "caldris", "nomera", "silven", "doriel", "ravessa", "lumerin", "sorelle", "tavrin",
+        "eloria", "monteris", "avessa", "corvian", "delune", "miravel", "sennora", "valeris"
+      ];
+      function manuscriptText(seed) {
+        return Array.from({ length: 60 }, (_, word) => manuscriptWords[(seed + word * 11) % manuscriptWords.length]).join(" ");
+      }
+      const paperFragment = document.createDocumentFragment();
+      for (let line = 0; line < 80; line++) {
+        const row = document.createElement(line === 7 ? "h2" : "p");
+        if (line === 7) {
+          row.className = "paper-heading-line";
+          row.id = "paperHeading";
+          const heading = document.createElement("span");
+          heading.className = "paper-heading";
+          heading.textContent = "How it works";
+          row.appendChild(heading);
+          const headingSide = document.createElement("span");
+          headingSide.className = "paper-heading-side";
+          headingSide.setAttribute("aria-hidden", "true");
+          for (let headingLine = 0; headingLine < 3; headingLine++) {
+            const sideRow = document.createElement("span");
+            sideRow.textContent = manuscriptText(line * 7 + headingLine * 5);
+            headingSide.appendChild(sideRow);
+          }
+          row.appendChild(headingSide);
+        } else {
+          row.setAttribute("aria-hidden", "true");
+          row.textContent = manuscriptText(line * 7);
+        }
+        paperFragment.appendChild(row);
+        if (line === 7) {
+          const intro = document.createElement("div");
+          intro.className = "paper-intro";
+          const copyLines = [
+            "Audora is an audiobook studio for the stories nobody’s recording.",
+            "Paste a link. Hear it the way you’ve been imagining it."
+          ];
+          copyLines.forEach((copy, index) => {
+            const copyRow = document.createElement("p");
+            copyRow.className = "paper-copy-row";
+            const copyText = document.createElement("span");
+            copyText.className = "paper-copy-text";
+            copyText.textContent = copy;
+            const continuation = document.createElement("span");
+            continuation.className = "paper-continuation";
+            continuation.setAttribute("aria-hidden", "true");
+            continuation.textContent = manuscriptText(line * 7 + index * 5);
+            copyRow.append(copyText, continuation);
+            intro.appendChild(copyRow);
+          });
+          paperFragment.appendChild(intro);
+        }
+      }
+      paperLines.appendChild(paperFragment);
+
+      // The phone view is typeset from structured excerpts so every title
+      // remains legible inside the same display proportions.
+      const stories = [
+        {
+          title: "Sherlock Holmes", author: "Arthur Conan Doyle", cover: "./assets/covers/sherlock-holmes.png", kicker: "The original illustrated stories", chapter: "Chapter VII", folio: "62",
+          opening: "Holmes studied the telegram, then looked up with sudden interest.",
+          passages: [
+            { text: "The plot thickens.", attribution: "Holmes", quoted: true },
+            { text: "And that is?", attribution: "Watson", quoted: true },
+            { text: "My fiddle would be the better for new strings.", attribution: "Holmes", quoted: true },
+            { text: "It is eight o'clock now.", attribution: "Watson", quoted: true },
+            { text: "Yes. He will probably be here in a few minutes.", attribution: "Holmes", quoted: true },
+            { text: "Open the door slightly. That will do.", attribution: "Holmes", quoted: true },
+            { text: "Now put the key on the inside.", attribution: "Holmes", quoted: true }
+          ], sourceNote: "From A Study in Scarlet · public domain"
+        },
+        {
+          title: "Pirates", author: "Patrick Auerbach", cover: "./assets/covers/pirates.png", kicker: "Pirates of the Caribbean", chapter: "At Sea", folio: "91",
+          opening: "The sea had fallen quiet, but nobody aboard mistook silence for safety.",
+          passages: [
+            { text: "Keep her steady. The reef is closer than it looks.", attribution: "Captain", quoted: true },
+            { text: "And the wind is turning against us.", attribution: "Quartermaster", quoted: true },
+            { text: "Then we make the turn before it does.", attribution: "Captain", quoted: true },
+            { text: "A lantern moved once on the distant shore, then vanished behind the rain." },
+            { text: "No harbour light burns that low.", attribution: "Quartermaster", quoted: true },
+            { text: "All hands quiet. Let them believe the tide carries an empty ship.", attribution: "Captain", quoted: true },
+            { text: "Canvas tightened overhead as the crew eased the vessel toward darker water." }
+          ], sourceNote: "Scene adapted for preview"
+        },
+        {
+          title: "Dracula", author: "Bram Stoker", cover: "./assets/covers/dracula.png", kicker: "A gothic classic", chapter: "Chapter II", folio: "28",
+          opening: "The old door opened inward, and the Count stood beneath the lamp.",
+          passages: [
+            { text: "Welcome to my house! Enter freely and of your own will!", attribution: "Count Dracula", quoted: true },
+            { text: "Come freely. Go safely; and leave something of the happiness you bring.", attribution: "Count Dracula", quoted: true },
+            { text: "I am Dracula; and I bid you welcome, Mr. Harker, to my house.", attribution: "Count Dracula", quoted: true },
+            { text: "The night is chill, and you must need to eat and rest.", attribution: "Count Dracula", quoted: true },
+            { text: "A cry rose from the valley, distant at first, then answered from the hills." },
+            { text: "Listen to them—the children of the night. What music they make!", attribution: "Count Dracula", quoted: true }
+          ], sourceNote: "From Dracula · public domain"
+        },
+        {
+          title: "Meditations", author: "Marcus Aurelius", cover: "./assets/covers/meditations.png", kicker: "Reflections on life", chapter: "Book I", folio: "1",
+          opening: "From my grandfather Verus: decency and a mild temper.",
+          passages: [
+            { text: "From what they say and I remember of my natural father: integrity and manliness." },
+            { text: "From my mother: piety, generosity, the avoidance of wrongdoing and even the thought of it." },
+            { text: "From my great-grandfather: to have had good teachers at home, and to spend lavishly on such things." },
+            { text: "From my tutor: to tolerate pain and feel few needs; to work with my own hands and mind my own business." },
+            { text: "From Diognetus: to avoid empty enthusiasms and to tolerate plain speaking." },
+            { text: "From Rusticus: to grasp the idea of wanting correction, and to be brought back to reason." }
+          ], sourceNote: "Book I · from supplied page"
+        },
+        {
+          title: "Siddhartha", author: "Hermann Hesse", cover: "./assets/covers/siddhartha.png", kicker: "A journey within", chapter: "With the Samanas", folio: "34",
+          opening: "Govinda was startled and became embarrassed. Siddhartha leaned close to his friend's ear.",
+          passages: [
+            { text: "Now, I want to show the old man that I've learned something from him.", attribution: "Siddhartha", quoted: true },
+            { text: "Oh Siddhartha, you have learned more from the Samanas than I knew.", attribution: "Govinda", quoted: true },
+            { text: "It is hard, it is very hard to cast a spell on an old Samana.", attribution: "Govinda", quoted: true },
+            { text: "Truly, if you had stayed there, you would soon have learned to walk on water.", attribution: "Govinda", quoted: true },
+            { text: "I do not seek to walk on water. Let old Samanas be content with such feats!", attribution: "Siddhartha", quoted: true },
+            { text: "The young men returned the bows with thanks, returned the wish, and went on their way." }
+          ], sourceNote: "From supplied Siddhartha page"
+        },
+        {
+          title: "Elon Musk", author: "Walter Isaacson", cover: "./assets/covers/elon-musk.png", kicker: "A biography", chapter: "The Algorithm", folio: "284",
+          opening: "The meeting turned from schedules to first principles, and every assumption was questioned.",
+          passages: [
+            { text: "The only rules are the ones dictated by the laws of physics. Everything else is a recommendation.", attribution: "Elon Musk", quoted: true },
+            { text: "The team returned to the design, testing each requirement against what was physically necessary." },
+            { text: "Every specification was questioned: who requested it, why it existed, and what would fail without it." },
+            { text: "If a part could be deleted, the design became lighter. If a step could be combined, the line became faster." },
+            { text: "The room filled with fresh diagrams as the schedule was rebuilt around the factory floor." },
+            { text: "No one left with the original plan, but everyone left knowing the next experiment." }
+          ], sourceNote: "Brief verified quote · scene adapted"
+        },
+        {
+          title: "Harry Potter and the Prisoner of Azkaban", author: "J. K. Rowling", cover: "./assets/covers/harry-potter-prisoner-of-azkaban.png", kicker: "The third year", chapter: "The Marauder's Map", folio: "193",
+          opening: "Ink spread across the old parchment, revealing corridors and tiny moving names.",
+          passages: [
+            { text: "I solemnly swear that I am up to no good.", attribution: "Harry", quoted: true },
+            { text: "Mischief managed.", attribution: "Harry", quoted: true },
+            { text: "The map cleared, leaving nothing but a worn sheet of parchment." },
+            { text: "A moment earlier it had shown every corridor, staircase, and hidden passage in the castle." },
+            { text: "Tiny names crossed the ink-drawn rooms while Harry followed their paths with one finger." },
+            { text: "Footsteps sounded beyond the door. He folded the parchment and slipped it beneath his robes." },
+            { text: "By the time the handle turned, the secret route had disappeared from sight." }
+          ], sourceNote: "Brief excerpt · scene adapted"
+        }
+      ];
+
+      const track = document.querySelector("#carouselTrack");
+      const title = document.querySelector("#storyTitle");
+      const author = document.querySelector("#storyAuthor");
+      const dialogue = document.querySelector("#dialogue");
+      const folioChapter = document.querySelector("#folioChapter");
+      const folioNumber = document.querySelector("#folioNumber");
+      const dockCover = document.querySelector("#dockCover");
+      const dockTitle = document.querySelector("#dockTitle");
+      const dockAuthor = document.querySelector("#dockAuthor");
+      const dock = document.querySelector("#audiobookDock");
+      const playButton = document.querySelector("#dockPlayButton");
+      const caption = document.querySelector("#dockCaption");
+      let activeStory = -1;
+      let playbackId = 0;
+      let playbackIndex = 0;
+      let playbackState = "stopped";
+      let segments = [];
+      let currentUtterance = null;
+
+      // Browser voices vary by device. Prefer natural English voices, then keep
+      // each character's voice and delivery consistent through the excerpt.
+      const voiceProfiles = {
+        Holmes: { pitch: 0.91, rate: 0.94 }, Watson: { pitch: 1.04, rate: 0.97 },
+        Captain: { pitch: 0.84, rate: 0.92 }, Quartermaster: { pitch: 1.1, rate: 1.02 },
+        "Count Dracula": { pitch: 0.72, rate: 0.82 },
+        Siddhartha: { pitch: 0.9, rate: 0.88 }, Govinda: { pitch: 1.09, rate: 0.97 },
+        "Elon Musk": { pitch: 0.91, rate: 1.04 }, Harry: { pitch: 1.14, rate: 1.02 }
+      };
+
+      function availableVoices() {
+        return window.speechSynthesis.getVoices()
+          .filter((voice) => /^en(?:-|_)/i.test(voice.lang))
+          .sort((a, b) => voiceScore(b) - voiceScore(a));
+      }
+
+      function voiceScore(voice) {
+        const name = voice.name.toLowerCase();
+        let score = /premium|enhanced|natural|neural/.test(name) ? 8 : 0;
+        if (/samantha|daniel|serena|karen|moira|ava|allison|google|microsoft/.test(name)) score += 4;
+        if (/compact|novelty|whisper|robot/.test(name)) score -= 12;
+        if (voice.localService) score += 1;
+        return score;
+      }
+
+      function voiceFor(speaker) {
+        const voices = availableVoices();
+        if (!voices.length) return null;
+        const preferredAccent = [0, 2, 4, 6].includes(activeStory) ? /^en[-_]GB/i : /^en[-_]US/i;
+        const accentVoices = voices.filter((voice) => preferredAccent.test(voice.lang));
+        const pool = accentVoices.length ? accentVoices : voices;
+        if (!speaker) return pool[0];
+        const cast = [...new Set(stories[activeStory].passages.map((passage) => passage.attribution).filter(Boolean))];
+        const roleIndex = cast.indexOf(speaker);
+        const alternatives = pool.filter((voice) => voice !== pool[0]);
+        const distinctVoices = alternatives.length ? alternatives : voices.filter((voice) => voice !== pool[0]);
+        return distinctVoices.length ? distinctVoices[roleIndex % distinctVoices.length] : pool[0];
+      }
+
+      function setPlaybackState(state, message) {
+        playbackState = state;
+        const playing = state === "playing";
+        track.style.animationPlayState = playing ? "paused" : "";
+        playButton.classList.toggle("is-playing", playing);
+        dock.classList.toggle("is-playing", playing);
+        playButton.setAttribute("aria-label", playing ? "Pause audiobook excerpt" : state === "paused" ? "Resume audiobook excerpt" : "Play audiobook excerpt");
+        caption.textContent = message;
+      }
+
+      function clearHighlight() {
+        dialogue.querySelectorAll(".is-speaking").forEach((element) => element.classList.remove("is-speaking"));
+      }
+
+      function stopPlayback(message = "Tap and hear the book in audora way") {
+        playbackId++;
+        window.speechSynthesis?.cancel();
+        currentUtterance = null;
+        clearHighlight();
+        segments = [];
+        playbackIndex = 0;
+        setPlaybackState("stopped", message);
+      }
+
+      function speakNext(id) {
+        if (id !== playbackId || playbackState !== "playing") return;
+        clearHighlight();
+        if (playbackIndex >= segments.length) {
+          stopPlayback("Excerpt finished · Tap to play again");
+          return;
+        }
+        const segment = segments[playbackIndex];
+        const utterance = new SpeechSynthesisUtterance(segment.text);
+        currentUtterance = utterance;
+        const profile = voiceProfiles[segment.speaker] || { pitch: 1, rate: 0.94 };
+        utterance.voice = voiceFor(segment.speaker);
+        utterance.lang = utterance.voice?.lang || "en-US";
+        utterance.pitch = profile.pitch;
+        utterance.rate = profile.rate;
+        utterance.volume = 1;
+        dialogue.children[playbackIndex]?.classList.add("is-speaking");
+        caption.textContent = segment.speaker ? `Speaking: ${segment.speaker}` : "Speaking: Narrator";
+        utterance.onend = () => {
+          if (id !== playbackId) return;
+          playbackIndex++;
+          if (playbackState === "playing") speakNext(id);
+        };
+        utterance.onerror = (event) => {
+          if (id !== playbackId || event.error === "canceled" || event.error === "interrupted") return;
+          stopPlayback(event.error === "not-allowed" ? "Allow speech playback and tap again" : "Voice playback unavailable on this device");
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function startPlayback() {
+        if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+          setPlaybackState("stopped", "Voice playback is unavailable in this browser");
+          return;
+        }
+        // Cancel first so a previous book cannot continue after selection changes.
+        stopPlayback();
+        const story = stories[activeStory];
+        segments = [{ text: story.opening, speaker: null }, ...story.passages.map(({ text, attribution }) => ({ text, speaker: attribution || null }))];
+        setPlaybackState("playing", "Speaking: Narrator");
+        speakNext(playbackId);
+      }
+
+      playButton.addEventListener("click", () => {
+        if (playbackState === "playing") {
+          window.speechSynthesis.pause();
+          setPlaybackState("paused", "Paused · Tap to resume");
+        } else if (playbackState === "paused") {
+          setPlaybackState("playing", "Playing excerpt");
+          window.speechSynthesis.resume();
+          if (!window.speechSynthesis.speaking) speakNext(playbackId);
+        } else {
+          startPlayback();
+        }
+      });
+      window.addEventListener("pagehide", () => stopPlayback());
+
+      function bookMarkup(story, index) {
+        const coverImage = story.cover
+          ? `<img class="book-cover-image" src="${story.cover}" alt="${story.title} book cover" decoding="async" onerror="this.remove()" />`
+          : "";
+        return `<article class="book" data-story="${index}" data-cover-slot="${index + 1}"><div class="book-cover cover-${index}">${coverImage}<span class="book-kicker">${story.kicker}</span><h3 class="book-title">${story.title}</h3><span class="book-author">${story.author}</span></div></article>`;
+      }
+
+      const shelf = stories.map(bookMarkup).join("");
+      const continuousShelf = shelf.repeat(3);
+      track.innerHTML = `<div class="carousel-set">${continuousShelf}</div><div class="carousel-set">${continuousShelf}</div>`;
+
+      function renderStory(index) {
+        if (index === activeStory) return;
+        if (activeStory !== -1 && playbackState !== "stopped") stopPlayback();
+        activeStory = index;
+        const story = stories[index];
+        title.textContent = story.title;
+        title.classList.toggle("is-long", story.title.length > 26);
+        author.textContent = story.author;
+        folioChapter.textContent = story.chapter;
+        folioNumber.textContent = story.folio;
+        const passages = story.passages.map(({ text, attribution, quoted }) => {
+          const copy = quoted ? `“${text}”` : text;
+          const byline = attribution ? ` <span class="attribution">— ${attribution}</span>` : "";
+          return `<p class="passage">${copy}${byline}</p>`;
+        }).join("");
+        dialogue.innerHTML = `<p class="page-opening">${story.opening}</p>${passages}<p class="excerpt-note">${story.sourceNote}</p>`;
+        dockCover.src = story.cover;
+        dockCover.alt = `${story.title} audiobook cover`;
+        dockTitle.textContent = story.title;
+        dockAuthor.textContent = story.author;
+      }
+
+      function findCenteredBook() {
+        const center = window.innerWidth / 2;
+        let nearest = null;
+        let distance = Infinity;
+        document.querySelectorAll(".book").forEach((book) => {
+          const rect = book.getBoundingClientRect();
+          const bookDistance = Math.abs(rect.left + rect.width / 2 - center);
+          if (bookDistance < distance) { distance = bookDistance; nearest = Number(book.dataset.story); }
+        });
+        if (nearest !== null) renderStory(nearest);
+      }
+      window.addEventListener("resize", findCenteredBook);
+      window.setInterval(findCenteredBook, 240);
+      renderStory(0);
+      window.setTimeout(findCenteredBook, 100);
+    </script>
+  </body>
+</html>

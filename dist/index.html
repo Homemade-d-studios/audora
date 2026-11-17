@@ -19,6 +19,8 @@
 
       *, *::before, *::after { box-sizing: border-box; }
       html, body { min-height: 100%; margin: 0; background: var(--paper); }
+      html, body { scrollbar-width: none; }
+      html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; }
       body {
         color: var(--ink);
         font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -431,61 +433,90 @@
         white-space: nowrap;
       }
 
-      .paper-section {
+      .meadow-section {
         position: relative;
-        z-index: 5;
-        min-height: 100svh;
-        margin-top: -110px;
+        min-height: max(560px, 84svh);
         overflow: hidden;
-        background:
-          radial-gradient(ellipse at 50% 4%, rgba(255,255,255,.94), transparent 32%),
-          radial-gradient(ellipse at 0% 70%, rgba(166,139,100,.08), transparent 45%),
-          radial-gradient(ellipse at 100% 90%, rgba(143,114,76,.1), transparent 42%),
-          linear-gradient(#fff 0%, #f7f4ec 22%, #f2eee4 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 110px);
-        mask-image: linear-gradient(to bottom, transparent, #000 110px);
+        isolation: isolate;
+        background: #dfe9df;
       }
-      .paper-section::before {
+      .meadow-background {
+        position: absolute;
+        inset: -4%;
+        background: url("./bgimage.png") center 54% / cover no-repeat;
+        filter: blur(10px) saturate(100%) brightness(1.03);
+        transform: scale(1.025);
+      }
+      .meadow-frost {
         position: absolute;
         inset: 0;
         background:
-          repeating-linear-gradient(0deg, transparent 0 3px, rgba(93,76,53,.025) 4px, transparent 5px 9px),
-          repeating-linear-gradient(92deg, transparent 0 37px, rgba(105,83,55,.018) 38px, transparent 40px 79px);
-        opacity: .8;
+          radial-gradient(ellipse at 22% 34%, rgba(255, 255, 255, .26), transparent 52%),
+          radial-gradient(ellipse at 80% 76%, rgba(255, 247, 222, .18), transparent 46%),
+          linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, .78) 10%, rgba(255, 255, 255, .22) 32%, rgba(255, 255, 255, .08) 100%);
+      }
+      .meadow-content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        min-height: max(560px, 84svh);
+        padding: clamp(48px, 6vw, 100px);
+        place-items: center;
+      }
+      .meadow-statement {
+        display: flex;
+        width: min(100%, 1100px);
+        margin: auto;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 5.2vw, 70px);
+        font-weight: 400;
+        letter-spacing: -.035em;
+        line-height: 1;
+        text-shadow: 0 2px 18px rgba(17, 35, 26, .38);
+      }
+      .statement-line { display: flex; width: max-content; max-width: 100%; align-items: center; gap: .17em; white-space: nowrap; }
+      .statement-line + .statement-line { margin-top: .09em; }
+      .statement-line:nth-child(1) { transform: translateX(-.12em); }
+      .statement-line:nth-child(2) { transform: translateX(.85em); }
+      .statement-image {
+        display: block;
+        flex: none;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .5);
+        border-radius: .13em;
+        box-shadow: 0 14px 30px rgba(18, 37, 29, .2);
+        transform: translateY(-.03em);
+      }
+      .statement-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .statement-image--portrait { width: .82em; height: 1.13em; }
+      .statement-image--portrait img { object-position: 50% 26%; transform: scale(1.28); transform-origin: center 27%; }
+      .statement-image--river { width: 1.48em; height: .73em; }
+      .statement-image--river img { object-position: 50% 58%; }
+      .statement-image--gothic { width: 2.05em; height: .7em; }
+      .statement-image--gothic img { object-position: 50% 39%; }
+      .statement-image--sea { width: 1.18em; height: .76em; }
+      .statement-image--sea img { object-position: 50% 49%; }
+      .white-section {
+        position: relative;
+        min-height: 80svh;
+        background: #fff;
+      }
+      .white-section::before {
+        position: absolute;
+        right: 0;
+        bottom: 100%;
+        left: 0;
+        height: clamp(190px, 30vh, 350px);
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 94%);
+        -webkit-backdrop-filter: blur(22px);
+        backdrop-filter: blur(22px);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 50%);
+        mask-image: linear-gradient(to bottom, transparent, #000 50%);
         pointer-events: none;
         content: "";
-      }
-      .paper-lines {
-        position: relative;
-        padding: 95px clamp(18px, 4vw, 58px) 55px;
-        color: rgba(56, 49, 40, .43);
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(8px, .72vw, 10px);
-        font-weight: 400;
-        letter-spacing: .035em;
-        line-height: 2.15;
-        user-select: none;
-      }
-      .paper-lines p {
-        overflow: hidden;
-        width: 100%;
-        margin: 0;
-        text-overflow: clip;
-        white-space: nowrap;
-      }
-      .paper-lines p:nth-child(4n) { opacity: .72; }
-      .paper-lines p:nth-child(7n) { padding-left: 2.3em; }
-      .paper-lines p:nth-child(11n) { padding-left: 5.1em; }
-      .paper-lines .paper-heading-line { opacity: 1; }
-      .paper-heading {
-        display: inline-block;
-        margin-right: .45em;
-        color: #000;
-        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(40px, 5vw, 72px);
-        letter-spacing: -.035em;
-        line-height: 1.05;
-        vertical-align: baseline;
       }
 
       @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -551,8 +582,13 @@
         .dock-wave { gap: 2px; }
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
-        .paper-section { margin-top: -90px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 90px); mask-image: linear-gradient(to bottom, transparent, #000 90px); }
-        .paper-lines { padding: 80px 16px 40px; font-size: 8px; line-height: 2.05; }
+        .meadow-content { padding: 48px 18px; }
+        .meadow-statement { font-size: clamp(25px, 6.5vw, 37px); letter-spacing: -.035em; }
+        .statement-line { gap: .08em; }
+        .statement-line + .statement-line { margin-top: .2em; }
+        .statement-line:nth-child(1) { transform: translateX(-.04em); }
+        .statement-line:nth-child(2) { transform: translateX(.24em); }
+        .statement-image { border-radius: .17em; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
@@ -627,32 +663,20 @@
       <div class="bottom-frost" aria-hidden="true"></div>
     </main>
 
-    <section class="paper-section" aria-label="Decorative manuscript texture">
-      <div class="paper-lines" id="paperLines" aria-hidden="true"></div>
+    <section class="meadow-section" aria-labelledby="meadowStatement">
+      <div class="meadow-background" aria-hidden="true"></div>
+      <div class="meadow-frost" aria-hidden="true"></div>
+      <div class="meadow-content">
+        <h2 class="meadow-statement" id="meadowStatement" aria-label="Every story has a cast. Now hear the voices.">
+          <span class="statement-line" aria-hidden="true"><span>Every</span><span class="statement-image statement-image--portrait"><img src="./assets/covers/meditations.png" alt="" loading="lazy" decoding="async" /></span><span>story has a</span><span class="statement-image statement-image--river"><img src="./assets/covers/siddhartha.png" alt="" loading="lazy" decoding="async" /></span><span>cast.</span></span>
+          <span class="statement-line" aria-hidden="true"><span>Now</span><span class="statement-image statement-image--gothic"><img src="./assets/covers/dracula.png" alt="" loading="lazy" decoding="async" /></span><span>hear the</span><span class="statement-image statement-image--sea"><img src="./assets/covers/pirates.png" alt="" loading="lazy" decoding="async" /></span><span>voices.</span></span>
+        </h2>
+      </div>
     </section>
 
-    <script>
-      const paperLines = document.querySelector("#paperLines");
-      const manuscriptWords = [
-        "veloria", "santem", "oriven", "marlowe", "quessa", "thren", "aloria", "vesperin",
-        "caldris", "nomera", "silven", "doriel", "ravessa", "lumerin", "sorelle", "tavrin",
-        "eloria", "monteris", "avessa", "corvian", "delune", "miravel", "sennora", "valeris"
-      ];
-      const paperFragment = document.createDocumentFragment();
-      for (let line = 0; line < 68; line++) {
-        const row = document.createElement("p");
-        if (line === 7) {
-          row.className = "paper-heading-line";
-          const heading = document.createElement("span");
-          heading.className = "paper-heading";
-          heading.textContent = "How it works";
-          row.appendChild(heading);
-        }
-        row.appendChild(document.createTextNode(Array.from({ length: 38 }, (_, word) => manuscriptWords[(line * 7 + word * 11) % manuscriptWords.length]).join(" ")));
-        paperFragment.appendChild(row);
-      }
-      paperLines.appendChild(paperFragment);
+    <section class="white-section" aria-hidden="true"></section>
 
+    <script>
       // The phone view is typeset from structured excerpts so every title
       // remains legible inside the same display proportions.
       const stories = [
