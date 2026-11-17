@@ -323,6 +323,13 @@
       .attribution { color: #707069; font-size: 0.88em; font-style: italic; white-space: nowrap; }
       .excerpt-note { margin: auto 0 0; padding-top: 8px; border-top: 1px solid #deded8; color: #999991; font-size: 7px; font-style: italic; letter-spacing: 0.02em; text-align: left; }
       .play-icon { width: 0; height: 0; margin-left: 3px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid currentColor; }
+      .pause-icon { display: none; width: 11px; height: 13px; border-right: 4px solid currentColor; border-left: 4px solid currentColor; }
+      .dock-play-button.is-playing .play-icon { display: none; }
+      .dock-play-button.is-playing .pause-icon { display: block; }
+      .audiobook-dock.is-playing .dock-wave span { animation: wave 650ms ease-in-out infinite alternate; }
+      .audiobook-dock.is-playing .dock-wave span:nth-child(3n) { animation-duration: 820ms; }
+      .passage.is-speaking, .page-opening.is-speaking { color: #000; background: rgba(215, 185, 117, 0.18); border-radius: 3px; }
+      @keyframes wave { to { transform: scaleY(1.8); } }
 
       .audiobook-dock {
         position: absolute;
@@ -424,6 +431,63 @@
         white-space: nowrap;
       }
 
+      .paper-section {
+        position: relative;
+        z-index: 5;
+        min-height: 100svh;
+        margin-top: -110px;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse at 50% 4%, rgba(255,255,255,.94), transparent 32%),
+          radial-gradient(ellipse at 0% 70%, rgba(166,139,100,.08), transparent 45%),
+          radial-gradient(ellipse at 100% 90%, rgba(143,114,76,.1), transparent 42%),
+          linear-gradient(#fff 0%, #f7f4ec 22%, #f2eee4 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 110px);
+        mask-image: linear-gradient(to bottom, transparent, #000 110px);
+      }
+      .paper-section::before {
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(0deg, transparent 0 3px, rgba(93,76,53,.025) 4px, transparent 5px 9px),
+          repeating-linear-gradient(92deg, transparent 0 37px, rgba(105,83,55,.018) 38px, transparent 40px 79px);
+        opacity: .8;
+        pointer-events: none;
+        content: "";
+      }
+      .paper-lines {
+        position: relative;
+        padding: 95px clamp(18px, 4vw, 58px) 55px;
+        color: rgba(56, 49, 40, .43);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(8px, .72vw, 10px);
+        font-weight: 400;
+        letter-spacing: .035em;
+        line-height: 2.15;
+        user-select: none;
+      }
+      .paper-lines p {
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+        text-overflow: clip;
+        white-space: nowrap;
+      }
+      .paper-lines p:nth-child(4n) { opacity: .72; }
+      .paper-lines p:nth-child(7n) { padding-left: 2.3em; }
+      .paper-lines p:nth-child(11n) { padding-left: 5.1em; }
+      .paper-lines .paper-heading-line { opacity: 1; }
+      .paper-heading {
+        display: inline-block;
+        margin-right: .45em;
+        color: #29251f;
+        font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 5vw, 72px);
+        letter-spacing: -.035em;
+        line-height: 1.05;
+        vertical-align: baseline;
+      }
+
       @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
       @media (max-height: 760px) and (min-width: 700px) {
@@ -487,6 +551,8 @@
         .dock-wave { gap: 2px; }
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
+        .paper-section { margin-top: -90px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 90px); mask-image: linear-gradient(to bottom, transparent, #000 90px); }
+        .paper-lines { padding: 80px 16px 40px; font-size: 8px; line-height: 2.05; }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
@@ -551,16 +617,42 @@
             <span></span><span></span><span></span>
           </div>
         </div>
-        <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Audio preview coming soon" disabled>
+        <button class="dock-play-button" id="dockPlayButton" type="button" aria-label="Play audiobook excerpt">
           <span class="play-icon" aria-hidden="true"></span>
+          <span class="pause-icon" aria-hidden="true"></span>
         </button>
-        <p class="dock-caption">Tap and hear the book in audora way</p>
+        <p class="dock-caption" id="dockCaption" role="status">Tap and hear the book in audora way</p>
       </section>
 
       <div class="bottom-frost" aria-hidden="true"></div>
     </main>
 
+    <section class="paper-section" aria-label="Decorative manuscript texture">
+      <div class="paper-lines" id="paperLines" aria-hidden="true"></div>
+    </section>
+
     <script>
+      const paperLines = document.querySelector("#paperLines");
+      const manuscriptWords = [
+        "veloria", "santem", "oriven", "marlowe", "quessa", "thren", "aloria", "vesperin",
+        "caldris", "nomera", "silven", "doriel", "ravessa", "lumerin", "sorelle", "tavrin",
+        "eloria", "monteris", "avessa", "corvian", "delune", "miravel", "sennora", "valeris"
+      ];
+      const paperFragment = document.createDocumentFragment();
+      for (let line = 0; line < 68; line++) {
+        const row = document.createElement("p");
+        if (line === 7) {
+          row.className = "paper-heading-line";
+          const heading = document.createElement("span");
+          heading.className = "paper-heading";
+          heading.textContent = "How it works";
+          row.appendChild(heading);
+        }
+        row.appendChild(document.createTextNode(Array.from({ length: 38 }, (_, word) => manuscriptWords[(line * 7 + word * 11) % manuscriptWords.length]).join(" ")));
+        paperFragment.appendChild(row);
+      }
+      paperLines.appendChild(paperFragment);
+
       // The phone view is typeset from structured excerpts so every title
       // remains legible inside the same display proportions.
       const stories = [
@@ -662,7 +754,135 @@
       const dockCover = document.querySelector("#dockCover");
       const dockTitle = document.querySelector("#dockTitle");
       const dockAuthor = document.querySelector("#dockAuthor");
+      const dock = document.querySelector("#audiobookDock");
+      const playButton = document.querySelector("#dockPlayButton");
+      const caption = document.querySelector("#dockCaption");
       let activeStory = -1;
+      let playbackId = 0;
+      let playbackIndex = 0;
+      let playbackState = "stopped";
+      let segments = [];
+      let currentUtterance = null;
+
+      // Browser voices vary by device. Prefer natural English voices, then keep
+      // each character's voice and delivery consistent through the excerpt.
+      const voiceProfiles = {
+        Holmes: { pitch: 0.91, rate: 0.94 }, Watson: { pitch: 1.04, rate: 0.97 },
+        Captain: { pitch: 0.84, rate: 0.92 }, Quartermaster: { pitch: 1.1, rate: 1.02 },
+        "Count Dracula": { pitch: 0.72, rate: 0.82 },
+        Siddhartha: { pitch: 0.9, rate: 0.88 }, Govinda: { pitch: 1.09, rate: 0.97 },
+        "Elon Musk": { pitch: 0.91, rate: 1.04 }, Harry: { pitch: 1.14, rate: 1.02 }
+      };
+
+      function availableVoices() {
+        return window.speechSynthesis.getVoices()
+          .filter((voice) => /^en(?:-|_)/i.test(voice.lang))
+          .sort((a, b) => voiceScore(b) - voiceScore(a));
+      }
+
+      function voiceScore(voice) {
+        const name = voice.name.toLowerCase();
+        let score = /premium|enhanced|natural|neural/.test(name) ? 8 : 0;
+        if (/samantha|daniel|serena|karen|moira|ava|allison|google|microsoft/.test(name)) score += 4;
+        if (/compact|novelty|whisper|robot/.test(name)) score -= 12;
+        if (voice.localService) score += 1;
+        return score;
+      }
+
+      function voiceFor(speaker) {
+        const voices = availableVoices();
+        if (!voices.length) return null;
+        const preferredAccent = [0, 2, 4, 6].includes(activeStory) ? /^en[-_]GB/i : /^en[-_]US/i;
+        const accentVoices = voices.filter((voice) => preferredAccent.test(voice.lang));
+        const pool = accentVoices.length ? accentVoices : voices;
+        if (!speaker) return pool[0];
+        const cast = [...new Set(stories[activeStory].passages.map((passage) => passage.attribution).filter(Boolean))];
+        const roleIndex = cast.indexOf(speaker);
+        const alternatives = pool.filter((voice) => voice !== pool[0]);
+        const distinctVoices = alternatives.length ? alternatives : voices.filter((voice) => voice !== pool[0]);
+        return distinctVoices.length ? distinctVoices[roleIndex % distinctVoices.length] : pool[0];
+      }
+
+      function setPlaybackState(state, message) {
+        playbackState = state;
+        const playing = state === "playing";
+        track.style.animationPlayState = playing ? "paused" : "";
+        playButton.classList.toggle("is-playing", playing);
+        dock.classList.toggle("is-playing", playing);
+        playButton.setAttribute("aria-label", playing ? "Pause audiobook excerpt" : state === "paused" ? "Resume audiobook excerpt" : "Play audiobook excerpt");
+        caption.textContent = message;
+      }
+
+      function clearHighlight() {
+        dialogue.querySelectorAll(".is-speaking").forEach((element) => element.classList.remove("is-speaking"));
+      }
+
+      function stopPlayback(message = "Tap and hear the book in audora way") {
+        playbackId++;
+        window.speechSynthesis?.cancel();
+        currentUtterance = null;
+        clearHighlight();
+        segments = [];
+        playbackIndex = 0;
+        setPlaybackState("stopped", message);
+      }
+
+      function speakNext(id) {
+        if (id !== playbackId || playbackState !== "playing") return;
+        clearHighlight();
+        if (playbackIndex >= segments.length) {
+          stopPlayback("Excerpt finished · Tap to play again");
+          return;
+        }
+        const segment = segments[playbackIndex];
+        const utterance = new SpeechSynthesisUtterance(segment.text);
+        currentUtterance = utterance;
+        const profile = voiceProfiles[segment.speaker] || { pitch: 1, rate: 0.94 };
+        utterance.voice = voiceFor(segment.speaker);
+        utterance.lang = utterance.voice?.lang || "en-US";
+        utterance.pitch = profile.pitch;
+        utterance.rate = profile.rate;
+        utterance.volume = 1;
+        dialogue.children[playbackIndex]?.classList.add("is-speaking");
+        caption.textContent = segment.speaker ? `Speaking: ${segment.speaker}` : "Speaking: Narrator";
+        utterance.onend = () => {
+          if (id !== playbackId) return;
+          playbackIndex++;
+          if (playbackState === "playing") speakNext(id);
+        };
+        utterance.onerror = (event) => {
+          if (id !== playbackId || event.error === "canceled" || event.error === "interrupted") return;
+          stopPlayback(event.error === "not-allowed" ? "Allow speech playback and tap again" : "Voice playback unavailable on this device");
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function startPlayback() {
+        if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+          setPlaybackState("stopped", "Voice playback is unavailable in this browser");
+          return;
+        }
+        // Cancel first so a previous book cannot continue after selection changes.
+        stopPlayback();
+        const story = stories[activeStory];
+        segments = [{ text: story.opening, speaker: null }, ...story.passages.map(({ text, attribution }) => ({ text, speaker: attribution || null }))];
+        setPlaybackState("playing", "Speaking: Narrator");
+        speakNext(playbackId);
+      }
+
+      playButton.addEventListener("click", () => {
+        if (playbackState === "playing") {
+          window.speechSynthesis.pause();
+          setPlaybackState("paused", "Paused · Tap to resume");
+        } else if (playbackState === "paused") {
+          setPlaybackState("playing", "Playing excerpt");
+          window.speechSynthesis.resume();
+          if (!window.speechSynthesis.speaking) speakNext(playbackId);
+        } else {
+          startPlayback();
+        }
+      });
+      window.addEventListener("pagehide", () => stopPlayback());
 
       function bookMarkup(story, index) {
         const coverImage = story.cover
@@ -677,6 +897,7 @@
 
       function renderStory(index) {
         if (index === activeStory) return;
+        if (activeStory !== -1 && playbackState !== "stopped") stopPlayback();
         activeStory = index;
         const story = stories[index];
         title.textContent = story.title;
