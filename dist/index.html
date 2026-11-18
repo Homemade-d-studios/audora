@@ -501,7 +501,15 @@
       .statement-image--sea img { object-position: 50% 49%; }
       .white-section {
         position: relative;
+        z-index: 2;
+        display: flex;
         min-height: 80svh;
+        padding: clamp(70px, 9vh, 110px) 20px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(140px, 16vh, 190px);
+        overflow: visible;
         background: #fff;
       }
       .white-section::before {
@@ -509,14 +517,73 @@
         right: 0;
         bottom: 100%;
         left: 0;
-        height: clamp(190px, 30vh, 350px);
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 94%);
-        -webkit-backdrop-filter: blur(22px);
-        backdrop-filter: blur(22px);
-        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 50%);
-        mask-image: linear-gradient(to bottom, transparent, #000 50%);
+        height: clamp(230px, 36vh, 420px);
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255,255,255,.28) 38%, rgba(255,255,255,.78) 72%, #fff 100%);
+        -webkit-backdrop-filter: blur(28px);
+        backdrop-filter: blur(28px);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.5) 42%, #000 76%);
+        mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.5) 42%, #000 76%);
         pointer-events: none;
         content: "";
+      }
+      .how-it-works-title {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        color: #050505;
+        font: 400 clamp(52px, 6vw, 82px)/.95 "Instrument Serif", Georgia, serif;
+        letter-spacing: -.04em;
+        text-align: center;
+      }
+      .pocket-art {
+        position: relative;
+        width: min(100%, 340px);
+        aspect-ratio: 1.19;
+        transform: translateX(3%);
+      }
+      .pocket-back {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 85%;
+        clip-path: inset(0 6% 0 0);
+      }
+      .pocket-book-insert {
+        position: absolute;
+        z-index: 1;
+        bottom: 8.5%;
+        left: 49%;
+        width: 81%;
+        height: auto;
+        border-radius: 3px 8px 8px 3px;
+        box-shadow: 0 14px 28px rgba(17, 37, 41, .2);
+        opacity: 0;
+        transform: translateX(-50%);
+      }
+      .pocket-art.is-inserting .pocket-book-insert {
+        animation: book-into-pocket 1.8s cubic-bezier(.23,.72,.22,1) both;
+      }
+      .pocket-glass-front {
+        position: absolute;
+        z-index: 2;
+        top: 12%;
+        left: 5.5%;
+        width: 87%;
+        height: 83.5%;
+        border-radius: 6px 6px 14px 14px;
+        background: linear-gradient(135deg, rgba(255,255,255,.5), rgba(226,233,231,.28) 65%, rgba(255,255,255,.5));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.68);
+        -webkit-backdrop-filter: blur(8px) saturate(75%);
+        backdrop-filter: blur(8px) saturate(75%);
+        pointer-events: none;
+      }
+      @keyframes book-into-pocket {
+        0% { opacity: 0; transform: translate(-50%, -45%); }
+        18% { opacity: 1; }
+        100% { opacity: 1; transform: translate(-50%, 0); }
       }
 
       @keyframes drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -589,10 +656,15 @@
         .statement-line:nth-child(1) { transform: translateX(-.04em); }
         .statement-line:nth-child(2) { transform: translateX(.24em); }
         .statement-image { border-radius: .17em; }
+        .white-section { min-height: 76svh; padding: 64px 14px; gap: 100px; }
+        .how-it-works-title { font-size: clamp(46px, 14vw, 66px); }
+        .pocket-art { width: min(100%, 220px); }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
+        .pocket-book-insert, .pocket-art.is-inserting .pocket-book-insert { animation: none; opacity: 1; transform: translate(-50%, 0); }
       }
+
     </style>
   </head>
   <body>
@@ -674,9 +746,24 @@
       </div>
     </section>
 
-    <section class="white-section" aria-hidden="true"></section>
+    <section class="white-section" aria-labelledby="howItWorksTitle">
+      <h2 class="how-it-works-title" id="howItWorksTitle">How it works</h2>
+      <div class="pocket-art" role="img" aria-label="Sherlock Holmes sliding into a frosted glass pocket">
+        <img class="pocket-back" src="./assets/pages/image copy 2.png" alt="" aria-hidden="true" />
+        <img class="pocket-book-insert" src="./assets/covers/sherlock-holmes.png" width="1838" height="2560" alt="" aria-hidden="true" />
+        <span class="pocket-glass-front" aria-hidden="true"></span>
+      </div>
+    </section>
 
     <script>
+      const pocketArt = document.querySelector(".pocket-art");
+      const pocketObserver = new IntersectionObserver((entries, observer) => {
+        if (!entries[0].isIntersecting) return;
+        pocketArt.classList.add("is-inserting");
+        observer.disconnect();
+      }, { threshold: .25 });
+      pocketObserver.observe(pocketArt);
+
       // The phone view is typeset from structured excerpts so every title
       // remains legible inside the same display proportions.
       const stories = [
@@ -956,6 +1043,7 @@
       window.setInterval(findCenteredBook, 240);
       renderStory(0);
       window.setTimeout(findCenteredBook, 100);
+
     </script>
   </body>
 </html>
