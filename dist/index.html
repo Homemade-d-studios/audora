@@ -572,20 +572,6 @@
         width: min(100%, 340px);
         aspect-ratio: 1.19;
         transform: translate(-47%, -50%);
-        will-change: opacity;
-      }
-      .casting-visual {
-        position: absolute;
-        z-index: 0;
-        top: 51%;
-        left: 27%;
-        display: block;
-        width: min(44vw, 450px, 54svh);
-        height: auto;
-        opacity: 0;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-        will-change: opacity;
       }
       .pocket-back {
         position: absolute;
@@ -603,12 +589,34 @@
         bottom: 8.5%;
         left: 49%;
         width: 81%;
-        height: auto;
+        aspect-ratio: 1838 / 2560;
         border-radius: 3px 8px 8px 3px;
         box-shadow: 0 14px 28px rgba(17, 37, 41, .2);
-        opacity: 1;
         transform: translate(calc(-50% - 100vw), 0) rotate(-8deg);
         will-change: transform;
+      }
+      .pocket-book-insert img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+      }
+      .pocket-book-insert::after {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(ellipse at 50% 45%, #fffef5 0%, #fffce2 50%, #ffe878 100%);
+        opacity: 0;
+        transition: opacity 240ms ease;
+        content: "";
+      }
+      .pocket-art.is-casting .pocket-book-insert {
+        animation: book-gold-pulse 2.6s ease-in-out infinite alternate;
+      }
+      .pocket-art.is-casting .pocket-book-insert::after { opacity: 1; }
+      @keyframes book-gold-pulse {
+        from { box-shadow: 0 0 26px 12px rgba(255, 237, 108, .95), 0 0 76px 38px rgba(255, 215, 77, .68), 0 0 140px 60px rgba(255, 226, 136, .38); }
+        to { box-shadow: 0 0 38px 20px rgba(255, 241, 127, 1), 0 0 110px 52px rgba(255, 218, 82, .78), 0 0 170px 72px rgba(255, 229, 151, .48); }
       }
       .pocket-glass-front {
         position: absolute;
@@ -702,13 +710,13 @@
         .how-step-copy p + p { margin-top: 9px; }
         .casting-heading { justify-content: center; }
         .pocket-art { top: 57%; left: 50%; width: min(100%, 220px); }
-        .casting-visual { top: 56%; left: 50%; width: min(84vw, 370px, 48svh); }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
         .white-section { height: 100svh; }
         .how-stage { position: relative; }
-        .pocket-book-insert { opacity: 1; transform: translateX(-50%); }
+        .pocket-book-insert { transform: translateX(-50%); box-shadow: 0 0 30px 14px rgba(255, 237, 108, .95), 0 0 90px 42px rgba(255, 215, 77, .65); }
+        .pocket-book-insert::after { opacity: 1; }
         .how-step-copy { opacity: 1; transform: none; }
         .white-section, .how-stage { height: auto; }
         .how-stage { display: grid; justify-items: center; gap: 30px; padding: 60px 20px; }
@@ -716,7 +724,6 @@
         .how-stage > .how-it-works-title, .how-stage > .how-step-copy { width: min(100%, 510px); text-align: left; }
         .casting-heading { justify-content: flex-start; }
         .pocket-art { margin-top: 90px; }
-        .casting-visual { width: min(100%, 370px); opacity: 1; }
       }
 
     </style>
@@ -808,9 +815,9 @@
           <p>Paste a link from Wattpad, AO3, Reddit, or Substack.</p>
           <p>Or upload an epub, pdf, docx, or txt.</p>
         </div>
-        <div class="pocket-art" role="img" aria-label="Sherlock Holmes sliding into a frosted glass pocket">
+        <div class="pocket-art" role="img" aria-label="Sherlock Holmes sliding into a frosted glass pocket, then glowing yellow as Audora casts it">
           <img class="pocket-back" src="./assets/pages/image copy 2.png" alt="" aria-hidden="true" />
-          <img class="pocket-book-insert" src="./assets/covers/sherlock-holmes.png" width="1838" height="2560" alt="" aria-hidden="true" />
+          <div class="pocket-book-insert" aria-hidden="true"><img src="./assets/covers/sherlock-holmes.png" width="1838" height="2560" alt="" /></div>
           <span class="pocket-glass-front" aria-hidden="true"></span>
         </div>
         <div class="how-step-copy casting-copy">
@@ -818,14 +825,12 @@
           <p>Audora reads the text and finds every speaking part.</p>
           <p>Narration, dialogue, and each character gets a distinct voice.</p>
         </div>
-        <img class="casting-visual" src="./assets/casting-glow.png" width="1122" height="1402" alt="Book and glass pocket glowing warm yellow as Audora casts it" />
       </div>
     </section>
 
     <script>
       const pocketArt = document.querySelector(".pocket-art");
       const pocketBook = document.querySelector(".pocket-book-insert");
-      const castingVisual = document.querySelector(".casting-visual");
       const howStepCopy = document.querySelector(".how-step-copy");
       const castingCopy = document.querySelector(".casting-copy");
       const howSection = document.querySelector(".white-section");
@@ -835,8 +840,7 @@
       function updatePocketScroll() {
         if (reducedPocketMotion.matches) {
           pocketBook.style.transform = "translateX(-50%)";
-          pocketArt.style.opacity = "";
-          castingVisual.style.opacity = "";
+          pocketArt.classList.remove("is-casting");
           for (const element of [howStepCopy, castingCopy]) element.removeAttribute("style");
           return;
         }
@@ -846,8 +850,7 @@
         const progress = Math.min(1, rawProgress / .45);
         const fade = Math.max(0, Math.min(1, (rawProgress - .56) / .22));
         const reveal = fade * fade * (3 - 2 * fade);
-        pocketArt.style.opacity = 1 - reveal;
-        castingVisual.style.opacity = reveal;
+        pocketArt.classList.toggle("is-casting", rawProgress >= .56);
         castingCopy.style.opacity = reveal;
         castingCopy.style.transform = `translateY(${16 * (1 - reveal)}px)`;
         const copyProgress = Math.max(0, Math.min(1, (progress - .48) / .24));
