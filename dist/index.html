@@ -435,7 +435,6 @@
 
       .meadow-section {
         position: relative;
-        min-height: max(560px, 84svh);
         overflow: hidden;
         isolation: isolate;
         background: #dfe9df;
@@ -459,8 +458,7 @@
         position: relative;
         z-index: 1;
         display: grid;
-        min-height: max(560px, 84svh);
-        padding: clamp(48px, 6vw, 100px);
+        padding: clamp(64px, 10svh, 110px) clamp(48px, 6vw, 100px);
         place-items: center;
       }
       .meadow-statement {
@@ -724,7 +722,7 @@
         .dock-wave { gap: 2px; }
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
-        .meadow-content { padding: 48px 18px; }
+        .meadow-content { padding: clamp(50px, 8svh, 72px) 18px; }
         .meadow-statement { font-size: clamp(28px, 7.5vw, 42px); letter-spacing: -.035em; }
         .statement-line { gap: .08em; }
         .statement-line + .statement-line { margin-top: .2em; }
