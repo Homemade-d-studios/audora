@@ -529,25 +529,26 @@
         position: absolute;
         z-index: 1;
         top: 43%;
-        left: 73%;
-        width: 46%;
+        left: 62%;
+        width: 38%;
         margin: 0;
         color: #050505;
-        font: 400 clamp(52px, 6vw, 82px)/.95 "Instrument Serif", Georgia, serif;
+        font: 400 clamp(44px, 5.2vw, 82px)/.95 "Instrument Serif", Georgia, serif;
         letter-spacing: -.04em;
-        text-align: center;
-        transform: translate(-50%, -50%);
+        text-align: left;
+        white-space: nowrap;
+        transform: translateY(-50%);
       }
       .how-step-copy {
         position: absolute;
         z-index: 1;
-        top: 54%;
-        left: 73%;
-        width: min(42vw, 510px);
+        top: 49%;
+        left: 62%;
+        width: min(38vw, 510px);
         color: #161816;
         opacity: 0;
         text-align: left;
-        transform: translate(-50%, 22px);
+        transform: translateY(22px);
         will-change: opacity, transform;
       }
       .how-step-copy h3 {
@@ -561,59 +562,8 @@
         font: 14px/1.55 Arial, Helvetica, sans-serif;
       }
       .how-step-copy p + p { margin-top: 14px; }
-      .casting-mark {
-        position: absolute;
-        left: 27%;
-        top: 57%;
-        display: grid;
-        justify-items: center;
-        gap: 12px;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        color: #555;
-        font: 16px Arial, sans-serif;
-      }
-      .casting-mark img { display: block; width: clamp(140px, 15vw, 210px); }
-      .cast-voices {
-        display: grid;
-        gap: 8px;
-        width: min(235px, 82vw);
-        margin-top: 10px;
-      }
-      .cast-voice {
-        display: grid;
-        grid-template-columns: 52px 1fr;
-        align-items: center;
-        gap: 12px;
-        font: 12px Arial, sans-serif;
-        color: #555;
-      }
-      .cast-wave {
-        display: flex;
-        height: 23px;
-        align-items: center;
-        gap: 3px;
-        color: #738a72;
-      }
-      .cast-voice:nth-child(2) .cast-wave { color: #83749b; }
-      .cast-voice:nth-child(3) .cast-wave { color: #a97954; }
-      .cast-wave i {
-        flex: 1;
-        height: var(--amplitude);
-        border-radius: 4px;
-        background: currentColor;
-        animation: cast-speech var(--tempo) ease-in-out var(--beat) infinite alternate paused;
-      }
-      .casting-mark.is-voicing .cast-wave i { animation-play-state: running; }
-      @keyframes cast-speech {
-        0%, 22% { transform: scaleY(.2); }
-        49% { transform: scaleY(1); }
-        68% { transform: scaleY(.42); }
-        100% { transform: scaleY(.78); }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .cast-wave i { animation: none; }
-      }
+      .casting-heading { display: flex; align-items: center; gap: .22em; white-space: nowrap; }
+      .casting-heading img { display: block; width: auto; height: 1.05em; }
       .pocket-art {
         position: absolute;
         top: 57%;
@@ -643,7 +593,14 @@
         box-shadow: 0 14px 28px rgba(17, 37, 41, .2);
         opacity: 1;
         transform: translate(calc(-50% - 100vw), 0) rotate(-8deg);
-        will-change: transform;
+        will-change: transform, filter;
+      }
+      .pocket-art.is-casting .pocket-book-insert {
+        animation: book-casting-glow 2.4s ease-in-out infinite;
+      }
+      @keyframes book-casting-glow {
+        0%, 100% { filter: drop-shadow(0 0 12px rgba(129, 207, 174, .8)) drop-shadow(0 0 28px rgba(178, 229, 189, .55)); }
+        50% { filter: drop-shadow(0 0 22px rgba(129, 207, 174, 1)) drop-shadow(0 0 52px rgba(178, 229, 189, .8)); }
       }
       .pocket-glass-front {
         position: absolute;
@@ -730,24 +687,25 @@
         .statement-line:nth-child(2) { transform: translateX(.24em); }
         .statement-image { border-radius: .17em; }
         .white-section { height: 250svh; }
-        .casting-mark { left: 50%; }
-        .how-it-works-title { top: 56px; left: 50%; width: 100%; font-size: clamp(46px, 14vw, 66px); transform: translateX(-50%); }
-        .how-step-copy { top: 150px; left: 50%; width: calc(100% - 40px); text-align: center; }
+        .how-it-works-title { top: 56px; left: 50%; width: 100%; font-size: clamp(46px, 14vw, 66px); text-align: center; transform: translateX(-50%); }
+        .how-step-copy { top: 150px; left: 20px; width: calc(100% - 40px); text-align: center; }
         .how-step-copy h3 { margin-bottom: 11px; font-size: 28px; }
         .how-step-copy p { font-size: 12px; line-height: 1.45; }
         .how-step-copy p + p { margin-top: 9px; }
+        .casting-heading { justify-content: center; }
         .pocket-art { top: 57%; left: 50%; width: min(100%, 220px); }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
         .white-section { height: 100svh; }
         .how-stage { position: relative; }
-        .pocket-book-insert { opacity: 1; transform: translateX(-50%); }
-        .how-step-copy { opacity: 1; transform: translate(-50%, 0); }
+        .pocket-book-insert { opacity: 1; transform: translateX(-50%); filter: drop-shadow(0 0 18px rgba(129, 207, 174, .8)); }
+        .how-step-copy { opacity: 1; transform: none; }
         .white-section, .how-stage { height: auto; }
         .how-stage { display: grid; justify-items: center; gap: 30px; padding: 60px 20px; }
         .how-stage > * { position: relative; inset: auto; transform: none; }
-        .casting-mark { opacity: 1; }
+        .how-stage > .how-it-works-title, .how-stage > .how-step-copy { width: min(100%, 510px); text-align: left; }
+        .casting-heading { justify-content: flex-start; }
         .pocket-art { margin-top: 90px; }
       }
 
@@ -840,24 +798,15 @@
           <p>Paste a link from Wattpad, AO3, Reddit, or Substack.</p>
           <p>Or upload an epub, pdf, docx, or txt.</p>
         </div>
-        <div class="pocket-art" role="img" aria-label="Sherlock Holmes curving in from the left and descending into a frosted glass pocket">
+        <div class="pocket-art" role="img" aria-label="Sherlock Holmes sliding into a frosted glass pocket, then glowing while Audora casts it">
           <img class="pocket-back" src="./assets/pages/image copy 2.png" alt="" aria-hidden="true" />
           <img class="pocket-book-insert" src="./assets/covers/sherlock-holmes.png" width="1838" height="2560" alt="" aria-hidden="true" />
           <span class="pocket-glass-front" aria-hidden="true"></span>
         </div>
         <div class="how-step-copy casting-copy">
-          <h3>2. Audora casts it</h3>
+          <h3 class="casting-heading"><img src="./assets/audora-logo-black.png" alt="Audora"><span>is casting</span></h3>
           <p>Audora reads the text and finds every speaking part.</p>
           <p>Narration, dialogue, and each character gets a distinct voice.</p>
-        </div>
-        <div class="casting-mark">
-          <img src="./assets/audora-logo-black.png" alt="Audora">
-          <span>is giving voice…</span>
-          <div class="cast-voices">
-            <div class="cast-voice">Narrator<span class="cast-wave" aria-hidden="true"></span></div>
-            <div class="cast-voice">Holmes<span class="cast-wave" aria-hidden="true"></span></div>
-            <div class="cast-voice">Watson<span class="cast-wave" aria-hidden="true"></span></div>
-          </div>
         </div>
       </div>
     </section>
@@ -867,18 +816,6 @@
       const pocketBook = document.querySelector(".pocket-book-insert");
       const howStepCopy = document.querySelector(".how-step-copy");
       const castingCopy = document.querySelector(".casting-copy");
-      const castingMark = document.querySelector(".casting-mark");
-      castingMark.querySelectorAll(".cast-wave").forEach((wave, voice) => {
-        wave.style.setProperty("--tempo", [".95s", ".52s", ".74s"][voice]);
-        for (let index = 0; index < 24; index++) {
-          const bar = document.createElement("i");
-          const envelope = Math.sin(Math.PI * (index + .5) / 24);
-          const peak = Math.abs(Math.sin(index * 1.3 + voice * 2));
-          bar.style.setProperty("--amplitude", (3 + 20 * envelope * peak) + "px");
-          bar.style.setProperty("--beat", (-index * .09 - voice * .26) + "s");
-          wave.append(bar);
-        }
-      });
       const howSection = document.querySelector(".white-section");
       const reducedPocketMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       let pocketAnimationFrame = 0;
@@ -886,7 +823,8 @@
       function updatePocketScroll() {
         if (reducedPocketMotion.matches) {
           pocketBook.style.transform = "translateX(-50%)";
-          for (const element of [howStepCopy, castingCopy, pocketArt, castingMark]) element.removeAttribute("style");
+          pocketArt.classList.remove("is-casting");
+          for (const element of [howStepCopy, castingCopy]) element.removeAttribute("style");
           return;
         }
 
@@ -895,16 +833,13 @@
         const progress = Math.min(1, rawProgress / .45);
         const fade = Math.max(0, Math.min(1, (rawProgress - .56) / .22));
         const reveal = fade * fade * (3 - 2 * fade);
-        pocketArt.style.opacity = 1 - reveal;
-        pocketArt.style.scale = 1 - .13 * reveal;
-        castingMark.style.opacity = reveal;
-        castingMark.classList.toggle("is-voicing", reveal > .05);
+        pocketArt.classList.toggle("is-casting", rawProgress >= .56);
         castingCopy.style.opacity = reveal;
-        castingCopy.style.transform = `translate(-50%, ${16 * (1 - reveal)}px)`;
+        castingCopy.style.transform = `translateY(${16 * (1 - reveal)}px)`;
         const copyProgress = Math.max(0, Math.min(1, (progress - .48) / .24));
         const easedCopy = copyProgress * copyProgress * (3 - 2 * copyProgress);
         howStepCopy.style.opacity = easedCopy * (1 - reveal);
-        howStepCopy.style.transform = `translate(-50%, ${22 * (1 - easedCopy)}px)`;
+        howStepCopy.style.transform = `translateY(${22 * (1 - easedCopy)}px)`;
         const pocketBounds = pocketArt.getBoundingClientRect();
         const finalBookCenter = pocketBounds.left + pocketArt.offsetWidth * .49;
         const horizontalTravel = finalBookCenter + pocketBook.offsetWidth / 2 + 24;
