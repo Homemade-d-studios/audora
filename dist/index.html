@@ -474,15 +474,30 @@
         align-items: flex-start;
         color: #fff;
         font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(24px, 2.2vw, 34px);
+        font-size: clamp(29px, 2.7vw, 43px);
         font-weight: 400;
         letter-spacing: -.035em;
         line-height: 1.12;
         text-shadow: 0 2px 18px rgba(17, 35, 26, .38);
       }
-      .statement-desktop span, .statement-mobile span { display: block; white-space: nowrap; }
-      .statement-desktop span + span { margin-top: .3em; }
+      .statement-desktop > span { display: block; white-space: nowrap; }
+      .statement-desktop > span + span { margin-top: .12em; }
+      .statement-desktop .statement-subline { margin-top: .3em; color: #d5dbd8; }
       .statement-mobile { display: none; }
+      .statement-line { display: flex; width: max-content; max-width: 100%; align-items: center; gap: .17em; white-space: nowrap; }
+      .statement-line + .statement-line { margin-top: .09em; }
+      .statement-line:nth-child(1) { transform: translateX(-.12em); }
+      .statement-line:nth-child(2) { transform: translateX(.85em); }
+      .statement-image { display: block; flex: none; overflow: hidden; border: 1px solid rgba(255,255,255,.5); border-radius: .13em; box-shadow: 0 14px 30px rgba(18,37,29,.2); transform: translateY(-.03em); }
+      .statement-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .statement-image--portrait { width: .82em; height: 1.13em; }
+      .statement-image--portrait img { object-position: 50% 26%; transform: scale(1.28); transform-origin: center 27%; }
+      .statement-image--river { width: 1.48em; height: .73em; }
+      .statement-image--river img { object-position: 50% 58%; }
+      .statement-image--gothic { width: 2.05em; height: .7em; }
+      .statement-image--gothic img { object-position: 50% 39%; }
+      .statement-image--sea { width: 1.18em; height: .76em; }
+      .statement-image--sea img { object-position: 50% 49%; }
       .story-upload { display: flex; flex: none; width: clamp(205px, 20vw, 260px); flex-direction: column; align-items: center; }
       .upload-pocket { position: relative; display: block; width: 100%; aspect-ratio: 1.19; padding: 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 16px 20px rgba(25, 36, 29, .18)); transition: transform 180ms ease, filter 180ms ease; }
       .upload-pocket:hover { filter: drop-shadow(0 20px 25px rgba(25, 36, 29, .24)); transform: translateY(-3px); }
@@ -702,6 +717,9 @@
         .meadow-statement { align-items: center; }
         .story-upload { width: min(58vw, 235px); }
       }
+      @media (min-width: 621px) and (max-width: 800px) {
+        .meadow-statement { font-size: clamp(24px, 3.7vw, 30px); }
+      }
       @media (max-width: 620px) {
         :root { --mockup-width: clamp(560px, 155vw, 660px); --composition-shift: 0px; }
         .how-stage { --mobile-pocket-center: clamp(310px, calc(47svh + 30px), 440px); }
@@ -763,9 +781,14 @@
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
         .meadow-content { gap: 20px; padding: clamp(48px, 7svh, 68px) 18px clamp(48px, 7svh, 68px); }
-        .meadow-statement { color: #101512; font-size: clamp(16px, 5vw, 22px); letter-spacing: -.03em; line-height: 1.2; text-align: center; text-shadow: none; }
+        .meadow-statement { color: #fff; font-size: clamp(31px, 8.4vw, 47px); letter-spacing: -.035em; line-height: 1; text-align: center; text-shadow: 0 2px 18px rgba(17,35,26,.38); }
         .statement-desktop { display: none; }
         .statement-mobile { display: block; }
+        .statement-line { gap: .055em; }
+        .statement-line + .statement-line { margin-top: .2em; }
+        .statement-line:nth-child(1) { transform: translateX(-.04em); }
+        .statement-line:nth-child(2) { transform: translateX(.12em); }
+        .statement-image { border-radius: .17em; }
         .story-upload { width: min(62vw, 225px); }
         .white-section { height: 390svh; }
         .how-it-works-title { top: 74px; left: 50%; width: 100%; font-size: clamp(44px, 13vw, 62px); text-align: center; transform: translateX(-50%); }
@@ -884,9 +907,12 @@
       <div class="meadow-background" aria-hidden="true"></div>
       <div class="meadow-frost" aria-hidden="true"></div>
       <div class="meadow-content">
-        <h2 class="meadow-statement" id="meadowStatement" aria-label="Audora is an audiobook studio for the stories nobody’s recording. Upload a book. Hear it the way you’ve been imagining it.">
-          <span class="statement-desktop" aria-hidden="true"><span>Audora is an audiobook studio for the stories nobody’s recording.</span><span>Upload a book. Hear it the way you’ve been imagining it.</span></span>
-          <span class="statement-mobile" aria-hidden="true"><span>Audora is an audiobook studio for the</span><span>stories nobody’s recording. Upload a book.</span><span>Hear it the way you’ve been imagining it.</span></span>
+        <h2 class="meadow-statement" id="meadowStatement">
+          <span class="statement-desktop"><span>Audora is an audiobook studio</span><span>for the stories nobody’s recording.</span><span class="statement-subline">Upload a book. Hear it the way you’ve been imagining it.</span></span>
+          <span class="statement-mobile">
+            <span class="statement-line"><span>Every</span><span class="statement-image statement-image--portrait"><img src="./assets/covers/meditations.png" alt="" loading="lazy" decoding="async" /></span><span>story has a</span><span class="statement-image statement-image--river"><img src="./assets/covers/siddhartha.png" alt="" loading="lazy" decoding="async" /></span><span>cast.</span></span>
+            <span class="statement-line"><span>Now</span><span class="statement-image statement-image--gothic"><img src="./assets/covers/dracula.png" alt="" loading="lazy" decoding="async" /></span><span>hear the</span><span class="statement-image statement-image--sea"><img src="./assets/covers/pirates.png" alt="" loading="lazy" decoding="async" /></span><span>voices.</span></span>
+          </span>
         </h2>
         <div class="story-upload">
           <button class="upload-pocket" id="uploadPocketButton" type="button" aria-label="Choose a book to upload"><img src="./assets/pages/image copy 2.png" alt="" /></button>
