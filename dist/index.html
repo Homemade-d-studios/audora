@@ -474,21 +474,25 @@
         align-items: flex-start;
         color: #fff;
         font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(29px, 2.7vw, 43px);
+        font-size: clamp(32px, 4.5vw, 68px);
         font-weight: 400;
         letter-spacing: -.035em;
-        line-height: 1.12;
+        line-height: 1;
         text-shadow: 0 2px 18px rgba(17, 35, 26, .38);
       }
-      .statement-desktop > span { display: block; white-space: nowrap; }
-      .statement-desktop > span + span { margin-top: .12em; }
-      .statement-desktop .statement-subline { margin-top: .3em; color: #d5dbd8; }
-      .statement-mobile { display: none; }
       .statement-line { display: flex; width: max-content; max-width: 100%; align-items: center; gap: .17em; white-space: nowrap; }
       .statement-line + .statement-line { margin-top: .09em; }
-      .statement-line:nth-child(1) { transform: translateX(-.12em); }
-      .statement-line:nth-child(2) { transform: translateX(.85em); }
-      .statement-image { display: block; flex: none; overflow: hidden; border: 1px solid rgba(255,255,255,.5); border-radius: .13em; box-shadow: 0 14px 30px rgba(18,37,29,.2); transform: translateY(-.03em); }
+      .statement-line:nth-child(1) { transform: none; }
+      .statement-line:nth-child(2) { transform: translateX(.18em); }
+      .statement-image {
+        display: block;
+        flex: none;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .5);
+        border-radius: .13em;
+        box-shadow: 0 14px 30px rgba(18, 37, 29, .2);
+        transform: translateY(-.03em);
+      }
       .statement-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
       .statement-image--portrait { width: .82em; height: 1.13em; }
       .statement-image--portrait img { object-position: 50% 26%; transform: scale(1.28); transform-origin: center 27%; }
@@ -712,13 +716,10 @@
         .footer-top { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         .footer-brand { grid-column: 1 / -1; }
       }
-      @media (max-width: 1100px) {
+      @media (max-width: 800px) {
         .meadow-content { flex-direction: column; gap: 25px; padding: clamp(46px, 7svh, 70px) 24px; }
-        .meadow-statement { align-items: center; }
+        .meadow-statement { align-items: center; font-size: clamp(30px, 6vw, 46px); }
         .story-upload { width: min(58vw, 235px); }
-      }
-      @media (min-width: 621px) and (max-width: 800px) {
-        .meadow-statement { font-size: clamp(24px, 3.7vw, 30px); }
       }
       @media (max-width: 620px) {
         :root { --mockup-width: clamp(560px, 155vw, 660px); --composition-shift: 0px; }
@@ -781,9 +782,7 @@
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
         .meadow-content { gap: 20px; padding: clamp(48px, 7svh, 68px) 18px clamp(48px, 7svh, 68px); }
-        .meadow-statement { color: #fff; font-size: clamp(31px, 8.4vw, 47px); letter-spacing: -.035em; line-height: 1; text-align: center; text-shadow: 0 2px 18px rgba(17,35,26,.38); }
-        .statement-desktop { display: none; }
-        .statement-mobile { display: block; }
+        .meadow-statement { font-size: clamp(31px, 8.4vw, 47px); letter-spacing: -.035em; }
         .statement-line { gap: .055em; }
         .statement-line + .statement-line { margin-top: .2em; }
         .statement-line:nth-child(1) { transform: translateX(-.04em); }
@@ -907,12 +906,9 @@
       <div class="meadow-background" aria-hidden="true"></div>
       <div class="meadow-frost" aria-hidden="true"></div>
       <div class="meadow-content">
-        <h2 class="meadow-statement" id="meadowStatement">
-          <span class="statement-desktop"><span>Audora is an audiobook studio</span><span>for the stories nobody’s recording.</span><span class="statement-subline">Upload a book. Hear it the way you’ve been imagining it.</span></span>
-          <span class="statement-mobile">
-            <span class="statement-line"><span>Every</span><span class="statement-image statement-image--portrait"><img src="./assets/covers/meditations.png" alt="" loading="lazy" decoding="async" /></span><span>story has a</span><span class="statement-image statement-image--river"><img src="./assets/covers/siddhartha.png" alt="" loading="lazy" decoding="async" /></span><span>cast.</span></span>
-            <span class="statement-line"><span>Now</span><span class="statement-image statement-image--gothic"><img src="./assets/covers/dracula.png" alt="" loading="lazy" decoding="async" /></span><span>hear the</span><span class="statement-image statement-image--sea"><img src="./assets/covers/pirates.png" alt="" loading="lazy" decoding="async" /></span><span>voices.</span></span>
-          </span>
+        <h2 class="meadow-statement" id="meadowStatement" aria-label="Every story has a cast. Now hear the voices.">
+          <span class="statement-line" aria-hidden="true"><span>Every</span><span class="statement-image statement-image--portrait"><img src="./assets/covers/meditations.png" alt="" loading="lazy" decoding="async" /></span><span>story has a</span><span class="statement-image statement-image--river"><img src="./assets/covers/siddhartha.png" alt="" loading="lazy" decoding="async" /></span><span>cast.</span></span>
+          <span class="statement-line" aria-hidden="true"><span>Now</span><span class="statement-image statement-image--gothic"><img src="./assets/covers/dracula.png" alt="" loading="lazy" decoding="async" /></span><span>hear the</span><span class="statement-image statement-image--sea"><img src="./assets/covers/pirates.png" alt="" loading="lazy" decoding="async" /></span><span>voices.</span></span>
         </h2>
         <div class="story-upload">
           <button class="upload-pocket" id="uploadPocketButton" type="button" aria-label="Choose a book to upload"><img src="./assets/pages/image copy 2.png" alt="" /></button>
