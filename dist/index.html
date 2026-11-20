@@ -663,12 +663,22 @@
       .record-arm { position: absolute; z-index: 4; top: 22%; right: 15%; width: 4px; height: 60%; border-radius: 4px; background: linear-gradient(90deg, #111, #6e7372, #111); box-shadow: 2px 2px 4px rgba(0,0,0,.35); transform: rotate(39deg); transform-origin: top center; pointer-events: none; }
       .record-arm::before { position: absolute; top: -8px; left: -8px; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, #babebc 0 27%, #292d2d 30% 100%); content: ""; }
       .record-arm::after { position: absolute; bottom: -3px; left: -6px; width: 16px; height: 25px; border-radius: 4px; background: #191c1d; content: ""; }
-      .preview-play-button { position: absolute; z-index: 5; right: 10%; bottom: 9%; display: grid; width: 45px; height: 45px; padding: 0; place-items: center; border: 0; border-radius: 50%; color: #fff; background: #171717; box-shadow: 0 3px 8px rgba(0,0,0,.25); cursor: pointer; }
+      .record-dock { position: absolute; z-index: 5; top: calc(100% + 12px); left: 50%; display: grid; width: min(320px, 100%); min-height: 64px; grid-template-columns: 44px minmax(0, 1fr) 38px; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid rgba(29,35,31,.07); border-radius: 15px; background: #fff; box-shadow: 0 10px 28px rgba(23,32,26,.11); opacity: 0; transform: translate(-50%, 12px); will-change: opacity, transform; }
+      .record-dock-cover { display: block; width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+      .record-dock-details { min-width: 0; }
+      .record-dock-title { display: block; overflow: hidden; font: 400 16px/1 "Instrument Serif", Georgia, serif; text-overflow: ellipsis; white-space: nowrap; }
+      .record-dock-author { display: block; margin-top: 4px; color: #777b75; font: 10px/1.1 Arial, sans-serif; }
+      .record-dock-wave { display: flex; height: 12px; align-items: center; gap: 2px; margin-top: 4px; }
+      .record-dock-wave span { width: 2px; height: 5px; border-radius: 2px; background: #8a9188; }
+      .record-dock-wave span:nth-child(2n) { height: 9px; animation-delay: -150ms !important; }
+      .record-dock-wave span:nth-child(3n) { height: 12px; animation-delay: -300ms !important; }
+      .preview-player.is-playing .record-dock-wave span { animation: wave 650ms ease-in-out infinite alternate; }
+      .preview-play-button { display: grid; width: 38px; height: 38px; padding: 0; place-items: center; border: 0; border-radius: 50%; color: #fff; background: #171717; cursor: pointer; }
       .preview-play-button:hover { background: #323232; }
       .preview-play-button:focus-visible { outline: 3px solid rgba(23, 23, 23, .22); outline-offset: 3px; }
       .preview-play-button.is-playing .play-icon { display: none; }
       .preview-play-button.is-playing .pause-icon { display: block; }
-      .preview-status { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 100%; margin: 0; color: #777d75; font: 12px/1.3 Arial, sans-serif; text-align: center; transform: translateX(-50%); }
+      .preview-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 
       .site-footer { overflow: hidden; color: #202520; background: #fff; }
       .footer-top { position: relative; z-index: 4; display: grid; grid-template-columns: minmax(230px, 2fr) repeat(4, minmax(110px, 1fr)); gap: clamp(24px, 3vw, 56px); padding: clamp(54px, 5.5vw, 88px) clamp(28px, 5vw, 82px) 72px; background: #fff; }
@@ -766,9 +776,9 @@
         .how-step-copy p + p { margin-top: 5px; }
         .casting-heading { justify-content: center; }
         .pocket-art { top: var(--mobile-pocket-center); left: 50%; width: min(100%, 220px); }
-        .preview-player { top: calc(var(--mobile-pocket-center) - 55px); left: 50%; width: min(70vw, 275px); }
+        .preview-player { top: calc(var(--mobile-pocket-center) - 65px); left: 50%; width: min(70vw, 275px); }
         .record-brand { font-size: 10px; }
-        .preview-play-button { width: 38px; height: 38px; }
+        .record-dock { width: min(82vw, 300px); }
         .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; padding: 50px 24px 62px; }
         .footer-brand { grid-column: 1 / -1; }
         .footer-column h3 { margin-bottom: 16px; }
@@ -782,7 +792,8 @@
         .how-it-works-title { top: 58px; }
         .pocket-art { width: min(100%, 185px); }
         .how-step-copy { top: calc(var(--mobile-pocket-center) + 125px); }
-        .preview-player { top: calc(var(--mobile-pocket-center) - 35px); }
+        .preview-player { top: calc(var(--mobile-pocket-center) - 35px); width: min(62vw, 240px); }
+        .preview-copy { top: calc(var(--mobile-pocket-center) + 155px); }
       }
       @media (prefers-reduced-motion: reduce) {
         .carousel-track { animation-play-state: paused; }
@@ -791,7 +802,9 @@
         .pocket-book-insert { transform: translateX(-50%); box-shadow: 0 0 30px 14px rgba(255, 237, 108, .95), 0 0 90px 42px rgba(255, 215, 77, .65); }
         .pocket-book-insert::after { opacity: 1; }
         .how-step-copy { opacity: 1; transform: none; }
-        .preview-player { width: min(70vw, 350px); opacity: 1; transform: none; }
+        .preview-player { width: min(70vw, 350px); margin-bottom: 85px; opacity: 1; transform: none; }
+        .record-dock { opacity: 1; transform: translateX(-50%); }
+        .preview-player.is-playing .record-dock-wave span { animation: none; }
         .record-disc { opacity: 1; transform: translate(-50%, -50%); }
         .white-section, .how-stage { height: auto; }
         .how-stage { display: grid; justify-items: center; gap: 30px; padding: 60px 20px; }
@@ -911,8 +924,16 @@
           <span class="record-brand" aria-hidden="true">audora</span>
           <span class="record-controls" aria-hidden="true"></span>
           <span class="record-arm" aria-hidden="true"></span>
-          <button class="preview-play-button" id="previewPlayButton" type="button" aria-label="Play Sherlock Holmes preview"><span class="play-icon" aria-hidden="true"></span><span class="pause-icon" aria-hidden="true"></span></button>
-          <p class="preview-status" id="previewStatus" role="status">Tap to hear Sherlock Holmes</p>
+          <div class="record-dock" id="recordDock">
+            <img class="record-dock-cover" src="./assets/covers/sherlock-holmes.png" width="1838" height="2560" alt="Sherlock Holmes cover" />
+            <div class="record-dock-details">
+              <strong class="record-dock-title">Sherlock Holmes</strong>
+              <span class="record-dock-author">Arthur Conan Doyle</span>
+              <div class="record-dock-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <button class="preview-play-button" id="previewPlayButton" type="button" aria-label="Play Sherlock Holmes preview"><span class="play-icon" aria-hidden="true"></span><span class="pause-icon" aria-hidden="true"></span></button>
+            <p class="preview-status" id="previewStatus" role="status">Tap to hear Sherlock Holmes</p>
+          </div>
         </div>
         <div class="how-step-copy preview-copy">
           <h3>3. Press play</h3>
@@ -947,6 +968,7 @@
       const howStage = document.querySelector(".how-stage");
       const morphShell = document.querySelector(".morph-shell");
       const previewPlayer = document.querySelector("#previewPlayer");
+      const recordDock = document.querySelector("#recordDock");
       const recordAura = document.querySelector(".record-aura");
       const recordDisc = document.querySelector("#recordDisc");
       const previewCopy = document.querySelector(".preview-copy");
@@ -967,6 +989,7 @@
           pocketArt.style.transform = "";
           morphShell.removeAttribute("style");
           previewPlayer.removeAttribute("style");
+          recordDock.removeAttribute("style");
           recordAura.removeAttribute("style");
           recordDisc.removeAttribute("style");
           previewPlayer.removeAttribute("inert");
@@ -984,11 +1007,14 @@
         const previewReveal = smoothstep((rawProgress - .755) / .065);
         const discArrival = smoothstep((rawProgress - .82) / .10);
         const discReveal = smoothstep((rawProgress - .82) / .03);
+        const dockReveal = smoothstep((rawProgress - .87) / .05);
         const storyReveal = smoothstep((progress - .48) / .24);
         pocketArt.classList.toggle("is-casting", rawProgress >= .40 && morphProgress < 1);
         pocketArt.style.opacity = 1 - morphProgress;
         previewPlayer.style.opacity = previewReveal;
         previewPlayer.style.filter = `blur(${4 * (1 - previewReveal)}px)`;
+        recordDock.style.opacity = dockReveal;
+        recordDock.style.transform = `translate(-50%, ${12 * (1 - dockReveal)}px)`;
         recordAura.style.opacity = .48 * (1 - glowFade);
         previewPlayer.toggleAttribute("inert", discArrival < .98);
         howStepCopy.style.opacity = storyReveal * (1 - castingReveal);
