@@ -458,19 +458,23 @@
       .meadow-content {
         position: relative;
         z-index: 1;
-        display: grid;
-        padding: clamp(64px, 10svh, 110px) clamp(48px, 6vw, 100px);
-        place-items: center;
+        display: flex;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: clamp(46px, 7svh, 74px) clamp(36px, 5vw, 80px);
+        align-items: center;
+        justify-content: center;
+        gap: clamp(24px, 3vw, 54px);
       }
       .meadow-statement {
         display: flex;
-        width: min(100%, 1100px);
-        margin: auto;
+        min-width: 0;
+        margin: 0;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         color: #fff;
         font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-        font-size: clamp(40px, 5.2vw, 70px);
+        font-size: clamp(32px, 4.5vw, 68px);
         font-weight: 400;
         letter-spacing: -.035em;
         line-height: 1;
@@ -478,8 +482,8 @@
       }
       .statement-line { display: flex; width: max-content; max-width: 100%; align-items: center; gap: .17em; white-space: nowrap; }
       .statement-line + .statement-line { margin-top: .09em; }
-      .statement-line:nth-child(1) { transform: translateX(-.12em); }
-      .statement-line:nth-child(2) { transform: translateX(.85em); }
+      .statement-line:nth-child(1) { transform: none; }
+      .statement-line:nth-child(2) { transform: translateX(.18em); }
       .statement-image {
         display: block;
         flex: none;
@@ -498,6 +502,27 @@
       .statement-image--gothic img { object-position: 50% 39%; }
       .statement-image--sea { width: 1.18em; height: .76em; }
       .statement-image--sea img { object-position: 50% 49%; }
+      .story-upload { display: flex; flex: none; width: clamp(205px, 20vw, 260px); flex-direction: column; align-items: center; }
+      .upload-pocket { position: relative; display: block; width: 100%; aspect-ratio: 1.19; padding: 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 16px 20px rgba(25, 36, 29, .18)); transition: transform 180ms ease, filter 180ms ease; }
+      .upload-pocket:hover { filter: drop-shadow(0 20px 25px rgba(25, 36, 29, .24)); transform: translateY(-3px); }
+      .upload-pocket:focus-visible, .upload-cta:focus-visible, .paste-link:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+      .upload-pocket::before { position: absolute; inset: 9% 5% 6%; border-radius: 10px; background: rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.7); backdrop-filter: blur(9px); content: ""; }
+      .upload-pocket img { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 85%; mix-blend-mode: multiply; }
+      .upload-cta { min-width: 185px; margin-top: 13px; padding: 12px 20px; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; color: #1b271e; background: #fff; box-shadow: 0 9px 24px rgba(18,37,29,.18); font: 600 14px/1.2 Arial, sans-serif; cursor: pointer; transition: transform 180ms ease, box-shadow 180ms ease; }
+      .upload-cta:hover { box-shadow: 0 12px 28px rgba(18,37,29,.25); transform: translateY(-2px); }
+      .paste-link { margin-top: 10px; padding: 2px 4px; border: 0; color: #fff; background: transparent; font: 13px/1.2 Arial, sans-serif; text-decoration: underline; text-underline-offset: 3px; text-shadow: 0 1px 9px rgba(17,35,26,.4); cursor: pointer; }
+      .upload-status { max-width: 260px; margin: 7px 0 0; color: #fff; font: 11px/1.3 Arial, sans-serif; text-align: center; text-shadow: 0 1px 8px rgba(17,35,26,.45); }
+      .upload-status:empty { display: none; }
+      .story-file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+      .paste-dialog { width: min(90vw, 440px); padding: 25px; border: 1px solid #d8ddd7; border-radius: 20px; color: #1b271e; background: #fff; box-shadow: 0 24px 80px rgba(14,26,18,.2); }
+      .paste-dialog::backdrop { background: rgba(15,27,17,.48); backdrop-filter: blur(5px); }
+      .paste-dialog h2 { margin: 0 0 12px; font: 400 32px/1 "Instrument Serif", Georgia, serif; }
+      .paste-dialog p { margin: 0 0 16px; color: #626b61; font: 13px/1.4 Arial, sans-serif; }
+      .paste-dialog textarea { display: block; width: 100%; min-height: 150px; padding: 12px; border: 1px solid #cdd5ca; border-radius: 10px; color: #1b271e; background: #fbfcfa; font: 14px/1.45 Arial, sans-serif; resize: vertical; }
+      .paste-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+      .paste-actions button { padding: 10px 16px; border: 1px solid #1b271e; border-radius: 999px; font: 600 13px Arial, sans-serif; cursor: pointer; }
+      .paste-cancel { color: #1b271e; background: #fff; }
+      .paste-submit { color: #fff; background: #1b271e; }
       .white-section {
         position: relative;
         z-index: 2;
@@ -691,6 +716,11 @@
         .footer-top { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         .footer-brand { grid-column: 1 / -1; }
       }
+      @media (max-width: 800px) {
+        .meadow-content { flex-direction: column; gap: 25px; padding: clamp(46px, 7svh, 70px) 24px; }
+        .meadow-statement { align-items: center; font-size: clamp(30px, 6vw, 46px); }
+        .story-upload { width: min(58vw, 235px); }
+      }
       @media (max-width: 620px) {
         :root { --mockup-width: clamp(560px, 155vw, 660px); --composition-shift: 0px; }
         .how-stage { --mobile-pocket-center: clamp(310px, calc(47svh + 30px), 440px); }
@@ -750,13 +780,15 @@
         .dock-wave { gap: 2px; }
         .dock-play-button { width: 34px; height: 34px; }
         .dock-caption { top: calc(100% + 5px); font-size: 9px; }
-        .meadow-content { padding: clamp(62px, 9.8svh, 90px) 18px clamp(54px, 7.2svh, 70px); }
+        .meadow-content { gap: 20px; padding: clamp(48px, 7svh, 68px) 18px clamp(48px, 7svh, 68px); }
         .meadow-statement { font-size: clamp(29px, 7.8vw, 43px); letter-spacing: -.035em; }
         .statement-line { gap: .08em; }
         .statement-line + .statement-line { margin-top: .2em; }
         .statement-line:nth-child(1) { transform: translateX(-.04em); }
         .statement-line:nth-child(2) { transform: translateX(.24em); }
         .statement-image { border-radius: .17em; }
+        .story-upload { width: min(62vw, 225px); }
+        .upload-cta { min-width: 175px; }
         .white-section { height: 390svh; }
         .how-it-works-title { top: 74px; left: 50%; width: 100%; font-size: clamp(44px, 13vw, 62px); text-align: center; transform: translateX(-50%); }
         .how-step-copy { top: calc(var(--mobile-pocket-center) + 155px); left: 20px; width: calc(100% - 40px); text-align: center; }
@@ -878,8 +910,27 @@
           <span class="statement-line" aria-hidden="true"><span>Every</span><span class="statement-image statement-image--portrait"><img src="./assets/covers/meditations.png" alt="" loading="lazy" decoding="async" /></span><span>story has a</span><span class="statement-image statement-image--river"><img src="./assets/covers/siddhartha.png" alt="" loading="lazy" decoding="async" /></span><span>cast.</span></span>
           <span class="statement-line" aria-hidden="true"><span>Now</span><span class="statement-image statement-image--gothic"><img src="./assets/covers/dracula.png" alt="" loading="lazy" decoding="async" /></span><span>hear the</span><span class="statement-image statement-image--sea"><img src="./assets/covers/pirates.png" alt="" loading="lazy" decoding="async" /></span><span>voices.</span></span>
         </h2>
+        <div class="story-upload">
+          <button class="upload-pocket" id="uploadPocketButton" type="button" aria-label="Choose a book to upload"><img src="./assets/pages/image copy 2.png" alt="" /></button>
+          <input class="story-file-input" id="storyFileInput" type="file" accept=".epub,.pdf,.docx,.txt" aria-label="Upload a book" />
+          <button class="upload-cta" id="hearBookButton" type="button">Hear your book</button>
+          <button class="paste-link" id="pasteTextButton" type="button">Want to paste text?</button>
+          <p class="upload-status" id="uploadStatus" role="status"></p>
+        </div>
       </div>
     </section>
+
+    <dialog class="paste-dialog" id="pasteDialog" aria-labelledby="pasteDialogTitle">
+      <form id="pasteStoryForm">
+        <h2 id="pasteDialogTitle">Paste your text</h2>
+        <p>Hear a short preview in your browser.</p>
+        <textarea id="pastedStoryText" aria-label="Story text" placeholder="Paste your story here…" required></textarea>
+        <div class="paste-actions">
+          <button class="paste-cancel" id="pasteCancelButton" type="button">Cancel</button>
+          <button class="paste-submit" type="submit">Hear your text</button>
+        </div>
+      </form>
+    </dialog>
 
     <section class="white-section" id="how-it-works" aria-labelledby="howItWorksTitle">
       <div class="how-stage">
@@ -1366,6 +1417,55 @@
       window.setInterval(findCenteredBook, 240);
       renderStory(0);
       window.setTimeout(findCenteredBook, 100);
+
+      const storyFileInput = document.querySelector("#storyFileInput");
+      const uploadStatus = document.querySelector("#uploadStatus");
+      const pasteDialog = document.querySelector("#pasteDialog");
+      const pastedStoryText = document.querySelector("#pastedStoryText");
+      let selectedStoryFile = null;
+
+      function hearSubmittedText(text) {
+        if (!text.trim()) {
+          uploadStatus.textContent = "Add some text to hear a preview.";
+          return;
+        }
+        if (!("speechSynthesis" in window)) {
+          uploadStatus.textContent = "Voice preview is unavailable in this browser.";
+          return;
+        }
+        stopPlayback();
+        const utterance = new SpeechSynthesisUtterance(text.trim().slice(0, 1500));
+        utterance.rate = .94;
+        utterance.onend = () => { uploadStatus.textContent = "Preview finished."; };
+        utterance.onerror = () => { uploadStatus.textContent = "The preview could not play."; };
+        window.speechSynthesis.speak(utterance);
+        uploadStatus.textContent = "Playing your story preview…";
+      }
+
+      document.querySelector("#uploadPocketButton").addEventListener("click", () => storyFileInput.click());
+      storyFileInput.addEventListener("change", () => {
+        selectedStoryFile = storyFileInput.files?.[0] || null;
+        uploadStatus.textContent = selectedStoryFile ? `Selected: ${selectedStoryFile.name}` : "";
+      });
+      document.querySelector("#hearBookButton").addEventListener("click", async () => {
+        if (!selectedStoryFile) {
+          storyFileInput.click();
+          return;
+        }
+        if (!selectedStoryFile.name.toLowerCase().endsWith(".txt")) {
+          uploadStatus.textContent = "Browser preview currently supports TXT files and pasted text.";
+          return;
+        }
+        hearSubmittedText(await selectedStoryFile.slice(0, 8192).text());
+      });
+      document.querySelector("#pasteTextButton").addEventListener("click", () => pasteDialog.showModal());
+      document.querySelector("#pasteCancelButton").addEventListener("click", () => pasteDialog.close());
+      document.querySelector("#pasteStoryForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!pastedStoryText.value.trim()) return;
+        pasteDialog.close();
+        hearSubmittedText(pastedStoryText.value);
+      });
 
     </script>
   </body>
